@@ -1,0 +1,22 @@
+@media only screen and (min-width: 1000px){
+    .header{
+        display: none;
+    }
+
+    .baseContainer{
+        display: -webkit-flex;
+        display: flex;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        width:70%;
+        height:100%;
+        position: absolute;
+        margin-left: 15%;
+        box-shadow: 3px 0px 5px #888888,-3px 0px 5px #888888;
+    }
+    .smallView{
+        display: none;
+    }
+}

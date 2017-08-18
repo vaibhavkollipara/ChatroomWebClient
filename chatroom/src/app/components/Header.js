@@ -1,0 +1,57 @@
+import React, { Component } from 'react';
+
+import HeaderButton from './HeaderButton';
+
+export default class Header extends Component {
+
+  static defaultProps = {
+    title : "",
+    settings : null,
+    backFunction : null
+  }
+
+  displayTitle(){
+    if(this.props.title.length<=15){
+        return this.props.title.toUpperCase();
+    }else{
+        return `${this.props.title.substring(0,9)}...`.toUpperCase();
+    }
+  }
+
+  titleSize(){
+    if(this.props.backFunction){
+        return {
+            flex:3,
+            justifyContent: 'flex-start'
+        }
+    }else{
+        return {
+            flex:4,
+            justifyContent: 'center'
+        }
+    }
+  }
+
+  render() {
+      return (
+        <div className="header">
+            {
+              this.props.backFunction &&
+              <div className="headerBackButton">
+              <a>
+                <span style={{color:'white'}} onClick={this.props.backFunction.bind(this)} className="glyphicon glyphicon-arrow-left"></span>
+                </a>
+              </div>
+            }
+            <div className="headerTitle" style={this.titleSize()}>
+                {this.displayTitle()}
+            </div>
+            {this.props.settings &&
+                <div className="headerSettings">
+                    <HeaderButton settings={this.props.settings}/>
+                </div>
+            }
+        </div>
+      );
+  }
+}

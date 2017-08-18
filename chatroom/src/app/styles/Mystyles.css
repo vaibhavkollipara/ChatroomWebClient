@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+@import "largescreen.css";
+@import "mediumscreen.css";
+@import "smallscreen.css";
+
+body{
+    font-family: 'Roboto', sans-serif;
+}
+
+.spinner{
+  animation: spinning-animation infinite 5s linear;
+  height: 80px;
+  margin:10px;
+}
+
+@keyframes spinning-animation {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
