@@ -12,11 +12,6 @@ import Header from '../components/Header';
 
 class Login extends Component {
 
-    static navigationOptions = {
-    title: 'Chatroom',
-    header:null
-  }
-
     constructor(){
         super();
         this.state = {
@@ -27,7 +22,14 @@ class Login extends Component {
     }
 
     navigateToHome(){
-        this.props.history.replace('/test/1');
+        this.props.history.push('/');
+    }
+
+    componentWillMount(){
+        let token = sessionStorage.getItem("token");
+        if(token!==null && token!==""){
+            this.navigateToHome();
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -39,10 +41,8 @@ class Login extends Component {
             });
           }
           if(nextProps.login.token!==null){
+            sessionStorage.setItem("token",nextProps.login.token);
             this.navigateToHome();
-            // localStorage.setItem("token",nextProps.login.token).then(() => {
-            //     this.navigateToHome();
-            // });
         }
     }
 

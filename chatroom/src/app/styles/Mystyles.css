@@ -8,6 +8,10 @@ body{
     font-family: 'Roboto', sans-serif;
 }
 
+input{
+    text-align: center;
+}
+
 .spinner{
   animation: spinning-animation infinite 5s linear;
   height: 80px;

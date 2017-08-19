@@ -19,7 +19,7 @@ constructor(){
   renderSettings(setting){
     let i=1;
     return  this.props.settings.map((setting) =>
-                <div className="settingItem" onClick={setting.action.bind(this)} key={i++}>
+                <div className="settingItem" onClick={() => {this.toggleSettings();setting.action();}} key={i++}>
                     {setting.name}
                 </div>
         );

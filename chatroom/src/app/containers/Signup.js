@@ -13,10 +13,6 @@ import {Link} from 'react-router-dom';
 
 class Signup extends Component {
 
-  static navigationOptions = {
-    title: 'Chatroom',
-    header : null
-  }
 
   constructor(){
     super();
@@ -87,16 +83,16 @@ class Signup extends Component {
                 return (
                 <div className="smallView">
                     <div className="signupView" >
-                        <div style={{boxShadow:'3px 3px 5px #888888,-3px -3px 5px #888888',backgroundColor:'steelblue',padding:10,borderRadius:10,color:'white'}}>
-                            <div>
-                                <h1>Chatroom</h1>
-                            </div>
-                            <div>
-                                <h3>Signup Successful</h3>
-                            </div>
-                            <div>
-                                <Link style={{color:'black',fontWeight:'bold',textDecoration:'underline'}} to='/'><div>Login</div></Link>
-                            </div>
+                        <div className="successView">
+                                <div>
+                                    <h1>Chatroom</h1>
+                                </div>
+                                <div>
+                                    <h3>Signup Successful</h3>
+                                </div>
+                                <div>
+                                    <Link style={{color:'black',fontWeight:'bold',textDecoration:'underline'}} to='/'><div>Login</div></Link>
+                                </div>
                         </div>
                     </div>
                 </div>

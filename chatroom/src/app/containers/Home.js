@@ -15,10 +15,6 @@ import DeveloperModal from '../components/DeveloperModal';
 
 class Home extends Component {
 
-  static navigationOptions = {
-    title: 'Home',
-    header : null
-  }
 
     constructor(){
         super();
@@ -27,7 +23,7 @@ class Home extends Component {
             token : null,
             loading: false,
             user: null,
-            chatroomsDataSource : ds,
+            chatrooms : [],
             error : null,
             hidden : true,
             newChatroomName : "",
@@ -38,20 +34,17 @@ class Home extends Component {
     }
 
     componentWillMount(){
-        localStorage.getItem("token").then((token) => {
+        let token = sessionStorage.getItem("token");
+
             if(token===null || token === ""){
                 this.navigateToLoginScreen()
             }else{
                 this.props.setToken(token);
                 this.props.fetchUserDetails(token);
             }
-        }).catch(error => {console.log(error)});
     }
 
     componentDidMount(){
-        this.setState({
-              chatroomsDataSource : this.state.chatroomsDataSource.cloneWithRows(this.props.home.chatrooms)
-            });
         this.refreshHandler = setInterval(this.getChatrooms.bind(this),5000);
 
     }
@@ -68,7 +61,7 @@ class Home extends Component {
                 loading : nextProps.home.loading,
                 user : nextProps.home.user,
                 error : nextProps.home.error,
-                chatroomsDataSource : this.state.chatroomsDataSource.cloneWithRows(nextProps.home.chatrooms)
+                chatrooms : nextProps.home.chatrooms
             });
         }
     }
@@ -100,14 +93,13 @@ class Home extends Component {
       }
 
     navigateToLoginScreen(){
-
+        this.props.history.push('/login');
     }
 
     logout(){
-        localStorage.removeItem("token").then(() => {
-            this.props.logout();
-            this.navigateToLoginScreen();
-        });
+        sessionStorage.removeItem("token");
+        this.props.logout();
+        this.navigateToLoginScreen();
     }
 
     getChatrooms(){
@@ -122,11 +114,6 @@ class Home extends Component {
     }
 
     //New Chatroom Functionality...............
-    onNewChatroomNameChange(value){
-        this.setState({
-            newChatroomName : value
-        });
-    }
 
     toggleNewChatroomModal(){
         this.setState({
@@ -134,21 +121,22 @@ class Home extends Component {
         });
     }
 
-    createChatroom(){
-        if(this.state.newChatroomName){
-            this.props.createChatroom(this.state.token,this.state.newChatroomName);
-            this.setState({
-                newChatroomName : ""
-            });
+    createChatroom(newChatroomName){
+        if(newChatroomName){
+            this.props.createChatroom(this.state.token,newChatroomName);
         }
     }
 
     //..............................
 
-    renderRow(chatroom,sectionId, rowId, highlightId){
+    renderChatroomItems(){
+        return this.state.chatrooms.map((chatroom) => <div key={chatroom.slug} className="chatroomItem">{chatroom.name}</div>);
+    }
+
+    renderChatrooms(){
         return (
-            <div>
-                Chatroom Item
+            <div className="chatroomsContainer">
+                {this.renderChatroomItems()}
             </div>
         );
     }
@@ -159,21 +147,62 @@ class Home extends Component {
         });
     }
 
-  render() {
-    if(this.state.loading || this.state.chatroomsLoading){
+    largeScreenView(){
         return (
-            <div>
-                Home.. Fetching....
+            <div className="largeView">
+                <MyActivityIndicator message={"Under Construction"}/>
             </div>
-        );
-    }else{
-
-        return (
-            <div>
-                Home..
-            </div>
-        );
+          );
     }
+
+    smallScreenView(){
+        if(this.state.loading || this.state.chatroomsLoading){
+            return(
+                <div className="smallView">
+                    <MyActivityIndicator message={"Fetching Chatrooms..."} />
+                </div>
+                );
+        }
+        return (
+            <div className="smallView">
+                {
+                    this.state.error &&
+                    <div>
+                        <ErrorMessage message={this.state.error} />
+                    </div>
+                }
+                {
+                    !this.state.developerModalHidden &&
+                    <DeveloperModal toggleFunction={this.toggleDeveloperModal.bind(this)}/>
+                }
+                {
+                    !this.state.hidden &&
+                    <NewChatroomModal toggleFunction={this.toggleNewChatroomModal.bind(this)} action={this.createChatroom.bind(this)}/>
+                }
+                <div className="homeView">
+                    {this.renderChatrooms()}
+                </div>
+            </div>
+          );
+    }
+
+  render() {
+    return (
+        <div className="baseContainer">
+            {
+                this.state.user &&
+                <Header title={this.state.user.fullname} settings={this.settings()}/>
+            }
+            {
+                !this.state.user &&
+                <Header title={"Home"} settings={this.errorSettings()}/>
+            }
+            <div className="mainContent">
+                {this.smallScreenView()}
+                {this.largeScreenView()}
+            </div>
+      </div>
+    );
   }
 }
 

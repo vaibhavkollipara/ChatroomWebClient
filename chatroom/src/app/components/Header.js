@@ -21,13 +21,12 @@ export default class Header extends Component {
   titleSize(){
     if(this.props.backFunction){
         return {
-            flex:3,
-            justifyContent: 'flex-start'
+            flex:5
         }
     }else{
         return {
-            flex:4,
-            justifyContent: 'center'
+            flex:5,
+            marginLeft:30
         }
     }
   }

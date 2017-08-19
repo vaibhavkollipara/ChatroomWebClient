@@ -12,7 +12,7 @@ export function fetchUserDetails(token){
                 'Authorization': `JWT ${token}`
               }
         }).then(response => {
-            if(response.status==200){
+            if(response.status===200){
                 response.json().then((response) => {
                     dispatch( {type:"FETCH_USER_DETAILS_SUCCESS" , payload : response});
                 });
@@ -39,7 +39,7 @@ export function refreshChatroomsList(token){
                 'Authorization': `JWT ${token}`
               }
         }).then(response => {
-            if(response.status==200){
+            if(response.status===200){
                 response.json().then(response => {
                     dispatch( {type:"CHATROOMS_REFRESHED",payload:response} );
                 });
