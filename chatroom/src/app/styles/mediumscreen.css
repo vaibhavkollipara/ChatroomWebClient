@@ -1,21 +1,16 @@
 @media only screen and (min-width: 621px) and (max-width: 1000px){
-    .smallView{
-        display: -webkit-flex;
-        display: flex;
-        flex:1;
-        flex-grow: 1;
-        flex-direction: column;
-    }
+
     .header{
         display: -webkit-flex;
         display: flex;
         background-color: steelblue;
-        width:80%;
-        height:10%;
+        width:80vw;
+        height:10vh;
         position : fixed;
-        top:0%;
+        top:0vh;
+        left:10vw;
         flex-direction: row;
-        box-shadow: 0px 3px 5px #888888;
+        box-shadow: 3px 3px 5px #888888,-3px -3px 5px #888888;
     }
     .headerBackButton{
         display: -webkit-flex;
@@ -38,7 +33,7 @@
         align-items: center;
         color:white;
         font-weight: bold;
-        font-size: 2rem;
+        font-size: 2.25rem;
     }
     .headerSettings{
         display: -webkit-flex;
@@ -48,16 +43,16 @@
         align-items: center;
         -webkit-justify-content: flex-end;
         justify-content: flex-end;
-        margin-right: 2%;
+        margin-right: 2vh;
     }
 
     .baseContainer{
         display: -webkit-flex;
         display: flex;
-        width:80%;
-        height:100%;
-        margin-left: 10%;
-        background-color: white;
+        width:80vw;
+        height: 90vh;
+        margin-top: 10vh;
+        margin-left: 10vw;
         overflow: auto;
         box-shadow: 3px 3px 5px #888888,-3px -3px 5px #888888;
     }
@@ -65,8 +60,17 @@
     .baseContainer> .mainContent{
         display: -webkit-flex;
         display: flex;
+        margin: 1vh;
         flex-grow: 1;
-        margin-top: 7.5%;
+        overflow: auto;
+    }
+    .baseContainer> .mainContent> .smallView{
+        display: -webkit-flex;
+        display: flex;
+        flex:1;
+        flex-grow: 1;
+        flex-direction: column;
+        overflow: auto;
     }
 
     .largeView{
@@ -76,188 +80,66 @@
     .mymodal{
         display: -webkit-flex;
         display: flex;
-        flex-direction: column;
         position: fixed;
-        top:7.5%;
-        left:25%;
-        width:50%;
-        height:75%;
+        top:7.5vh;
+        left:30vw;
+        width:40vw;
+        height: 75vh;
         background-color: steelblue;
         border-radius: 5%;
         box-shadow: 3px 3px 5px #888888,-3px -3px 5px #888888;
-    }
-
-    .mymodal > .modalTitle{
         display: -webkit-flex;
         display: flex;
-        align-self: center;
+        flex-direction: column;
         -webkit-align-items: center;
         align-items: center;
         -webkit-justify-content: center;
         justify-content: center;
-        flex:1;
-        width:95%;
+    }
+
+    .mymodal> .modalTitle{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow:1;
         font-size: 1.75em;
         color:white;
         font-weight: bold;
-    }
-    .mymodal > .modalContent{
-        display: -webkit-flex;
-        display: flex;
-        align-self: center;
-        -webkit-align-items: flex-start;
-        align-items: flex-start;
-        -webkit-justify-content: flex-start;
-        justify-content: flex-start;
-        flex:3;
-        width:95%;
-        overflow: auto;
-    }
-    .mymodal > .modalFooter{
-        display: -webkit-flex;
-        display: flex;
-        align-self: center;
-        -webkit-align-items: center;
-        align-items: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        flex:1;
-        width:95%;
-    }
-    .mymodal > .modalFooter> .footerButton{
-        font-size: 1.5em;
-        color:white;
-        font-weight: bold;
-        border:2px solid white;
-        padding:1%;
-        padding-left: 3%;
-        padding-right: 3%;
-        border-radius: 30%;
-        cursor:pointer;
-    }
-    .mymodal > .modalFooter> .footerButton:active{
-        background-color: white;
-        color:steelblue;
-    }
-    .modalFormContainer{
-        display: -webkit-flex;
-        display: flex;
-        flex-grow: 1;
-        flex-direction: column;
-        margin:5%;
-        padding:15%;
-        border-radius:10px;
-        text-align: center;
-    }
-    .developerView{
-        display: -webkit-flex;
-        display: flex;
-        flex-direction: column;
-        flex:1;
-        flex-grow: 1;
-        background-color: white;
-        border-radius: 10px;
-        padding: 10%;
-        text-align: center;
-        box-shadow: inset 3px 3px 5px #888888,inset -3px -3px 5px #888888;;
-    }
-    .newChatroomView{
-        display: -webkit-flex;
-        display: flex;
-        flex-direction: column;
-        flex:1;
-        flex-grow: 1;
-        border-radius: 10px;
-        padding: 40px;
-        padding-top: 10%;
-        text-align: center;
-    }
-    .settingsContainer{
-        -webkit-display:flex;
-        display: flex;
-        flex:1;
-        flex-direction: column;
-        margin-left:10%;
-        margin-right: 10%;
-    }
-    .settingItem{
-        cursor:pointer;
-        background-color:white;
-        flex:1;
-        text-align:center;
         padding:10px;
-        margin:5px;
-        border:2px solid black;
-        border-radius: 10px;
-        font-weight:bold;
-        cursor:pointer;
-    }
-    .settingItem:active{
-        color:white;
-        background-color: steelblue;
-        border: 2px solid white;
-    }
-
-    .confirmationModal{
-        position: fixed;
-        top:7.5%;
-        left:15%;
-        width:70%;
-        height:75%;
-        background-color: steelblue;
-        border-radius: 5%;
-        box-shadow: 3px 3px 5px #888888,-3px -3px 5px #888888;
-        display: -webkit-flex;
-        display: flex;
         -webkit-align-items: center;
         align-items: center;
         -webkit-justify-content: center;
         justify-content: center;
         flex-direction: column;
     }
-
-    .confirmationModal > .confirmationModalTitle{
+    .mymodal> .confirmationModalContent{
         display: -webkit-flex;
         display: flex;
-        align-self: center;
-        -webkit-align-items: center;
-        align-items: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        flex:1;
-        width:95%;
-        font-size: 1.75em;
-        color:white;
-        font-weight: bold;
-    }
-    .confirmationModal > .confirmationModalContent{
-        display: -webkit-flex;
-        display: flex;
-        align-self: center;
-        -webkit-align-items: center;
-        align-items: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        flex:3;
-        width:95%;
-        height:95%;
-        background-color: white;
-        border-radius: 10px;
+        flex-grow:5;
         overflow: auto;
-    }
-    .confirmationModal > .confirmationModalFooter{
-        display: -webkit-flex;
-        display: flex;
-        align-self: center;
+        background-color: white;
+        margin:3vw;
+        border-radius: 10px;
         -webkit-align-items: center;
         align-items: center;
         -webkit-justify-content: center;
         justify-content: center;
-        flex:1;
-        width:95%;
+        box-shadow: inset 3px 3px 5px #888888,inset -3px -3px 5px #888888;
+    }
+    .confirmationModalFooter{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow:1;
+        flex-direction: row;
+        width:40vw;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
     }
     .confirmationModalButton{
-        flex:1;
+        display: -webkit-flex;
+        display: flex;
+        flex-grow:1;
         margin:10px;
         border:2px solid white;
         text-align:center;
@@ -266,21 +148,291 @@
         border-radius:10px;
         color:white;
         cursor:pointer;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
     }
     .confirmationModalButton:active {
         color:steelblue;
         background-color: white;
         border-color: steelblue;
     }
+    .mymodal > .modalContent{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow:5;
+        overflow: auto;
+    }
+    .mymodal > .modalFooter{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow:1;
+        align-self: center;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .mymodal > .modalFooter> .footerButton{
+        font-size: 1.5em;
+        color:white;
+        font-weight: bold;
+        border:2px solid white;
+        padding:1vh;
+        padding-left: 3vw;
+        padding-right: 3vw;
+        border-radius: 10px;
+        cursor:pointer;
+    }
+    .mymodal > .modalFooter> .footerButton:active{
+        background-color: white;
+        color:steelblue;
+    }
+    .modalformContainer{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        align-self: flex-start;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        overflow: auto;
+    }
+    .developerView{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow:1;
+        flex-direction: column;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        background-color: white;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: inset 3px 3px 5px #888888,inset -3px -3px 5px #888888;
+    }
+    .newChatroomView{
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+        flex-direction: column;
+        align-self: flex-start;
+        -webkit-align-items:center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .newMemberView{
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+        flex-direction: column;
+        align-self: flex-start;
+        -webkit-align-items:center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .newMemberForm{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        -webkit-align-items:center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .userSuggesionsContainer{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 3;
+        flex-direction: column;
+        overflow: auto;
+    }
+    .userSuggestionItem{
+        cursor:pointer;
+        padding:10px;
+        margin:5px;
+        border:2px solid white;
+        color:white;
+        border-radius: 10px;
+        font-weight:bold;
+        width:30vw;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .userSuggestionItem:active{
+        background-color: white;
+        border:2px solid steelblue;
+        color:steelblue;
+    }
+
+    .settingsContainer, .membersView{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        text-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        overflow: auto;
+        margin:3vw;
+        width:30vw;
+    }
+    .membersView> .memberItem{
+        padding:10px;
+        margin:5px;
+        border:2px solid white;
+        color:white;
+        border-radius: 10px;
+        font-weight:bold;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        width:30vw;
+    }
+    .settingItem{
+        cursor:pointer;
+        background-color:white;
+        padding:10px;
+        margin:5px;
+        border:2px solid black;
+        border-radius: 10px;
+        font-weight:bold;
+        cursor:pointer;
+        width:30vw;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .settingItem:active{
+        color:white;
+        background-color: steelblue;
+        border: 2px solid white;
+    }
+    .activityIndicator{
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        font-weight: bold;
+        text-align: center;
+    }
+    .formContainer{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        margin:5%;
+        padding:4%;
+        border-radius:10px;
+        box-shadow: 2px 2px 3px #888888,-2px -2px 3px #888888;
+        text-align: center;
+        background-color: steelblue;
+    }
+    .btn-default{
+        background-color: steelblue;
+        border:2px solid white;
+        color:white;
+        font-size: 1.25em;
+        border-radius: 10px;
+    }
+    .formContainer> .title{
+        font-weight:bold;
+        font-size: 2em;
+        color:white;
+        padding-bottom:5%;
+    }
+    .formContainer> .footer{
+        text-decoration: underline;
+        text-align: center;
+        margin-top:5vh;
+        border-radius: 10px;
+    }
     .loginView, .signupView, .homeView{
         display: -webkit-flex;
         display: flex;
-        flex:5;
         flex-grow: 1;
-        margin-top: 5%;
-        margin-left: 15%;
-        margin-right: 15%;
+        overflow:auto;
     }
+    .chatroomView{
+        display: -webkit-flex;
+        display: flex;
+        flex:4;
+        flex-grow: 1;
+        flex-direction: column;
+        height: 89vh;
+    }
+    .chatroomView> .messagesContainer{
+        display: -webkit-flex;
+        display: flex;
+        height:80vh;
+        flex-direction: column-reverse;
+        overflow:auto;
+    }
+    .messagesContainer> .messageItem{
+        flex-direction: column;
+        padding:8px;
+    }
+    .messageText{
+        max-width:50vw;
+        padding:10px;
+        border: 2px solid steelblue;
+        border-radius: 10px;
+        word-wrap: break-word;
+    }
+    .chatroomView> .sendMessageView{
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: row;
+        height: 10vh;
+        -webkit-align-items:center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        border: 1px solid gray;
+        border-radius: 10px;
+    }
+
+    .messageInput{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 3;
+        margin:2vw;
+        -webkit-align-items:center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .sendButton{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        -webkit-align-items:center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+
+    }
+
     .signupView> .successView{
         display: -webkit-flex;
         display: flex;
@@ -297,32 +449,9 @@
         box-shadow: 3px 3px 5px #888888,-3px -3px 5px #888888;
         padding:10px;
         color:white;
+        overflow: auto;
     }
 
-    .formContainer{
-        display: -webkit-flex;
-        display: flex;
-        flex-grow: 1;
-        flex-direction: column;
-        margin:5%;
-        padding:5%;
-        border-radius:10px;
-        box-shadow: 2px 2px 3px #888888,-2px -2px 3px #888888;
-        text-align: center;
-        background-color: steelblue;
-    }
-    .formContainer> .title{
-        font-weight:bold;
-        font-size: 2em;
-        color:white;
-        padding-bottom:10%;
-    }
-    .formContainer> .footer{
-        text-decoration: underline;
-        text-align: center;
-        margin-top:15%;
-        border-radius: 10px;
-    }
     .chatroomsContainer{
         display: -webkit-flex;
         display: flex;
@@ -334,8 +463,8 @@
         display: flex;
         -webkit-justify-content: center;
         justify-content: center;
-        padding:1%;
-        margin:2%;
+        padding:2%;
+        margin:3%;
         margin-left: 10%;
         margin-right: 10%;
         border:2px solid steelblue;
@@ -347,6 +476,29 @@
         background-color: steelblue;
         border:2px solid white;
     }
+    .noChatroomsView{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        -webkit-align-items:center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .noChatroomButton{
+        font-size: 3em;
+        color:steelblue;
+    }
+    .noChatroomsView:active> .noChatroomButton{
+        color:black;
+    }
+    .noChatroomText{
+        font-weight: bold;
+        color:black;
+        padding: 10px;
+    }
+
 
     /*...........................................................................................*/
 

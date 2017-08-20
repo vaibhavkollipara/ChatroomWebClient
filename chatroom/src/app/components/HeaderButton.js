@@ -6,7 +6,6 @@ export default class HeaderButton extends Component {
 
 constructor(){
         super();
-        const ds = null
         this.state = {
             hidden : true
         };
@@ -19,7 +18,10 @@ constructor(){
   renderSettings(setting){
     let i=1;
     return  this.props.settings.map((setting) =>
-                <div className="settingItem" onClick={() => {this.toggleSettings();setting.action();}} key={i++}>
+                <div className="settingItem" onClick={() => {
+                        this.toggleSettings();
+                        setting.action();
+                    }} key={i++}>
                     {setting.name}
                 </div>
         );

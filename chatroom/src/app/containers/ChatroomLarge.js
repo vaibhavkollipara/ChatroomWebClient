@@ -16,7 +16,7 @@ import MyModal from '../components/MyModal';
 import ConfirmationModal from '../components/ConfirmationModal';
 import DeveloperModal from '../components/DeveloperModal';
 
-class Chatroom extends Component {
+class ChatroomLarge extends Component {
 
 
     constructor(props){
@@ -26,8 +26,8 @@ class Chatroom extends Component {
             token : null,
             messages : [],
             error : null,
-            chatroomSlug : null,
-            chatroomName : null,
+            chatroomSlug : this.props.chatroomSlug,
+            chatroomName : this.props.chatroomName,
             message : "",
             members :[],
             membersModalHidden : true,
@@ -38,23 +38,17 @@ class Chatroom extends Component {
             userSuggestions : [],
             addMemberError : null,
             developerModalHidden : true,
-            fullname : null
+            fullname : this.props.fullname
         }
         this.refreshHandler = null;
     }
 
     componentWillMount(){
-        let token = sessionStorage.getItem("token");
-        if(token===null || token === ""){
-            this.navigateToLoginScreen()
-        }else{
             this.setState({
-                token,
-                chatroomName : this.props.match.params.chatroomName,
-                chatroomSlug : this.props.match.params.chatroomSlug,
-                fullname : this.props.match.params.fullname
+                token : this.props.token,
+                chatroomName : this.props.chatroomName,
+                chatroomSlug : this.props.chatroomSlug,
             });
-        }
     }
 
     componentDidMount(){
@@ -75,6 +69,12 @@ class Chatroom extends Component {
 
 
     componentWillReceiveProps(nextProps) {
+        this.setState({
+            token : nextProps.token,
+            chatroomName: nextProps.chatroomName,
+            chatroomSlug : nextProps.chatroomSlug,
+            fullname : nextProps.fullname,
+        });
         if(nextProps.chatroom != this.props.chatroom){
             this.setState({
                 error : nextProps.chatroom.error,
@@ -157,10 +157,10 @@ class Chatroom extends Component {
     }
 
     renderMessageItems(){
-        let i=1;
+        let i= 1;
         return this.state.messages.map(message => {
                 return(
-                    <div key={i++} style={this.getMessageAlignment(message.sender)}
+                    <div key={i++}  style={this.getMessageAlignment(message.sender)}
                             className="messageItem">
                             <div><b>{message.sender}</b></div>
                             <div className="messageText">{message.message}</div>
@@ -301,17 +301,16 @@ class Chatroom extends Component {
         });
     }
     //...................................
-
     largeScreenView(){
-        return (
-            <div className="largeView">
-                <MyActivityIndicator message={"Go back to home for large screen view"}/>
-            </div>
-          );
-    }
-    smallScreenView(){
+        if(this.state.chatroomSlug===null || this.state.token===null){
+            return(
+                <div className="chatroomView">
+                    <MyActivityIndicator message={"Waiting for chatroom selection"} />
+                </div>
+            );
+        }
         return(
-            <div className="smallView">
+            <div className="chatroomView">
                 {
                     !this.state.developerModalHidden &&
                     <DeveloperModal toggleFunction={this.toggleDeveloperModal.bind(this)}/>
@@ -349,18 +348,7 @@ class Chatroom extends Component {
     }
 
   render() {
-        return(
-            <div className="baseContainer">
-                {
-                    this.state.chatroomName && this.props.history &&
-                    <Header title={this.state.chatroomName} backFunction={this.props.history.goBack.bind(this)} settings={this.settings()}/>
-                }
-                <div className="mainContent">
-                    {this.smallScreenView()}
-                    {this.largeScreenView()}
-                </div>
-          </div>
-        );
+        return this.largeScreenView();
   }
 }
 
@@ -384,4 +372,4 @@ function mapDispatchToProps(dispatch){
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(Chatroom)
+export default connect(mapStateToProps,mapDispatchToProps)(ChatroomLarge)

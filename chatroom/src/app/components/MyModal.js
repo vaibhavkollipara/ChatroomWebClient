@@ -20,7 +20,6 @@ export default class MyModal extends Component {
                     <div className="modalFooter">
                         <div onClick={this.props.toggleFunction.bind(this)} className="footerButton">X</div>
                     </div>
-
                 </div>
         );
     }

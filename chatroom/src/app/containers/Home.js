@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }  from 'react-redux';
 
+import {Link} from 'react-router-dom';
 import * as homeActions from '../actions/HomeActions';
 
 import ErrorMessage from '../components/ErrorMessage';
@@ -12,6 +13,8 @@ import MyButton from '../components/MyButton';
 import Header from '../components/Header';
 import NewChatroomModal from '../components/NewChatroomModal';
 import DeveloperModal from '../components/DeveloperModal';
+
+import ChatroomLarge from './ChatroomLarge';
 
 class Home extends Component {
 
@@ -28,7 +31,9 @@ class Home extends Component {
             hidden : true,
             newChatroomName : "",
             chatroomsLoading:true,
-            developerModalHidden : true
+            developerModalHidden : true,
+            activeChatroomSlug: null,
+            activeCharoomName: null
         }
         this.refreshHandler = null;
     }
@@ -41,6 +46,11 @@ class Home extends Component {
             }else{
                 this.props.setToken(token);
                 this.props.fetchUserDetails(token);
+                if(this.state.chatrooms.length >1){
+                    this.setState({
+                        chatroomsLoading:false
+                    });
+                }
             }
     }
 
@@ -51,6 +61,9 @@ class Home extends Component {
 
     componentWillUnmount() {
         clearInterval(this.refreshHandler);
+        this.setState({
+            error : null
+        });
     }
 
 
@@ -63,6 +76,10 @@ class Home extends Component {
                 error : nextProps.home.error,
                 chatrooms : nextProps.home.chatrooms
             });
+            if(this.state.activeChatroomSlug===null && this.state.chatrooms.length>0){
+                let chatroom = this.state.chatrooms[0];
+                this.selectChatroom(chatroom.name,chatroom.slug);
+            }
         }
     }
 
@@ -75,12 +92,12 @@ class Home extends Component {
             action: this.toggleNewChatroomModal.bind(this)
         },
         {
-            name : 'Logout',
-            action : this.logout.bind(this)
-        },
-        {
             name : 'Developer Details',
             action : this.toggleDeveloperModal.bind(this)
+        },
+        {
+            name : 'Logout',
+            action : this.logout.bind(this)
         }
       ]
     }
@@ -129,11 +146,63 @@ class Home extends Component {
 
     //..............................
 
+    selectChatroom(chatroomName,chatroomSlug){
+        this.setState({
+            activeChatroomSlug : chatroomSlug,
+            activeCharoomName : chatroomName
+        });
+        console.log(`selected : ${chatroomSlug}`);
+    }
+
+    isActiveChatroom(chatroomSlug){
+        if(this.state.activeChatroomSlug===chatroomSlug)
+            return "activeChatroomItem";
+        return "chatroomItem";
+    }
+
     renderChatroomItems(){
-        return this.state.chatrooms.map((chatroom) => <div key={chatroom.slug} className="chatroomItem">{chatroom.name}</div>);
+        return this.state.chatrooms.map((chatroom) =>{
+                    return(
+                                <Link key={chatroom.slug} style={{color:'black'}} to={`/${this.state.user.fullname}/${chatroom.name}/${chatroom.slug}`}>
+                                    <div className="chatroomItem">{chatroom.name}</div>
+                                </Link>
+                        );
+            });
+    }
+    renderChatroomItemsLarge(){
+        return this.state.chatrooms.map((chatroom) =>{
+                    return(
+                                <div key={chatroom.slug} onClick={()=>{this.selectChatroom(chatroom.name,chatroom.slug);}} className={`${this.isActiveChatroom(chatroom.slug)}`}>{chatroom.name}</div>
+
+                        );
+            });
+    }
+
+    renderChatroomsLarge(){
+        if(this.state.chatrooms.length==0){
+            return (
+                <div onClick={()=>{this.toggleNewChatroomModal();}} className="noChatroomsView">
+                    <span className="noChatroomButton glyphicon glyphicon-plus-sign"></span>
+                    <div className="noChatroomText">Create New Chatroom</div>
+                </div>
+            );
+        }
+        return (
+            <div className="chatroomsContainer">
+                {this.renderChatroomItemsLarge()}
+            </div>
+        );
     }
 
     renderChatrooms(){
+        if(this.state.chatrooms.length==0){
+            return (
+                <div onClick={()=>{this.toggleNewChatroomModal();}} className="noChatroomsView">
+                    <span className="noChatroomButton glyphicon glyphicon-plus-sign"></span>
+                    <div className="noChatroomText">Create New Chatroom</div>
+                </div>
+            );
+        }
         return (
             <div className="chatroomsContainer">
                 {this.renderChatroomItems()}
@@ -148,9 +217,34 @@ class Home extends Component {
     }
 
     largeScreenView(){
+        if(this.state.loading || this.state.chatroomsLoading){
+            return(
+                <div className="largeView">
+                    {
+                        this.state.user &&
+                        <Header title={this.state.user.fullname} settings={this.settings()}/>
+                    }
+                    {
+                        !this.state.user &&
+                        <Header title={"Home"} settings={this.errorSettings()}/>
+                    }
+                    <MyActivityIndicator message={"Fetching Chatrooms..."} />
+                </div>
+                );
+        }
         return (
             <div className="largeView">
-                <MyActivityIndicator message={"Under Construction"}/>
+                <Header title={"Chatroom"}/>
+                <div className="largeViewContainer">
+                    <div className="homeView">
+                        {this.renderChatroomsLarge()}
+                    </div>
+                    <ChatroomLarge token={this.state.token}
+                                chatroomName={this.state.activeCharoomName}
+                                chatroomSlug={this.state.activeChatroomSlug}
+                                fullname={this.state.user.fullname}
+                                />
+                </div>
             </div>
           );
     }
@@ -159,12 +253,28 @@ class Home extends Component {
         if(this.state.loading || this.state.chatroomsLoading){
             return(
                 <div className="smallView">
+                    {
+                        this.state.user &&
+                        <Header title={this.state.user.fullname} settings={this.settings()}/>
+                    }
+                    {
+                        !this.state.user &&
+                        <Header title={"Home"} settings={this.errorSettings()}/>
+                    }
                     <MyActivityIndicator message={"Fetching Chatrooms..."} />
                 </div>
                 );
         }
         return (
             <div className="smallView">
+                {
+                    this.state.user &&
+                    <Header title={this.state.user.fullname} settings={this.settings()}/>
+                }
+                {
+                    !this.state.user &&
+                    <Header title={"Home"} settings={this.errorSettings()}/>
+                }
                 {
                     this.state.error &&
                     <div>
@@ -189,14 +299,6 @@ class Home extends Component {
   render() {
     return (
         <div className="baseContainer">
-            {
-                this.state.user &&
-                <Header title={this.state.user.fullname} settings={this.settings()}/>
-            }
-            {
-                !this.state.user &&
-                <Header title={"Home"} settings={this.errorSettings()}/>
-            }
             <div className="mainContent">
                 {this.smallScreenView()}
                 {this.largeScreenView()}

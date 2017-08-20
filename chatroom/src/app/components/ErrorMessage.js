@@ -42,10 +42,11 @@ const styles={
     errorbox:{
         backgroundColor: 'white',
         color:'red',
-        textAlign:'center'
+        textAlign:'center',
+        borderRadius:10,
+        padding:1
     },
     container:{
-        padding:10,
-        margin:10
+        marginTop:2
     }
 }

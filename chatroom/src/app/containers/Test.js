@@ -20,6 +20,39 @@ export default class Test extends Component {
             },
             { name : 'Setting 3',
               action : () => {alert("Setting 3 Functionality...");}
+            },
+            { name : 'Setting 1',
+              action : () => {alert("Setting 1 Functionality...");}
+            },
+            { name : 'Setting 2',
+              action : () => {alert("Setting 2 Functionality...");}
+            },
+            { name : 'Setting 3',
+              action : () => {alert("Setting 3 Functionality...");}
+            },
+            { name : 'Setting 1',
+              action : () => {alert("Setting 1 Functionality...");}
+            },
+            { name : 'Setting 2',
+              action : () => {alert("Setting 2 Functionality...");}
+            },
+            { name : 'Setting 3',
+              action : () => {alert("Setting 3 Functionality...");}
+            },
+            { name : 'Setting 2',
+              action : () => {alert("Setting 2 Functionality...");}
+            },
+            { name : 'Setting 3',
+              action : () => {alert("Setting 3 Functionality...");}
+            },
+            { name : 'Setting 1',
+              action : () => {alert("Setting 1 Functionality...");}
+            },
+            { name : 'Setting 2',
+              action : () => {alert("Setting 2 Functionality...");}
+            },
+            { name : 'Setting 3',
+              action : () => {alert("Setting 3 Functionality...");}
             }
         ]
     }

@@ -1,9 +1,9 @@
 import {baseUrl} from './baseurl';
 
 export function loadMessages(token,chatroomSlug){
-
+    console.log(chatroomSlug);
     return (dispatch,getState) => {
-        fetch(`${baseUrl}/chatroom/${chatroomSlug}`,{
+        fetch(`${baseUrl}/chatroom/${chatroomSlug}/`,{
             method:'get',
             headers: {
                 'Accept': 'application/json',
@@ -11,7 +11,7 @@ export function loadMessages(token,chatroomSlug){
                 'Authorization': `JWT ${token}`
               }
         }).then((response) => {
-            if(response.status==200){
+            if(response.status===200){
                 response.json().then((response) => {
                     dispatch({type :"MESSAGES_FETCHED", payload:response.results})
                 });
@@ -21,6 +21,7 @@ export function loadMessages(token,chatroomSlug){
                 });
             }
         }).catch((error) => {
+            console.log(error);
             dispatch( {type: "SET_ERROR", payload : {error : "Problem with network"}})
         })
     }
@@ -36,7 +37,7 @@ export function fetchMembers(token,chatroomSlug){
                         'Authorization': `JWT ${token}`
                       }
                 }).then((response) =>{
-                    if(response.status==200){
+                    if(response.status===200){
                         response.json().then((response) => {
                             dispatch({type: "MEMBERS_FETCHED",payload:response});
                         });
@@ -110,7 +111,7 @@ export function addMember(token,chatroomSlug,username){
                     'Authorization': `JWT ${token}`
                 }
             }).then((response) => {
-                if(response.status!=201){
+                if(response.status!==201){
                     response.json().then((response) => {
                         dispatch({type:"SET_ADD_MEMBER_ERROR",payload:response })
                     })
@@ -134,7 +135,7 @@ export function getUserSuggestions(token,searchString){
                     'Authorization': `JWT ${token}`
                 }
             }).then((response) => {
-                if(response.status==200){
+                if(response.status===200){
                     response.json().then((response) => {
                         dispatch({type:"USER_SUGGESTIONS_FETCHED",payload:response.results })
                     })

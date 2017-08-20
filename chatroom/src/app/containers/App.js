@@ -18,9 +18,10 @@ const AppNav = () =>{
         <BrowserRouter>
             <div>
                 <Route exact path="/" component={Home}/>
+                <Route exact path="/:fullname/:chatroomName/:chatroomSlug" component={Chatroom}/>
                 <Route exact path="/signup" component={Signup}/>
                 <Route exact path="/login" component={Login} />
-                <Route path="/test/:id" component={Test}/>
+                <Route path="/test" component={Test}/>
             </div>
         </BrowserRouter>
       );

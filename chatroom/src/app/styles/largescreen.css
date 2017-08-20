@@ -1,22 +1,535 @@
 @media only screen and (min-width: 1000px){
-    .header{
+
+    .smallView{
         display: none;
+    }
+    .header{
+        display: -webkit-flex;
+        display: flex;
+        background-color: steelblue;
+        width:90vw;
+        height:10vh;
+        position : fixed;
+        top:0vh;
+        left:5vw;
+        flex-direction: row;
+        box-shadow: 3px 3px 5px #888888,-3px -3px 5px #888888;
+    }
+    .headerBackButton{
+        display: -webkit-flex;
+        display: flex;
+        flex:1;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        color:white;
+        font-weight: bold;
+        color:white;
+        font-size: 1.75em;
+        cursor:pointer;
+    }
+    .headerTitle{
+        display: -webkit-flex;
+        display: flex;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content:center;
+        justify-content: center;
+        color:white;
+        font-weight: bold;
+        font-size: 2.25rem;
+    }
+    .headerSettings{
+        display: -webkit-flex;
+        display: flex;
+        flex:1;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: flex-end;
+        justify-content: flex-end;
+        margin-right: 2vh;
     }
 
     .baseContainer{
         display: -webkit-flex;
         display: flex;
+        width:90vw;
+        height: 90vh;
+        margin-top: 10vh;
+        margin-left: 5vw;
+        overflow: auto;
+        box-shadow: 3px 3px 5px #888888,-3px -3px 5px #888888;
+    }
+
+    .baseContainer> .mainContent{
+        display: -webkit-flex;
+        display: flex;
+        margin: 1vh;
+        flex-grow: 1;
+        overflow: auto;
+    }
+    .baseContainer> .mainContent> .largeView{
+        display: -webkit-flex;
+        display: flex;
+        flex:1;
+        flex-grow: 1;
+        flex-direction: column;
+        overflow: auto;
+    }
+
+    .mymodal{
+        display: -webkit-flex;
+        display: flex;
+        position: fixed;
+        top:7.5vh;
+        left:30vw;
+        width:40vw;
+        height: 75vh;
+        background-color: steelblue;
+        border-radius: 5%;
+        box-shadow: 3px 3px 5px #888888,-3px -3px 5px #888888;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
         -webkit-align-items: center;
         align-items: center;
         -webkit-justify-content: center;
         justify-content: center;
-        width:70%;
-        height:100%;
-        position: absolute;
-        margin-left: 15%;
-        box-shadow: 3px 0px 5px #888888,-3px 0px 5px #888888;
     }
-    .smallView{
-        display: none;
+
+    .mymodal> .modalTitle{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow:1;
+        font-size: 1.75em;
+        color:white;
+        font-weight: bold;
+        padding:10px;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        flex-direction: column;
     }
+    .mymodal> .confirmationModalContent{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow:5;
+        overflow: auto;
+        background-color: white;
+        margin:3vw;
+        border-radius: 10px;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        box-shadow: inset 3px 3px 5px #888888,inset -3px -3px 5px #888888;
+    }
+    .confirmationModalFooter{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow:1;
+        flex-direction: row;
+        width:40vw;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .confirmationModalButton{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow:1;
+        margin:10px;
+        border:2px solid white;
+        text-align:center;
+        font-weight:bold;
+        padding:10px;
+        border-radius:10px;
+        color:white;
+        cursor:pointer;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .confirmationModalButton:active {
+        color:steelblue;
+        background-color: white;
+        border-color: steelblue;
+    }
+    .mymodal > .modalContent{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow:5;
+        overflow: auto;
+    }
+    .mymodal > .modalFooter{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow:1;
+        align-self: center;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .mymodal > .modalFooter> .footerButton{
+        font-size: 1.5em;
+        color:white;
+        font-weight: bold;
+        border:2px solid white;
+        padding:1vh;
+        padding-left: 3vw;
+        padding-right: 3vw;
+        border-radius: 10px;
+        cursor:pointer;
+    }
+    .mymodal > .modalFooter> .footerButton:active{
+        background-color: white;
+        color:steelblue;
+    }
+    .modalformContainer{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        align-self: flex-start;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        overflow: auto;
+    }
+    .developerView{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow:1;
+        flex-direction: column;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        background-color: white;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: inset 3px 3px 5px #888888,inset -3px -3px 5px #888888;
+    }
+    .newChatroomView{
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+        flex-direction: column;
+        align-self: flex-start;
+        -webkit-align-items:center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .newMemberView{
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+        flex-direction: column;
+        align-self: flex-start;
+        -webkit-align-items:center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .newMemberForm{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        -webkit-align-items:center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .userSuggesionsContainer{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 3;
+        flex-direction: column;
+        overflow: auto;
+    }
+    .userSuggestionItem{
+        cursor:pointer;
+        padding:10px;
+        margin:5px;
+        border:2px solid white;
+        color:white;
+        border-radius: 10px;
+        font-weight:bold;
+        width:30vw;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .userSuggestionItem:active{
+        background-color: white;
+        border:2px solid steelblue;
+        color:steelblue;
+    }
+
+    .settingsContainer, .membersView{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        text-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        overflow: auto;
+        margin:3vw;
+        width:30vw;
+    }
+    .membersView> .memberItem{
+        padding:10px;
+        margin:5px;
+        border:2px solid white;
+        color:white;
+        border-radius: 10px;
+        font-weight:bold;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        width:25vw;
+    }
+    .settingItem{
+        cursor:pointer;
+        background-color:white;
+        padding:10px;
+        margin:5px;
+        border:2px solid black;
+        border-radius: 10px;
+        font-weight:bold;
+        cursor:pointer;
+        width:30vw;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .settingItem:active{
+        color:white;
+        background-color: steelblue;
+        border: 2px solid white;
+    }
+    .activityIndicator{
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        font-weight: bold;
+        text-align: center;
+    }
+    .formContainer{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        margin:3vw;
+        margin-left: 20vw;
+        margin-right: 20vw;
+        padding:2%;
+        border-radius:10px;
+        box-shadow: 2px 2px 3px #888888,-2px -2px 3px #888888;
+        text-align: center;
+        background-color: steelblue;
+    }
+    .btn-default{
+        background-color: steelblue;
+        border:2px solid white;
+        font-size: 1.25em;
+        color:white;
+        border-radius: 10px;
+    }
+    .formContainer> .title{
+        font-weight:bold;
+        font-size: 2em;
+        color:white;
+        padding-bottom:2%;
+    }
+    .formContainer> .footer{
+        text-decoration: underline;
+        text-align: center;
+        margin-top:2vh;
+        border-radius: 10px;
+    }
+    .loginView, .signupView,{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        overflow:auto;
+    }
+    .chatroomView{
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        width:55vw;
+        padding-left:2vw;
+        padding-right: 2vw;
+        height: 88vh;
+    }
+    .chatroomView> .messagesContainer{
+        display: -webkit-flex;
+        display: flex;
+        height:80vh;
+        flex-direction: column-reverse;
+        overflow:auto;
+    }
+    .messagesContainer> .messageItem{
+        flex-direction: column;
+        padding:8px;
+    }
+    .messageText{
+        max-width:35vw;
+        padding:10px;
+        border: 2px solid steelblue;
+        border-radius: 10px;
+        word-wrap: break-word;
+    }
+    .chatroomView> .sendMessageView{
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: row;
+        height: 10vh;
+        -webkit-align-items:center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        border: 1px solid gray;
+        border-radius: 10px;
+    }
+
+    .messageInput{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 3;
+        margin:2vw;
+        -webkit-align-items:center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+    }
+    .sendButton{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        -webkit-align-items:center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+
+    }
+
+    .signupView> .successView{
+        display: -webkit-flex;
+        display: flex;
+        background-color: steelblue;
+        flex-direction: column;
+        flex-grow: 1;
+        text-align:center;
+        margin-top: 10vh;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        margin-bottom: 20vh;
+        border-radius: 10px;
+        box-shadow: 3px 3px 5px #888888,-3px -3px 5px #888888;
+        padding:10px;
+        color:white;
+        overflow: auto;
+    }
+
+    .chatroomsContainer{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+    }
+    .chatroomItem{
+        display: -webkit-flex;
+        display: flex;
+        -webkit-justify-content: center;
+        justify-content: center;
+        padding:2%;
+        margin:3%;
+        margin-left: 10%;
+        margin-right: 10%;
+        border:2px solid steelblue;
+        border-radius: 10px;
+        cursor:pointer;
+    }
+    .activeChatroomItem{
+        display: -webkit-flex;
+        display: flex;
+        -webkit-justify-content: center;
+        justify-content: center;
+        padding:2%;
+        margin:3%;
+        margin-left: 10%;
+        margin-right: 10%;
+        border-radius: 10px;
+        cursor:pointer;
+        color:white;
+        background-color: steelblue;
+        border:2px solid white;
+    }
+    .chatroomItem:active{
+        color:white;
+        background-color: steelblue;
+        border:2px solid white;
+    }
+
+    .noChatroomsView{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        -webkit-align-items:center;
+        align-items: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .noChatroomButton{
+        font-size: 3em;
+        color:steelblue;
+    }
+    .noChatroomsView:active> .noChatroomButton{
+        color:black;
+    }
+    .noChatroomText{
+        font-weight: bold;
+        color:black;
+        padding: 10px;
+    }
+
+    .largeViewContainer{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        flex-direction: row;
+    }
+    .homeView{
+        display: -webkit-flex;
+        display: flex;
+        width:30vw;
+        overflow:auto;
+        border-right: 1px solid gray;
+    }
+
 }

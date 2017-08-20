@@ -59,11 +59,53 @@ class Login extends Component {
         }
         e.preventDefault();
     }
+    loginClickLarge(e){
+        if(this.refs.username_large.value==="" || this.refs.password_large.value===""){
+            this.setState({
+                error : {error : "All fields required"}
+            });
+        }else{
+            this.props.authenticate({
+                username:this.refs.username_large.value,
+                password: this.refs.password_large.value
+            });
+        }
+        e.preventDefault();
+    }
 
     largeScreenView(){
+        if(this.state.loading){
+            return (
+                <div className="largeView">
+                    <Header title={"Chatroom"} />
+                    <MyActivityIndicator message="Verifying Credentials" />
+                </div>
+            );
+        }
         return (
             <div className="largeView">
-                    <MyActivityIndicator message="Under Construction" />
+                <Header title={"Chatroom"} />
+                {
+                    this.state.error &&
+                    <div>
+                        <ErrorMessage message={this.state.error} />
+                    </div>
+                }
+                    <div className="loginView">
+                        <form className="formContainer" onSubmit={this.loginClickLarge.bind(this)}>
+                            <div className="title">
+                                Login
+                            </div>
+                           <div className="form-group">
+                            <input type="text" ref="username_large" className="form-control" placeholder="username" />
+                          </div>
+                          <div className="form-group">
+                            <input type="password" ref="password_large" className="form-control" placeholder="password" />
+                          </div>
+                          <button type="submit" className="btn btn-default">Submit</button>
+                          <div className="footer"><Link style={{color:'black'}} to='/signup'>Signup</Link></div>
+                        </form>
+                    </div>
             </div>
         );
     }
@@ -72,12 +114,14 @@ class Login extends Component {
         if(this.state.loading){
             return (
                 <div className="smallView">
+                    <Header title={"Chatroom"} />
                     <MyActivityIndicator message="Verifying Credentials" />
                 </div>
             );
         }else{
             return (
                 <div className="smallView">
+                <Header title={"Chatroom"} />
                 {
                     this.state.error &&
                     <div>
@@ -107,7 +151,6 @@ class Login extends Component {
   render() {
         return (
             <div className="baseContainer">
-                <Header title={"Chatroom"} />
                 <div className="mainContent">
                     {this.smallScreenView()}
                     {this.largeScreenView()}

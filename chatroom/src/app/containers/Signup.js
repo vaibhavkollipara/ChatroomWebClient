@@ -53,7 +53,34 @@ class Signup extends Component {
         }
 
         e.preventDefault();
+    }
+    signupClickLarge(e){
+        if(this.isFormIncompleteLarge()){
+            this.setState({
+                error:{error:"All fields Required"}
+            });
+        }else if(!this.didPasswordsMatchLarge()){
+            this.setState({
+                error:{error:"Passwords did not match"}
+            });
+        }else{
+            this.props.register({
+                first_name : this.refs.first_name_large.value,
+                last_name : this.refs.last_name_large.value,
+                email : this.refs.email_large.value,
+                username : this.refs.username_large.value,
+                password : this.refs.password_large.value
+            });
+        }
 
+        e.preventDefault();
+    }
+    didPasswordsMatchLarge(){
+        return this.refs.password_large.value === this.refs.confirm_password_large.value;
+    }
+
+    isFormIncompleteLarge(){
+        return this.refs.first_name_large.value==="" || this.refs.last_name_large.value===null || this.refs.username_large.value===null ||this.refs.email_large.value==="" || this.refs.password_large.value==="" || this.refs.confirm_password_large.value==="";
     }
 
     didPasswordsMatch(){
@@ -65,9 +92,70 @@ class Signup extends Component {
     }
 
     largeScreenView(){
+        if(this.state.loading){
+            return (
+                <div className="largeView">
+                    <Header title={"Chatroom"} />
+                    <MyActivityIndicator message="Creating Account" />
+                </div>
+            );
+        }else if(this.state.status){
+            return(
+                    <div className="largeView">
+                    <Header title={"Chatroom"} />
+                    <div className="signupView" >
+                        <div className="successView">
+                                <div>
+                                    <h1>Chatroom</h1>
+                                </div>
+                                <div>
+                                    <h3>Signup Successful</h3>
+                                </div>
+                                <div>
+                                    <Link style={{color:'black',fontWeight:'bold',textDecoration:'underline'}} to='/'><div>Login</div></Link>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            );
+
+        }
         return (
             <div className="largeView">
-                    <MyActivityIndicator message="Under Construction" />
+                    <Header title={"Chatroom"} />
+                    {
+                    this.state.error &&
+                    <div>
+                        <ErrorMessage message={this.state.error} />
+                    </div>
+                }
+                    <div className="signupView" >
+                        <form className="formContainer" onSubmit={this.signupClickLarge.bind(this)}>
+                            <div className="title">
+                                Signup
+                            </div>
+                          <div className="form-group">
+                            <input type="text" ref="first_name_large" className="form-control" placeholder="First Name" />
+                          </div>
+                          <div className="form-group">
+                            <input type="text" ref="last_name_large" className="form-control" placeholder="Last Name" />
+                          </div>
+                          <div className="form-group">
+                            <input type="text" ref="email_large" className="form-control" placeholder="email" />
+                          </div>
+                          <div className="form-group">
+                            <input type="text" ref="username_large" className="form-control" placeholder="username" />
+                          </div>
+                          <div className="form-group">
+                            <input type="password" ref="password_large" className="form-control" placeholder="password" />
+                          </div>
+                          <div className="form-group">
+                            <input type="password" ref="confirm_password_large" className="form-control" placeholder="confirm password" />
+                          </div>
+                          <button type="submit" className="btn btn-default">Submit</button>
+                          <div className="footer"><Link style={{color:'black'}} to='/'>Login</Link></div>
+                        </form>
+                    </div>
             </div>
         );
     }
@@ -142,8 +230,11 @@ class Signup extends Component {
 
         return (
             <div className="baseContainer">
+                <Header title={"Chatroom"} />
+                <div className="mainContent">
                 {this.smallScreenView()}
                 {this.largeScreenView()}
+                </div>
             </div>
         );
     }

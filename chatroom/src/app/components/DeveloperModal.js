@@ -13,9 +13,11 @@ export default class NewChatroomModal extends Component {
   DeveloperDetailsView(){
             return (
                     <div className="developerView">
-                        <h2>Vaibhav Kollipara</h2>
-                        <div>vkollip1@binghamton.edu</div>
-                        <div>660-528-5433</div>
+                        <div style={{padding:10}}>
+                            <h2>Vaibhav Kollipara</h2>
+                            <div>vkollip1@binghamton.edu</div>
+                            <div>660-528-5433</div>
+                        </div>
                     </div>
                 );
     }

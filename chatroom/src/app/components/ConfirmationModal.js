@@ -12,8 +12,8 @@ export default class ConfirmationModal extends Component {
 
     render(){
         return (
-            <div className="confirmationModal">
-                    <div className="confirmationModalTitle">
+            <div className="mymodal">
+                    <div className="modalTitle">
                         {this.props.title}
                     </div>
                     <div className="confirmationModalContent">
@@ -37,5 +37,7 @@ export default class ConfirmationModal extends Component {
 const styles= {
     contentView : {
         fontWeight:'bold',
+        padding:10,
+        textAlign:'center'
     }
 }
