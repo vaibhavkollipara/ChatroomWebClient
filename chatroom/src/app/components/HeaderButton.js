@@ -59,24 +59,3 @@ constructor(){
     );
   }
 }
-
-const styles={
-    settingsContainer:{
-        flex:1,
-        alignItems:'flex-start',
-        justifyContent:'flex-start',
-        textAlign:'center'
-    },
-    settingItem :{
-        backgroundColor:'white',
-        flex:1,
-        alignItems:'flex-start',
-        justifyContent:'flex-start',
-        textAlign:'center',
-        padding:10,
-        margin:5,
-        border:"2px solid black",
-        borderRadius: 10,
-        fontWeight:'bold'
-    }
-}

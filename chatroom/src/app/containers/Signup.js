@@ -104,7 +104,7 @@ class Signup extends Component {
                     <div className="largeView">
                     <Header title={"Chatroom"} />
                     <div className="signupView" >
-                        <div className="successView">
+                        <div className="successView ">
                                 <div>
                                     <h1>Chatroom</h1>
                                 </div>
@@ -122,14 +122,14 @@ class Signup extends Component {
         }
         return (
             <div className="largeView">
-                    <Header title={"Chatroom"} />
+                    <Header title={""} />
                     {
                     this.state.error &&
                     <div>
                         <ErrorMessage message={this.state.error} />
                     </div>
                 }
-                    <div className="signupView" >
+                    <div className="signupView " >
                         <form className="formContainer" onSubmit={this.signupClickLarge.bind(this)}>
                             <div className="title">
                                 Signup

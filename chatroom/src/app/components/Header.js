@@ -31,26 +31,57 @@ export default class Header extends Component {
     }
   }
 
-  render() {
-      return (
-        <div className="header">
-            {
-              this.props.backFunction &&
-              <div className="headerBackButton">
-              <a>
-                <span style={{color:'white'}} onClick={this.props.backFunction.bind(this)} className="glyphicon glyphicon-arrow-left"></span>
-                </a>
-              </div>
-            }
-            <div className="headerTitle" style={this.titleSize()}>
-                {this.displayTitle()}
-            </div>
-            {this.props.settings &&
-                <div className="headerSettings">
-                    <HeaderButton settings={this.props.settings}/>
+  largeScreenView(){
+    return(
+        <div className="largeView">
+                <div className="header">
+                              <div className="headerBackButton">
+                                CHATROOM
+                              </div>
+                            <div className="headerTitle" style={this.titleSize()}>
+                                {this.displayTitle()}
+                            </div>
+                            {this.props.settings &&
+                                <div className="headerSettings">
+                                    <HeaderButton settings={this.props.settings}/>
+                                </div>
+                            }
+                        </div>
                 </div>
-            }
+        );
+  }
+
+  smallScreenView(){
+        return (
+            <div className="smallView">
+                <div className="header">
+                    {
+                      this.props.backFunction &&
+                      <div className="headerBackButton">
+                      <a>
+                        <span style={{color:'white'}} onClick={this.props.backFunction.bind(this)} className="glyphicon glyphicon-arrow-left"></span>
+                        </a>
+                      </div>
+                    }
+                    <div className="headerTitle" style={this.titleSize()}>
+                        {this.displayTitle()}
+                    </div>
+                    {this.props.settings &&
+                        <div className="headerSettings">
+                            <HeaderButton settings={this.props.settings}/>
+                        </div>
+                    }
+                </div>
         </div>
       );
+  }
+
+  render() {
+        return(
+            <div>
+                {this.smallScreenView()}
+                {this.largeScreenView()}
+            </div>
+        );
   }
 }

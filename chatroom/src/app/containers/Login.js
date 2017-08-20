@@ -84,7 +84,7 @@ class Login extends Component {
         }
         return (
             <div className="largeView">
-                <Header title={"Chatroom"} />
+                <Header title={""} />
                 {
                     this.state.error &&
                     <div>
