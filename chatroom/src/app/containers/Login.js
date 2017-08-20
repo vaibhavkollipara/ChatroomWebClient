@@ -77,14 +77,14 @@ class Login extends Component {
         if(this.state.loading){
             return (
                 <div className="largeView">
-                    <Header title={"Chatroom"} />
+                    <Header title={""} />
                     <MyActivityIndicator message="Verifying Credentials" />
                 </div>
             );
         }
         return (
             <div className="largeView">
-                <Header title={"Chatroom"} />
+                <Header title={""} />
                 {
                     this.state.error &&
                     <div>

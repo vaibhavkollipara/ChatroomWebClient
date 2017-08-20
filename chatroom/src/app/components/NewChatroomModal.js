@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 
 
 import MyModal from './MyModal';
-import MyButton from './MyButton';
-import ErrorMessage from './ErrorMessage';
-import MyActivityIndicator from './MyActivityIndicator';
 
 export default class NewChatroomModal extends Component {
 
@@ -22,7 +19,7 @@ export default class NewChatroomModal extends Component {
                                <div className="form-group">
                                 <input type="text" ref="chatroomName" className="form-control" placeholder="new chatroom name" />
                               </div>
-                              <button type="submit" className="btn btn-default">Submit</button>
+                              <button type="submit" className="btn btn-default">Create</button>
                         </form>
                     </div>
                 );

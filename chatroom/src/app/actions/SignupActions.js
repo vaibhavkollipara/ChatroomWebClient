@@ -1,10 +1,5 @@
 import {baseUrl} from './baseurl';
 
-
-function sleep (time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
-
 export function register(data) {
     return (dispatch,getState) => {
 

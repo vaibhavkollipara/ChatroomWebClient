@@ -391,6 +391,7 @@
     .messagesContainer> .messageItem{
         flex-direction: column;
         padding:8px;
+        font-size: 1.15em;
     }
     .messageText{
         max-width:50vw;
@@ -463,6 +464,8 @@
         display: flex;
         -webkit-justify-content: center;
         justify-content: center;
+        font-size: 1.25em;
+        font-weight:bold;
         padding:2%;
         margin:3%;
         margin-left: 10%;

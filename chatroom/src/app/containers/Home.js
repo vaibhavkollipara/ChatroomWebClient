@@ -8,7 +8,6 @@ import * as homeActions from '../actions/HomeActions';
 
 import ErrorMessage from '../components/ErrorMessage';
 import MyActivityIndicator from '../components/MyActivityIndicator';
-import MyButton from '../components/MyButton';
 
 import Header from '../components/Header';
 import NewChatroomModal from '../components/NewChatroomModal';
@@ -21,7 +20,6 @@ class Home extends Component {
 
     constructor(){
         super();
-        const ds = null
         this.state = {
             token : null,
             loading: false,
@@ -68,7 +66,7 @@ class Home extends Component {
 
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.home != this.props.home){
+        if(nextProps.home !== this.props.home){
             this.setState({
                 token : nextProps.home.token,
                 loading : nextProps.home.loading,
@@ -76,10 +74,6 @@ class Home extends Component {
                 error : nextProps.home.error,
                 chatrooms : nextProps.home.chatrooms
             });
-            if(this.state.activeChatroomSlug===null && this.state.chatrooms.length>0){
-                let chatroom = this.state.chatrooms[0];
-                this.selectChatroom(chatroom.name,chatroom.slug);
-            }
         }
     }
 
@@ -179,7 +173,7 @@ class Home extends Component {
     }
 
     renderChatroomsLarge(){
-        if(this.state.chatrooms.length==0){
+        if(this.state.chatrooms.length===0){
             return (
                 <div onClick={()=>{this.toggleNewChatroomModal();}} className="noChatroomsView">
                     <span className="noChatroomButton glyphicon glyphicon-plus-sign"></span>
@@ -195,7 +189,7 @@ class Home extends Component {
     }
 
     renderChatrooms(){
-        if(this.state.chatrooms.length==0){
+        if(this.state.chatrooms.length===0){
             return (
                 <div onClick={()=>{this.toggleNewChatroomModal();}} className="noChatroomsView">
                     <span className="noChatroomButton glyphicon glyphicon-plus-sign"></span>
@@ -216,13 +210,26 @@ class Home extends Component {
         });
     }
 
+    settingsLarge(){
+        return [
+            {
+                name: "Developer Details",
+                action : this.toggleDeveloperModal.bind(this)
+            },
+            {
+                name : "Logout",
+                action : this.logout.bind(this)
+            }
+        ];
+    }
+
     largeScreenView(){
         if(this.state.loading || this.state.chatroomsLoading){
             return(
                 <div className="largeView">
                     {
                         this.state.user &&
-                        <Header title={this.state.user.fullname} settings={this.settings()}/>
+                        <Header title={this.state.user.fullname} settings={this.settingsLarge()}/>
                     }
                     {
                         !this.state.user &&
@@ -234,9 +241,34 @@ class Home extends Component {
         }
         return (
             <div className="largeView">
-                <Header title={"Chatroom"}/>
+
+
+                {
+                    !this.state.developerModalHidden &&
+                    <DeveloperModal toggleFunction={this.toggleDeveloperModal.bind(this)}/>
+                }
+
                 <div className="largeViewContainer">
-                    <div className="homeView">
+                    {
+                        this.state.user &&
+                        <Header title={this.state.user.fullname} settings={this.settingsLarge()}/>
+                    }
+                    {
+                        !this.state.user &&
+                        <Header title={"Home"} settings={this.errorSettings()}/>
+                    }
+                    <div className="homeView ">
+                    {
+                        this.state.error &&
+                        <ErrorMessage message={this.state.error}/>
+                    }
+                    {
+                        !this.state.hidden &&
+                        <NewChatroomModal toggleFunction={this.toggleNewChatroomModal.bind(this)} action={this.createChatroom.bind(this)}/>
+                    }
+                    <div className="homeoptions">
+                        <span onClick={this.toggleNewChatroomModal.bind(this)} className="optionButton glyphicon glyphicon-plus-sign" ></span>
+                    </div>
                         {this.renderChatroomsLarge()}
                     </div>
                     <ChatroomLarge token={this.state.token}
@@ -245,6 +277,7 @@ class Home extends Component {
                                 fullname={this.state.user.fullname}
                                 />
                 </div>
+
             </div>
           );
     }

@@ -7,7 +7,6 @@ import store from '../store';
 import Login from './Login';
 import Signup from './Signup';
 import Home from './Home';
-import Test from './Test';
 import Chatroom from './Chatroom';
 import '../styles/Mystyles.css';
 
@@ -21,7 +20,6 @@ const AppNav = () =>{
                 <Route exact path="/:fullname/:chatroomName/:chatroomSlug" component={Chatroom}/>
                 <Route exact path="/signup" component={Signup}/>
                 <Route exact path="/login" component={Login} />
-                <Route path="/test" component={Test}/>
             </div>
         </BrowserRouter>
       );

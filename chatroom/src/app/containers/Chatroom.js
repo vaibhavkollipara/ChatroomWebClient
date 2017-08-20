@@ -7,7 +7,6 @@ import * as chatroomActions from '../actions/ChatroomActions';
 
 import ErrorMessage from '../components/ErrorMessage';
 import MyActivityIndicator from '../components/MyActivityIndicator';
-import MyButton from '../components/MyButton';
 
 import Header from '../components/Header';
 import SendMessage from '../components/SendMessage';
@@ -21,7 +20,6 @@ class Chatroom extends Component {
 
     constructor(props){
         super(props);
-        const ds = null;
         this.state = {
             token : null,
             messages : [],
@@ -75,7 +73,7 @@ class Chatroom extends Component {
 
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.chatroom != this.props.chatroom){
+        if(nextProps.chatroom !== this.props.chatroom){
             this.setState({
                 error : nextProps.chatroom.error,
                 members : nextProps.chatroom.members,

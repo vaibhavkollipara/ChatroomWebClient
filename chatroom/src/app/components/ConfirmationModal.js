@@ -12,7 +12,7 @@ export default class ConfirmationModal extends Component {
 
     render(){
         return (
-            <div className="mymodal">
+            <div className="mymodal ">
                     <div className="modalTitle">
                         {this.props.title}
                     </div>

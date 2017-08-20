@@ -126,7 +126,6 @@ export function addMember(token,chatroomSlug,username){
 
 export function getUserSuggestions(token,searchString){
     return (dispatch,getState) => {
-        http://127.0.0.1:8000/accounts/users/?search='+searchstring
         fetch(`${baseUrl}/accounts/users/?search=${searchString}`,{
                 method:'get',
                 headers: {

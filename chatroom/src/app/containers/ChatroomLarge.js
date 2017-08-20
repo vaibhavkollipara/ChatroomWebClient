@@ -7,7 +7,6 @@ import * as chatroomActions from '../actions/ChatroomActions';
 
 import ErrorMessage from '../components/ErrorMessage';
 import MyActivityIndicator from '../components/MyActivityIndicator';
-import MyButton from '../components/MyButton';
 
 import Header from '../components/Header';
 import SendMessage from '../components/SendMessage';
@@ -21,7 +20,6 @@ class ChatroomLarge extends Component {
 
     constructor(props){
         super(props);
-        const ds = null;
         this.state = {
             token : null,
             messages : [],
@@ -75,7 +73,10 @@ class ChatroomLarge extends Component {
             chatroomSlug : nextProps.chatroomSlug,
             fullname : nextProps.fullname,
         });
-        if(nextProps.chatroom != this.props.chatroom){
+        if(this.props.chatroomSlug!==nextProps.chatroomSlug){
+            this.getMessages();
+        }
+        if(nextProps.chatroom !== this.props.chatroom){
             this.setState({
                 error : nextProps.chatroom.error,
                 members : nextProps.chatroom.members,
@@ -161,7 +162,7 @@ class ChatroomLarge extends Component {
         return this.state.messages.map(message => {
                 return(
                     <div key={i++}  style={this.getMessageAlignment(message.sender)}
-                            className="messageItem">
+                            className="messageItem ">
                             <div><b>{message.sender}</b></div>
                             <div className="messageText">{message.message}</div>
                     </div>
@@ -246,9 +247,10 @@ class ChatroomLarge extends Component {
     //View Members Functionality....................
 
     renderMemberItems(){
+        let i=0;
             return this.state.members.map(member => {
                     return(
-                            <div className="memberItem">
+                            <div key={i++} className="memberItem">
                                 <div>{member.name}</div>
                                 <div>{member.email}</div>
                             </div>
@@ -287,7 +289,15 @@ class ChatroomLarge extends Component {
 
     exitChatroom(){
         this.props.exitChatroom(this.state.token,this.state.chatroomSlug);
+        this.exitConfirmationModalToggle();
         this.navigateToHomeScreen();
+    }
+    exitChatroomLarge(){
+        this.props.exitChatroom(this.state.token,this.state.chatroomSlug);
+        this.exitConfirmationModalToggle();
+        this.setState({
+            chatroomSlug : null
+        });
     }
 
     //.........................................
@@ -295,7 +305,6 @@ class ChatroomLarge extends Component {
     //Developer Modal Functionality..............
 
     toggleDeveloperModal(){
-        console.log("Developer Toggel...");
         this.setState({
             developerModalHidden : !this.state.developerModalHidden
         });
@@ -310,7 +319,7 @@ class ChatroomLarge extends Component {
             );
         }
         return(
-            <div className="chatroomView">
+            <div className="chatroomView ">
                 {
                     !this.state.developerModalHidden &&
                     <DeveloperModal toggleFunction={this.toggleDeveloperModal.bind(this)}/>
@@ -321,7 +330,7 @@ class ChatroomLarge extends Component {
                 }
                 {
                     !this.state.exitConfirmationModalHidden &&
-                    <ConfirmationModal message="Are you sure? You will not be able to view/send messages until a member add you." title="Exit Chatroom" confirmAction={this.exitChatroom.bind(this)} toggleFunction={this.exitConfirmationModalToggle.bind(this)} />
+                    <ConfirmationModal message="Are you sure? You will not be able to view/send messages until a member add you." title="Exit Chatroom" confirmAction={this.exitChatroomLarge.bind(this)} toggleFunction={this.exitConfirmationModalToggle.bind(this)} />
                 }
                 {
                     !this.state.membersModalHidden &&
@@ -339,7 +348,16 @@ class ChatroomLarge extends Component {
                         toggleFunction={this.toggleNewMemberModal.bind(this)}
                      />
                 }
+                {
+                    this.state.error &&
+                    <ErrorMessage message={this.state.error} />
+                }
                 <div className="chatroomView">
+                        <div className="chatroomoptions">
+                            <span onClick={this.membersModalToggle.bind(this)} className="optionButton glyphicon glyphicon-user" ></span>
+                            <span onClick={this.toggleNewMemberModal.bind(this)} className="optionButton glyphicon glyphicon-plus" ></span>
+                            <span onClick={this.exitConfirmationModalToggle.bind(this)} className="optionButton glyphicon glyphicon-log-out" ></span>
+                        </div>
                         {this.renderMessages()}
                         <SendMessage sendMessage={this.sendMessage.bind(this)}/>
                 </div>
