@@ -31,7 +31,8 @@ class Home extends Component {
             chatroomsLoading:true,
             developerModalHidden : true,
             activeChatroomSlug: null,
-            activeCharoomName: null
+            activeCharoomName: null,
+            refresh : true
         }
         this.refreshHandler = null;
     }
@@ -44,24 +45,41 @@ class Home extends Component {
             }else{
                 this.props.setToken(token);
                 this.props.fetchUserDetails(token);
-                if(this.state.chatrooms.length >1){
-                    this.setState({
-                        chatroomsLoading:false
-                    });
-                }
             }
     }
 
     componentDidMount(){
-        this.refreshHandler = setInterval(this.getChatrooms.bind(this),5000);
+        let chatrooms = sessionStorage.getItem("chatrooms")
+        if(chatrooms!==null){
+            chatrooms = JSON.parse(chatrooms);
+            if(chatrooms.length>0){
+                console.log("Cache Hit....");
+                this.setState({
+                    chatrooms,
+                    refresh:true,
+                    chatroomsLoading: false
+                });
+            }
+        }
 
+        this.refreshHandler = setInterval(this.getChatrooms.bind(this),1000 * 3 );
+        this.refreshFlag = setInterval(this.resetRefreshFlag.bind(this),1000 * 30)
+
+    }
+
+    resetRefreshFlag(){
+        this.setState({
+            refresh : true
+        })
     }
 
     componentWillUnmount() {
         clearInterval(this.refreshHandler);
+        clearInterval(this.refreshFlag);
         this.setState({
             error : null
         });
+        sessionStorage.setItem("chatrooms",JSON.stringify(this.state.chatrooms))
     }
 
 
@@ -109,16 +127,23 @@ class Home extends Component {
 
     logout(){
         sessionStorage.removeItem("token");
+        sessionStorage.removeItem("chatrooms");
         this.props.logout();
+        this.setState({
+            chatrooms : []
+        });
         this.navigateToLoginScreen();
     }
 
     getChatrooms(){
-        if(this.state && this.state.token!==null){
+        if(this.state && this.state.token!==null && this.state.refresh){
                 this.props.refreshChatroomsList(this.state.token);
+                this.setState({
+                    refresh : false
+                });
                 if(this.state.chatroomsLoading){
                     this.setState({
-                        chatroomsLoading : false
+                        chatroomsLoading : false,
                     });
                 }
             }
@@ -135,6 +160,9 @@ class Home extends Component {
     createChatroom(newChatroomName){
         if(newChatroomName){
             this.props.createChatroom(this.state.token,newChatroomName);
+            this.setState({
+                refresh : true
+            });
         }
     }
 
@@ -274,6 +302,7 @@ class Home extends Component {
                                 chatroomName={this.state.activeCharoomName}
                                 chatroomSlug={this.state.activeChatroomSlug}
                                 fullname={this.state.user.fullname}
+                                refreshFlagFunction={this.resetRefreshFlag.bind(this)}
                                 />
                 </div>
 

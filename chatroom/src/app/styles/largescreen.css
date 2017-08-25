@@ -635,4 +635,20 @@
         color:white;
     }
 
+    .loginfooter{
+        display: -webkit-flex;
+        display: flex;
+        height:20vh;
+        flex-direction: row;
+    }
+    .footerBox{
+        display: -webkit-flex;
+        display: flex;
+        flex-grow: 1;
+        justify-content: flex-end;
+        flex-direction: column;
+        text-align: center;
+    }
+
+
 }
