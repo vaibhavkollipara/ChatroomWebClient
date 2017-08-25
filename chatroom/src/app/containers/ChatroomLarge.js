@@ -237,7 +237,7 @@ class ChatroomLarge extends Component {
                         }
                         <form className="newMemberForm" onSubmit={()=>{}}>
                                <div className="form-group">
-                                <input autoFocus type="text" onChange={this.onNewMemberNameChange.bind(this)} ref="newMemberName" className="form-control" placeholder="new member name" />
+                                <input autoFocus type="text" onChange={this.onNewMemberNameChange.bind(this)} ref="newMemberName" className="form-control" placeholder="search by name or email" />
                               </div>
                         </form>
                         {this.renderUserSuggestions()}
@@ -292,6 +292,7 @@ class ChatroomLarge extends Component {
 
     exitChatroom(){
         this.props.exitChatroom(this.state.token,this.state.chatroomSlug);
+        this.props.refreshFlagFunction();
         this.exitConfirmationModalToggle();
         this.navigateToHomeScreen();
     }

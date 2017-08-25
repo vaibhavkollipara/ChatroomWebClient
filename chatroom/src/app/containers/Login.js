@@ -85,6 +85,7 @@ class Login extends Component {
         return (
             <div className="largeView">
                 <Header title={""} />
+                <center><b><h2>Create Chatrooms..., Add Friends...., Chat.....</h2></b></center>
                 {
                     this.state.error &&
                     <div>
@@ -105,6 +106,20 @@ class Login extends Component {
                           <button type="submit" className="btn btn-default">Submit</button>
                           <div className="footer"><Link style={{color:'black'}} to='/signup'>Signup</Link></div>
                         </form>
+                    </div>
+                    <div className="loginfooter">
+                        <div className="footerBox">
+                            DEVELOPER
+                            <b>Vaibhav Kollipara</b>
+                        </div>
+                        <div className="footerBox">
+                            CONTACT
+                            <b>vkollip1@binghamton.edu</b>
+                        </div>
+                        <div className="footerBox">
+                            API DOCUMENTATION
+                            <b><a target="_blank" rel="noopener noreferrer" href="https://chatroomserver.herokuapp.com">ChatroomApi</a></b>
+                        </div>
                     </div>
             </div>
         );

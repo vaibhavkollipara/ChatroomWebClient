@@ -230,7 +230,7 @@ class Chatroom extends Component {
                         }
                         <form className="newMemberForm" onSubmit={()=>{}}>
                                <div className="form-group">
-                                <input type="text" onChange={this.onNewMemberNameChange.bind(this)} ref="newMemberName" className="form-control" placeholder="new member name" />
+                                <input type="text" onChange={this.onNewMemberNameChange.bind(this)} ref="newMemberName" className="form-control" placeholder="search by name or email" />
                               </div>
                         </form>
                         {this.renderUserSuggestions()}
