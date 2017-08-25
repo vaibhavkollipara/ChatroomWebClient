@@ -97,7 +97,7 @@ class Login extends Component {
                                 Login
                             </div>
                            <div className="form-group">
-                            <input type="text" ref="username_large" className="form-control" placeholder="username" />
+                            <input autoFocus type="text" ref="username_large" className="form-control" placeholder="username" />
                           </div>
                           <div className="form-group">
                             <input type="password" ref="password_large" className="form-control" placeholder="password" />
@@ -134,7 +134,7 @@ class Login extends Component {
                                 Login
                             </div>
                            <div className="form-group">
-                            <input type="text" ref="username" className="form-control" placeholder="username" />
+                            <input autoFocus type="text" ref="username" className="form-control" placeholder="username" />
                           </div>
                           <div className="form-group">
                             <input type="password" ref="password" className="form-control" placeholder="password" />

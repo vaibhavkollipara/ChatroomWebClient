@@ -17,7 +17,7 @@ export default class NewChatroomModal extends Component {
                     <div className="newChatroomView">
                             <form className="modalformContainer" onSubmit={this.clicked.bind(this)}>
                                <div className="form-group">
-                                <input type="text" ref="chatroomName" className="form-control" placeholder="new chatroom name" />
+                                <input autoFocus type="text" ref="chatroomName" className="form-control" placeholder="new chatroom name" />
                               </div>
                               <button type="submit" className="btn btn-default">Create</button>
                         </form>

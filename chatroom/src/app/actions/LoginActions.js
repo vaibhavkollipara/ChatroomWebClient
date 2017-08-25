@@ -4,7 +4,6 @@ export function authenticate(data){
     return (dispatch,getState) => {
         dispatch({type : "TRY_LOGIN",payload : {} })
 
-        // console.log("Fetching : "+ baseUrl+ "/auth/obtaintoken/");
         fetch(baseUrl+ "/auth/obtaintoken/",{
             method : 'post',
             body: JSON.stringify(data),
@@ -20,7 +19,6 @@ export function authenticate(data){
                 }).catch(error => {console.log(error)});
             }else{
                 response.json().then(response => {
-                    console.log("Problem Signing In...")
                     dispatch({type: "LOGIN_FAILED",payload : response });
                 }).catch(error => {console.log(error)});
             }

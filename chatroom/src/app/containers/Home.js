@@ -145,7 +145,6 @@ class Home extends Component {
             activeChatroomSlug : chatroomSlug,
             activeCharoomName : chatroomName
         });
-        console.log(`selected : ${chatroomSlug}`);
     }
 
     isActiveChatroom(chatroomSlug){

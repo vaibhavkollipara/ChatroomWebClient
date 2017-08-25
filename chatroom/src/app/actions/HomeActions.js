@@ -18,7 +18,6 @@ export function fetchUserDetails(token){
                 });
             }else{
                 response.json().then((response) => {
-                    // console.log(response);
                     dispatch( {type:"FETCH_USER_DETAILS_FAILED" , payload : response});
                 });
             }
@@ -29,7 +28,6 @@ export function fetchUserDetails(token){
 }
 
 export function refreshChatroomsList(token){
-    // console.log(`Refresh rooms..........${token}`);
     return (dispatch,getState) =>{
         fetch(baseUrl+ "/mychatrooms/",{
             method : 'get',
@@ -69,7 +67,6 @@ export function createChatroom(token,chatroomName){
                 if(response.status!==201){
 
                     response.json().then((response) => {
-                        console.log(response);
                         dispatch({type:"SET_ERROR",payload:response})
                     });
                 }

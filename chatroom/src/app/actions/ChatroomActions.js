@@ -1,7 +1,6 @@
 import {baseUrl} from './baseurl';
 
 export function loadMessages(token,chatroomSlug){
-    console.log(chatroomSlug);
     return (dispatch,getState) => {
         fetch(`${baseUrl}/chatroom/${chatroomSlug}/`,{
             method:'get',
@@ -21,7 +20,6 @@ export function loadMessages(token,chatroomSlug){
                 });
             }
         }).catch((error) => {
-            console.log(error);
             dispatch( {type: "SET_ERROR", payload : {error : "Problem with network"}})
         })
     }

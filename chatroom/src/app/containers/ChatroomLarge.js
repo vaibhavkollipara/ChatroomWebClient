@@ -67,13 +67,17 @@ class ChatroomLarge extends Component {
 
 
     componentWillReceiveProps(nextProps) {
-        this.setState({
-            token : nextProps.token,
-            chatroomName: nextProps.chatroomName,
-            chatroomSlug : nextProps.chatroomSlug,
-            fullname : nextProps.fullname,
-        });
         if(this.props.chatroomSlug!==nextProps.chatroomSlug){
+            this.setState({
+                error:null,
+                members: [],
+                userSuggestions: [],
+                addMemberError:null,
+                token : nextProps.token,
+                chatroomName: nextProps.chatroomName,
+                chatroomSlug : nextProps.chatroomSlug,
+                fullname : nextProps.fullname,
+            });
             this.getMessages();
         }
         if(nextProps.chatroom !== this.props.chatroom){
@@ -138,7 +142,6 @@ class ChatroomLarge extends Component {
     }
 
     getMessages(){
-        console.log("Get Messages......");
         if(this.state && this.state.token!==null && this.state.chatroomSlug!==null){
                 this.props.loadMessages(this.state.token,this.state.chatroomSlug);
                 if(this.state.loading){
@@ -234,7 +237,7 @@ class ChatroomLarge extends Component {
                         }
                         <form className="newMemberForm" onSubmit={()=>{}}>
                                <div className="form-group">
-                                <input type="text" onChange={this.onNewMemberNameChange.bind(this)} ref="newMemberName" className="form-control" placeholder="new member name" />
+                                <input autoFocus type="text" onChange={this.onNewMemberNameChange.bind(this)} ref="newMemberName" className="form-control" placeholder="new member name" />
                               </div>
                         </form>
                         {this.renderUserSuggestions()}
@@ -311,10 +314,10 @@ class ChatroomLarge extends Component {
     }
     //...................................
     largeScreenView(){
-        if(this.state.chatroomSlug===null || this.state.token===null){
+        if(this.state.chatroomSlug===null){
             return(
                 <div className="chatroomView">
-                    <MyActivityIndicator message={"Waiting for chatroom selection"} />
+                    <MyActivityIndicator message="Select a chatroom"/>
                 </div>
             );
         }

@@ -18,7 +18,6 @@ export default class ErrorMessage extends Component {
     }
 
     getErrorMessages(){
-        console.log(this.props.message);
         let i=1;
         return Object.entries(this.props.message).map(([key, value]) =>
                                                 <div key={i++} style={styles.errorbox}>
@@ -40,7 +39,7 @@ export default class ErrorMessage extends Component {
 
 const styles={
     errorbox:{
-        backgroundColor: 'white',
+        backgroundColor: '#f9fafc',
         color:'red',
         textAlign:'center',
         borderRadius:10,

@@ -135,7 +135,7 @@ class Signup extends Component {
                                 Signup
                             </div>
                           <div className="form-group">
-                            <input type="text" ref="first_name_large" className="form-control" placeholder="First Name" />
+                            <input autoFocus type="text" ref="first_name_large" className="form-control" placeholder="First Name" />
                           </div>
                           <div className="form-group">
                             <input type="text" ref="last_name_large" className="form-control" placeholder="Last Name" />
@@ -200,7 +200,7 @@ class Signup extends Component {
                                 Signup
                             </div>
                           <div className="form-group">
-                            <input type="text" ref="first_name" className="form-control" placeholder="First Name" />
+                            <input autoFocus type="text" ref="first_name" className="form-control" placeholder="First Name" />
                           </div>
                           <div className="form-group">
                             <input type="text" ref="last_name" className="form-control" placeholder="Last Name" />

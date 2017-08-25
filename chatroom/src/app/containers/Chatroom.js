@@ -135,7 +135,6 @@ class Chatroom extends Component {
     }
 
     getMessages(){
-        console.log("Get Messages......");
         if(this.state && this.state.token!==null && this.state.chatroomSlug!==null){
                 this.props.loadMessages(this.state.token,this.state.chatroomSlug);
                 if(this.state.loading){
@@ -244,9 +243,10 @@ class Chatroom extends Component {
     //View Members Functionality....................
 
     renderMemberItems(){
+            let i = 1
             return this.state.members.map(member => {
                     return(
-                            <div className="memberItem">
+                            <div key={i++} className="memberItem">
                                 <div>{member.name}</div>
                                 <div>{member.email}</div>
                             </div>
@@ -293,7 +293,6 @@ class Chatroom extends Component {
     //Developer Modal Functionality..............
 
     toggleDeveloperModal(){
-        console.log("Developer Toggel...");
         this.setState({
             developerModalHidden : !this.state.developerModalHidden
         });

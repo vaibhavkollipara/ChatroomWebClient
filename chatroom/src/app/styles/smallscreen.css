@@ -1,5 +1,10 @@
 @media only screen and (max-width : 620px){
 
+    ::-webkit-scrollbar {
+        width: 0px;  /* remove scrollbar space */
+        background: transparent;  /* optional: just make scrollbar invisible */
+    }
+
     .header{
         display: -webkit-flex;
         display: flex;

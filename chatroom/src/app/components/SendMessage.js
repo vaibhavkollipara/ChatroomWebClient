@@ -18,7 +18,7 @@ export default class SendMessage extends Component{
         return (
             <form className="sendMessageView" onSubmit={this.sendMessage.bind(this)}>
                     <div className="messageInput">
-                            <input type="text" ref="newMessage" className="form-control" placeholder="type message..." />
+                            <input autoFocus type="text" ref="newMessage" className="form-control" placeholder="type message..." />
                         </div>
                         <div className="sendButton">
                             <button type="submit" className="btn btn-default">Send</button>
