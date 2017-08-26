@@ -52,11 +52,12 @@ class Chatroom extends Component {
                 chatroomSlug : this.props.match.params.chatroomSlug,
                 fullname : this.props.match.params.fullname
             });
+            this.getMessages();
         }
     }
 
     componentDidMount(){
-            this.refreshHandler = setInterval(this.getMessages.bind(this),5000);
+        this.refreshHandler = setInterval(this.getMessages.bind(this),5000);
 
     }
 

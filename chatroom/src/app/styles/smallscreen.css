@@ -55,9 +55,9 @@
         display: -webkit-flex;
         display: flex;
         width:100vw;
-        height: 90vh;
+        height: 89vh;
         margin-top: 10vh;
-        overflow: auto;
+        overflow: hidden;
     }
 
     .baseContainer> .mainContent{
@@ -65,7 +65,7 @@
         display: flex;
         margin: 1vh;
         flex-grow: 1;
-        overflow: auto;
+        overflow: hidden;
     }
     .baseContainer> .mainContent> .smallView{
         display: -webkit-flex;
@@ -380,14 +380,14 @@
     .chatroomView{
         display: -webkit-flex;
         display: flex;
-        flex:4;
         flex-grow: 1;
+        overflow:auto;
         flex-direction: column;
-        height: 89vh;
     }
     .chatroomView> .messagesContainer{
         display: -webkit-flex;
         display: flex;
+        justify-content: flex-start;
         height:80vh;
         flex-direction: column-reverse;
         overflow:auto;
@@ -407,24 +407,23 @@
         display: -webkit-flex;
         display: flex;
         flex-direction: row;
-        height: 10vh;
-        -webkit-align-items:center;
-        align-items: center;
+        -webkit-align-items:flex-start;
+        align-items: flex-start;
         -webkit-justify-content: center;
         justify-content: center;
-        border: 1px solid gray;
-        border-radius: 10px;
+        height:10vh;
     }
 
     .messageInput{
         display: -webkit-flex;
         display: flex;
         flex-grow: 3;
-        margin:2vw;
+        margin-left:2vw;
         -webkit-align-items:center;
         align-items: center;
         -webkit-justify-content: center;
         justify-content: center;
+        height: 10vh;
     }
     .sendButton{
         display: -webkit-flex;
@@ -434,7 +433,7 @@
         align-items: center;
         -webkit-justify-content: center;
         justify-content: center;
-
+        height: 10vh;
     }
 
     .signupView> .successView{

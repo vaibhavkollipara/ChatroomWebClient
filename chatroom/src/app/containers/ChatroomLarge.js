@@ -76,7 +76,7 @@ class ChatroomLarge extends Component {
                 token : nextProps.token,
                 chatroomName: nextProps.chatroomName,
                 chatroomSlug : nextProps.chatroomSlug,
-                fullname : nextProps.fullname,
+                fullname : nextProps.fullname
             });
             this.getMessages();
         }
