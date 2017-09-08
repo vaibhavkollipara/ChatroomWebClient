@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import HeaderButton from './HeaderButton';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default class Header extends Component {
 
@@ -39,7 +40,14 @@ export default class Header extends Component {
                                 CHATROOM
                               </div>
                             <div className="headerTitle" style={this.titleSize()}>
-                                {this.displayTitle()}
+                                <ReactCSSTransitionGroup
+                                transitionName="zoominout"
+                                transitionAppear={true}
+                                transitionAppearTimeout={1000}
+                                transitionEnterTimeout={1000}
+                                transitionLeaveTimeout={1000}>
+                                  <div key={0}>{this.displayTitle()}</div>
+                                </ReactCSSTransitionGroup>
                             </div>
                             {this.props.settings &&
                                 <div className="headerSettings">
@@ -59,13 +67,27 @@ export default class Header extends Component {
                       this.props.backFunction &&
                       <div className="headerBackButton">
                       <a>
+                        <ReactCSSTransitionGroup
+                                transitionName="zoominout"
+                                transitionAppear={true}
+                                transitionAppearTimeout={1000}
+                                transitionEnterTimeout={1000}
+                                transitionLeaveTimeout={1000}>
                         <span style={{color:'white'}} onClick={this.props.backFunction.bind(this)} className="glyphicon glyphicon-arrow-left"></span>
+                        </ReactCSSTransitionGroup>
                         </a>
                       </div>
                     }
-                    <div className="headerTitle" style={this.titleSize()}>
-                        {this.displayTitle()}
-                    </div>
+                      <div className="headerTitle" style={this.titleSize()}>
+                          <ReactCSSTransitionGroup
+                                transitionName="zoominout"
+                                transitionAppear={true}
+                                transitionAppearTimeout={1000}
+                                transitionEnterTimeout={1000}
+                                transitionLeaveTimeout={1000}>
+                                  <div key={0}>{this.displayTitle()}</div>
+                                </ReactCSSTransitionGroup>
+                      </div>
                     {this.props.settings &&
                         <div className="headerSettings">
                             <HeaderButton settings={this.props.settings}/>

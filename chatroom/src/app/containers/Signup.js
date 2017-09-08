@@ -10,6 +10,8 @@ import MyActivityIndicator from '../components/MyActivityIndicator';
 import Header from '../components/Header';
 import {Link} from 'react-router-dom';
 
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 
 class Signup extends Component {
 
@@ -130,11 +132,17 @@ class Signup extends Component {
                     </div>
                 }
                     <div className="signupView " >
-                        <form className="formContainer" onSubmit={this.signupClickLarge.bind(this)}>
+                    <ReactCSSTransitionGroup
+                      transitionName="zoominout"
+                      transitionAppear={true}
+                      transitionAppearTimeout={1000}
+                      transitionEnterTimeout={1000}
+                      transitionLeaveTimeout={1000}>
+                        <form key={1} className="formContainer" onSubmit={this.signupClickLarge.bind(this)}>
                             <div className="title">
                                 Signup
                             </div>
-                          <div className="form-group">
+                          <div key={2} className="form-group">
                             <input autoFocus type="text" ref="first_name_large" className="form-control" placeholder="First Name" />
                           </div>
                           <div className="form-group">
@@ -155,6 +163,7 @@ class Signup extends Component {
                           <button type="submit" className="btn btn-default">Submit</button>
                           <div className="footer"><Link style={{color:'black'}} to='/'>Login</Link></div>
                         </form>
+                        </ReactCSSTransitionGroup>
                     </div>
             </div>
         );
@@ -199,25 +208,32 @@ class Signup extends Component {
                             <div className="title">
                                 Signup
                             </div>
-                          <div className="form-group">
+                            <ReactCSSTransitionGroup
+                      transitionName="zoominout"
+                      transitionAppear={true}
+                      transitionAppearTimeout={1000}
+                      transitionEnterTimeout={1000}
+                      transitionLeaveTimeout={1000}>
+                          <div key={1} className="form-group">
                             <input autoFocus type="text" ref="first_name" className="form-control" placeholder="First Name" />
                           </div>
-                          <div className="form-group">
+                          <div key={2} className="form-group">
                             <input type="text" ref="last_name" className="form-control" placeholder="Last Name" />
                           </div>
-                          <div className="form-group">
+                          <div key={3} className="form-group">
                             <input type="text" ref="email" className="form-control" placeholder="email" />
                           </div>
-                          <div className="form-group">
+                          <div key={4} className="form-group">
                             <input type="text" ref="username" className="form-control" placeholder="username" />
                           </div>
-                          <div className="form-group">
+                          <div key={5} className="form-group">
                             <input type="password" ref="password" className="form-control" placeholder="password" />
                           </div>
-                          <div className="form-group">
+                          <div  key={6} className="form-group">
                             <input type="password" ref="confirm_password" className="form-control" placeholder="confirm password" />
                           </div>
-                          <button type="submit" className="btn btn-default">Submit</button>
+                          <button key={7} type="submit" className="btn btn-default">Submit</button>
+                          </ReactCSSTransitionGroup>
                           <div className="footer"><Link style={{color:'black'}} to='/'>Login</Link></div>
                         </form>
                     </div>

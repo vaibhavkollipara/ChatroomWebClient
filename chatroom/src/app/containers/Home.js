@@ -15,6 +15,8 @@ import DeveloperModal from '../components/DeveloperModal';
 
 import ChatroomLarge from './ChatroomLarge';
 
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 class Home extends Component {
 
 
@@ -183,10 +185,11 @@ class Home extends Component {
 
     renderChatroomItems(){
         return this.state.chatrooms.map((chatroom) =>{
-                    return(
+                    return(     <div key={chatroom.slug}>
                                 <Link key={chatroom.slug} style={{color:'black'}} to={`/${this.state.user.fullname}/${chatroom.name}/${chatroom.slug}`}>
                                     <div className="chatroomItem">{chatroom.name}</div>
                                 </Link>
+                                </div>
                         );
             });
     }
@@ -210,7 +213,16 @@ class Home extends Component {
         }
         return (
             <div className="chatroomsContainer">
+                <ReactCSSTransitionGroup
+                      transitionName="zoominout"
+                      transitionAppear={true}
+                      transitionAppearTimeout={1000}
+                      transitionEnter={true}
+                      transitionEnterTimeout={1000}
+                      transitionLeave={true}
+                      transitionLeaveTimeout={1000}>
                 {this.renderChatroomItemsLarge()}
+                </ReactCSSTransitionGroup>
             </div>
         );
     }
@@ -226,7 +238,16 @@ class Home extends Component {
         }
         return (
             <div className="chatroomsContainer">
-                {this.renderChatroomItems()}
+                <ReactCSSTransitionGroup
+                          transitionName="zoominout"
+                          transitionAppear={true}
+                          transitionAppearTimeout={1000}
+                          transitionEnter={true}
+                          transitionEnterTimeout={1000}
+                          transitionLeave={true}
+                          transitionLeaveTimeout={1000}>
+                    {this.renderChatroomItems()}
+                </ReactCSSTransitionGroup>
             </div>
         );
     }
@@ -293,9 +314,18 @@ class Home extends Component {
                         !this.state.hidden &&
                         <NewChatroomModal toggleFunction={this.toggleNewChatroomModal.bind(this)} action={this.createChatroom.bind(this)}/>
                     }
+                    <ReactCSSTransitionGroup
+                      transitionName="zoominout"
+                      transitionAppear={true}
+                      transitionAppearTimeout={1000}
+                      transitionEnter={true}
+                      transitionEnterTimeout={1000}
+                      transitionLeave={true}
+                      transitionLeaveTimeout={1000}>
                     <div className="homeoptions">
                         <span onClick={this.toggleNewChatroomModal.bind(this)} className="optionButton glyphicon glyphicon-plus-sign" ></span>
                     </div>
+                    </ReactCSSTransitionGroup>
                         {this.renderChatroomsLarge()}
                     </div>
                     <ChatroomLarge token={this.state.token}

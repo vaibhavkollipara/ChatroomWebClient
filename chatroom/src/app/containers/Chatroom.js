@@ -14,6 +14,7 @@ import SendMessage from '../components/SendMessage';
 import MyModal from '../components/MyModal';
 import ConfirmationModal from '../components/ConfirmationModal';
 import DeveloperModal from '../components/DeveloperModal';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Chatroom extends Component {
 
@@ -169,7 +170,7 @@ class Chatroom extends Component {
     renderMessages(){
         return (
             <div className="messagesContainer">
-                {this.renderMessageItems()}
+                    {this.renderMessageItems()}
             </div>
         );
     }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import MyModal from './MyModal';
-
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 export default class HeaderButton extends Component {
 
 constructor(){
@@ -44,9 +44,16 @@ constructor(){
   render() {
     return (
             <div className="HeaderButton">
-                <button onClick={this.toggleSettings.bind(this)} type="button" className="btn btn-default btn-md">
+                <ReactCSSTransitionGroup
+                      transitionName="zoominout"
+                      transitionAppear={true}
+                      transitionAppearTimeout={1000}
+                      transitionEnterTimeout={1000}
+                      transitionLeaveTimeout={1000}>
+                <button key={1} onClick={this.toggleSettings.bind(this)} type="button" className="btn btn-default btn-md">
                       <div style={{fontWeight:'bold'}}>settings</div>
                 </button>
+                </ReactCSSTransitionGroup>
                 {
                     !this.state.hidden &&
                     <MyModal

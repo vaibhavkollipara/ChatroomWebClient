@@ -15,6 +15,8 @@ import MyModal from '../components/MyModal';
 import ConfirmationModal from '../components/ConfirmationModal';
 import DeveloperModal from '../components/DeveloperModal';
 
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 class ChatroomLarge extends Component {
 
 
@@ -175,7 +177,7 @@ class ChatroomLarge extends Component {
     renderMessages(){
         return (
             <div className="messagesContainer">
-                {this.renderMessageItems()}
+                    {this.renderMessageItems()}
             </div>
         );
     }
@@ -223,7 +225,16 @@ class ChatroomLarge extends Component {
     renderUserSuggestions(){
         return (
             <div className="userSuggesionsContainer">
-                {this.renderUserSuggestionItems()}
+                <ReactCSSTransitionGroup
+                      transitionName="zoominout"
+                      transitionAppear={true}
+                      transitionAppearTimeout={1000}
+                      transitionEnter={true}
+                      transitionEnterTimeout={1000}
+                      transitionLeave={true}
+                      transitionLeaveTimeout={1000}>
+                    {this.renderUserSuggestionItems()}
+                </ReactCSSTransitionGroup>
             </div>
         );
     }
@@ -298,6 +309,7 @@ class ChatroomLarge extends Component {
     }
     exitChatroomLarge(){
         this.props.exitChatroom(this.state.token,this.state.chatroomSlug);
+        this.props.refreshFlagFunction();
         this.exitConfirmationModalToggle();
         this.setState({
             chatroomSlug : null
@@ -357,11 +369,20 @@ class ChatroomLarge extends Component {
                     <ErrorMessage message={this.state.error} />
                 }
                 <div className="chatroomView">
+                        <ReactCSSTransitionGroup
+                      transitionName="zoominout"
+                      transitionAppear={true}
+                      transitionAppearTimeout={1000}
+                      transitionEnter={true}
+                      transitionEnterTimeout={1000}
+                      transitionLeave={true}
+                      transitionLeaveTimeout={1000}>
                         <div className="chatroomoptions">
                             <span onClick={this.membersModalToggle.bind(this)} className="optionButton glyphicon glyphicon-user" ></span>
                             <span onClick={this.toggleNewMemberModal.bind(this)} className="optionButton glyphicon glyphicon-plus" ></span>
                             <span onClick={this.exitConfirmationModalToggle.bind(this)} className="optionButton glyphicon glyphicon-log-out" ></span>
                         </div>
+                        </ReactCSSTransitionGroup>
                         {this.renderMessages()}
                         <SendMessage sendMessage={this.sendMessage.bind(this)}/>
                 </div>

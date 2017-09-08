@@ -44,6 +44,7 @@
         color:white;
         font-size: 1.75em;
         cursor:pointer;
+        margin-left: 1vw;
     }
     .headerTitle{
         display: -webkit-flex;
@@ -177,6 +178,16 @@
         background-color: white;
         border-color: steelblue;
     }
+    .confirmationModalButton:hover {
+        color:steelblue;
+        background-color: white;
+        border-color: steelblue;
+        transition: 500ms ease-in-out;
+    }
+    .confirmationModalButton:not(:hover) {
+        transition: 500ms ease-in-out;
+    }
+
     .mymodal > .modalContent{
         display: -webkit-flex;
         display: flex;
@@ -214,6 +225,15 @@
         background-color: white;
         color:steelblue;
         z-index: 9999;
+    }
+    .mymodal > .modalFooter> .footerButton:hover{
+        background-color: white;
+        color:steelblue;
+        z-index: 9999;
+        transition: 500ms ease-in-out;
+    }
+    .mymodal:not( :hover){
+        transition: 500ms ease-in-out;
     }
     .modalformContainer{
         display: -webkit-flex;
@@ -355,6 +375,15 @@
         color:white;
         background-color: steelblue;
         border: 2px solid white;
+    }
+    .settingItem:hover{
+        color:white;
+        background-color: steelblue;
+        border: 2px solid white;
+        transition: 500ms ease-in-out;
+    }
+    .settingItem:not( :hover){
+        transition: 500ms ease-in-out;
     }
     .activityIndicator{
         display: flex;
@@ -524,11 +553,21 @@
         color:white;
         background-color: steelblue;
         border:2px solid white;
+        transition: 500ms ease-in-out;
     }
     .chatroomItem:active{
         color:white;
         background-color: steelblue;
         border:2px solid white;
+    }
+    .chatroomItem:hover{
+        color:white;
+        background-color: steelblue;
+        border:2px solid white;
+        transition: 500ms ease-in-out;
+    }
+    .chatroomItem:not( :hover){
+        transition: 500ms ease-in-out;
     }
 
     .noChatroomsView{
@@ -610,6 +649,14 @@
         background-color: steelblue;
         color:white;
     }
+    .optionButton:hover{
+        background-color: steelblue;
+        color:white;
+        transition: 500ms ease-in-out;
+    }
+    .optionButton:not( :hover){
+        transition: 500ms ease-in-out;
+    }
 
 
     .optionButton{
@@ -649,6 +696,5 @@
         flex-direction: column;
         text-align: center;
     }
-
 
 }
