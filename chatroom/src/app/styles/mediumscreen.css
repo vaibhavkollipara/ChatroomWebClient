@@ -519,4 +519,37 @@
 
     /*...........................................................................................*/
 
+    .zoominout-appear {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    .zoominout-appear.zoominout-appear-active {
+        transform: scale(1);
+        opacity:1;
+        transition: opacity 0.75s ease-in-out, transform 0.75s ease-in-out;
+    }
+
+    .zoominout-enter {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    .zoominout-enter.zoominout-enter-active {
+        transform: scale(1);
+        opacity:1;
+        transition: opacity 0.75s ease-in-out, transform 0.75s ease-in-out;
+    }
+
+    .zoominout-leave {
+        opacity:1;
+        transform: scale(1);
+    }
+
+    .zoominout-leave.zoominout-leave-active {
+        opacity: 0;
+        transform: scale(0);
+        transition: opacity 0.75s ease-in, transform 0.75s ease-in-out;
+    }
+
 }

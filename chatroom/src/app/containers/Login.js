@@ -87,20 +87,28 @@ class Login extends Component {
         return (
             <div className="largeView">
                 <Header title={""} />
-
+                <ReactCSSTransitionGroup
+                      transitionName="zoominout"
+                      transitionAppear={true}
+                      transitionAppearTimeout={1000}
+                      transitionEnter={true}
+                      transitionEnterTimeout={1000}
+                      transitionLeave={true}
+                      transitionLeaveTimeout={1000}>
                 {
                     this.state.error &&
-                    <div>
+                    <div key={1}>
                         <ErrorMessage message={this.state.error} />
                     </div>
                 }
+                </ReactCSSTransitionGroup>
                     <div className="loginView">
                     <ReactCSSTransitionGroup
                       transitionName="zoominout"
                       transitionAppear={true}
                       transitionAppearTimeout={1000}
-                      transitionEnterTimeout={1000}
-                      transitionLeaveTimeout={1000}>
+                      transitionEnter={false}
+                      transitionLeave={false}>
                         <center key={2}><b><h2>Create Chatrooms..., Add Friends...., Chat.....</h2></b></center>
                         <form key={1} className="formContainer" onSubmit={this.loginClickLarge.bind(this)}>
                             <div className="title">
@@ -156,12 +164,21 @@ class Login extends Component {
             return (
                 <div className="smallView">
                 <Header title={"Chatroom"} />
+                <ReactCSSTransitionGroup
+                      transitionName="zoominout"
+                      transitionAppear={true}
+                      transitionAppearTimeout={1000}
+                      transitionEnter={true}
+                      transitionEnterTimeout={1000}
+                      transitionLeave={true}
+                      transitionLeaveTimeout={1000}>
                 {
                     this.state.error &&
-                    <div>
+                    <div key={1}>
                         <ErrorMessage message={this.state.error} />
                     </div>
                 }
+                </ReactCSSTransitionGroup>
                     <div className="loginView">
                         <form className="formContainer" onSubmit={this.loginClick.bind(this)}>
                             <div className="title">
@@ -171,8 +188,8 @@ class Login extends Component {
                           transitionName="zoominout"
                           transitionAppear={true}
                           transitionAppearTimeout={1000}
-                          transitionEnterTimeout={1000}
-                          transitionLeaveTimeout={1000}>
+                          transitionEnter={false}
+                          transitionLeave={false}>
                                <div key={1} className="form-group">
                                 <input autoFocus type="text" ref="username" className="form-control" placeholder="username" />
                               </div>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default class ConfirmationModal extends Component {
 
@@ -12,15 +11,7 @@ export default class ConfirmationModal extends Component {
 
     render(){
         return (
-            <ReactCSSTransitionGroup
-                      transitionName="zoominout"
-                      transitionAppear={true}
-                      transitionAppearTimeout={1000}
-                      transitionEnter={true}
-                      transitionEnterTimeout={1000}
-                      transitionLeave={true}
-                      transitionLeaveTimeout={1000}>
-            <div key={1} className="mymodal ">
+            <div className="mymodal ">
                     <div className="modalTitle">
                         {this.props.title}
                     </div>
@@ -37,7 +28,6 @@ export default class ConfirmationModal extends Component {
                     </div>
 
                 </div>
-            </ReactCSSTransitionGroup>
         );
     }
 

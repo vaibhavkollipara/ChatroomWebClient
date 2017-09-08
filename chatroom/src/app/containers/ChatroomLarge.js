@@ -13,7 +13,6 @@ import SendMessage from '../components/SendMessage';
 
 import MyModal from '../components/MyModal';
 import ConfirmationModal from '../components/ConfirmationModal';
-import DeveloperModal from '../components/DeveloperModal';
 
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
@@ -227,7 +226,7 @@ class ChatroomLarge extends Component {
             <div className="userSuggesionsContainer">
                 <ReactCSSTransitionGroup
                       transitionName="zoominout"
-                      transitionAppear={true}
+                      transitionAppear={false}
                       transitionAppearTimeout={1000}
                       transitionEnter={true}
                       transitionEnterTimeout={1000}
@@ -337,39 +336,10 @@ class ChatroomLarge extends Component {
         return(
             <div className="chatroomView ">
                 {
-                    !this.state.developerModalHidden &&
-                    <DeveloperModal toggleFunction={this.toggleDeveloperModal.bind(this)}/>
-                }
-                {
                     !this.state.chatroomName &&  this.props.history &&
                     <Header title={"Home"} backFunction={this.props.history.goBack.bind(this)} settings={this.errorSettings()}/>
                 }
-                {
-                    !this.state.exitConfirmationModalHidden &&
-                    <ConfirmationModal message="Are you sure? You will not be able to view/send messages until a member add you." title="Exit Chatroom" confirmAction={this.exitChatroomLarge.bind(this)} toggleFunction={this.exitConfirmationModalToggle.bind(this)} />
-                }
-                {
-                    !this.state.membersModalHidden &&
-                    <MyModal
-                        title="Members"
-                        contentView={this.membersView()}
-                        toggleFunction={this.membersModalToggle.bind(this)}
-                    />
-                }
-                {
-                    !this.state.newMemberModalHidden &&
-                    <MyModal
-                        title="Add Member"
-                        contentView={this.newMemberView()}
-                        toggleFunction={this.toggleNewMemberModal.bind(this)}
-                     />
-                }
-                {
-                    this.state.error &&
-                    <ErrorMessage message={this.state.error} />
-                }
-                <div className="chatroomView">
-                        <ReactCSSTransitionGroup
+                <ReactCSSTransitionGroup
                       transitionName="zoominout"
                       transitionAppear={true}
                       transitionAppearTimeout={1000}
@@ -377,6 +347,38 @@ class ChatroomLarge extends Component {
                       transitionEnterTimeout={1000}
                       transitionLeave={true}
                       transitionLeaveTimeout={1000}>
+                {
+                    !this.state.exitConfirmationModalHidden &&
+                    <ConfirmationModal key={1} message="Are you sure? You will not be able to view/send messages until a member add you." title="Exit Chatroom" confirmAction={this.exitChatroomLarge.bind(this)} toggleFunction={this.exitConfirmationModalToggle.bind(this)} />
+                }
+                {
+                    !this.state.membersModalHidden &&
+                    <MyModal
+                        key={2}
+                        title="Members"
+                        contentView={this.membersView()}
+                        toggleFunction={this.membersModalToggle.bind(this)}
+                    />
+                }
+                {
+                    !this.state.newMemberModalHidden &&
+                        <MyModal
+                            key={3}
+                            title="Add Member"
+                            contentView={this.newMemberView()}
+                            toggleFunction={this.toggleNewMemberModal.bind(this)}
+                         />
+                }
+                {
+                    this.state.error &&
+                    <ErrorMessage key={4} message={this.state.error} />
+                }
+                </ReactCSSTransitionGroup>
+                <div className="chatroomView">
+                        <ReactCSSTransitionGroup
+                      transitionName="zoominout"
+                      transitionAppear={true}
+                      transitionAppearTimeout={1000}>
                         <div className="chatroomoptions">
                             <span onClick={this.membersModalToggle.bind(this)} className="optionButton glyphicon glyphicon-user" ></span>
                             <span onClick={this.toggleNewMemberModal.bind(this)} className="optionButton glyphicon glyphicon-plus" ></span>

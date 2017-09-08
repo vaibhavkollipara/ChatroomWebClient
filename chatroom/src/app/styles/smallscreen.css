@@ -228,7 +228,6 @@
         border-radius: 10px;
         padding: 10px;
         text-align: center;
-
         flex-direction: column;
         align-self: flex-start;
         -webkit-align-items:center;
@@ -510,5 +509,37 @@
     }
 
     /*...........................................................................................*/
+.zoominout-appear {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.zoominout-appear.zoominout-appear-active {
+    transform: scale(1);
+    opacity:1;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.zoominout-enter {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.zoominout-enter.zoominout-enter-active {
+    transform: scale(1);
+    opacity:1;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.zoominout-leave {
+    opacity:1;
+    transform: scale(1);
+}
+
+.zoominout-leave.zoominout-leave-active {
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 0.5s ease-in, transform 0.5s ease-in-out;
+}
 
 }

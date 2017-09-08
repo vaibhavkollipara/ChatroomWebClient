@@ -311,13 +311,20 @@ class Chatroom extends Component {
     smallScreenView(){
         return(
             <div className="smallView">
-                {
-                    !this.state.developerModalHidden &&
-                    <DeveloperModal toggleFunction={this.toggleDeveloperModal.bind(this)}/>
-                }
+
                 {
                     !this.state.chatroomName &&  this.props.history &&
                     <Header title={"Home"} backFunction={this.props.history.goBack.bind(this)} settings={this.errorSettings()}/>
+                }
+                <ReactCSSTransitionGroup
+                      transitionName="zoominout"
+                      transitionEnter={true}
+                      transitionEnterTimeout={1000}
+                      transitionLeave={true}
+                      transitionLeaveTimeout={1000}>
+                {
+                    !this.state.developerModalHidden &&
+                    <DeveloperModal toggleFunction={this.toggleDeveloperModal.bind(this)}/>
                 }
                 {
                     !this.state.exitConfirmationModalHidden &&
@@ -339,6 +346,7 @@ class Chatroom extends Component {
                         toggleFunction={this.toggleNewMemberModal.bind(this)}
                      />
                 }
+                </ReactCSSTransitionGroup>
                 <div className="chatroomView">
                         {this.renderMessages()}
                         <SendMessage sendMessage={this.sendMessage.bind(this)}/>

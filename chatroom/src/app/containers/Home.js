@@ -289,13 +289,6 @@ class Home extends Component {
         }
         return (
             <div className="largeView">
-
-
-                {
-                    !this.state.developerModalHidden &&
-                    <DeveloperModal toggleFunction={this.toggleDeveloperModal.bind(this)}/>
-                }
-
                 <div className="largeViewContainer">
                     {
                         this.state.user &&
@@ -306,14 +299,6 @@ class Home extends Component {
                         <Header title={"Home"} settings={this.errorSettings()}/>
                     }
                     <div className="homeView ">
-                    {
-                        this.state.error &&
-                        <ErrorMessage message={this.state.error}/>
-                    }
-                    {
-                        !this.state.hidden &&
-                        <NewChatroomModal toggleFunction={this.toggleNewChatroomModal.bind(this)} action={this.createChatroom.bind(this)}/>
-                    }
                     <ReactCSSTransitionGroup
                       transitionName="zoominout"
                       transitionAppear={true}
@@ -322,7 +307,19 @@ class Home extends Component {
                       transitionEnterTimeout={1000}
                       transitionLeave={true}
                       transitionLeaveTimeout={1000}>
-                    <div className="homeoptions">
+                    {
+                        this.state.error &&
+                        <ErrorMessage key={0} message={this.state.error}/>
+                    }
+                    {
+                        !this.state.developerModalHidden &&
+                        <DeveloperModal key={1} toggleFunction={this.toggleDeveloperModal.bind(this)}/>
+                    }
+                    {
+                        !this.state.hidden &&
+                        <NewChatroomModal key={2} toggleFunction={this.toggleNewChatroomModal.bind(this)} action={this.createChatroom.bind(this)}/>
+                    }
+                    <div key={3} className="homeoptions">
                         <span onClick={this.toggleNewChatroomModal.bind(this)} className="optionButton glyphicon glyphicon-plus-sign" ></span>
                     </div>
                     </ReactCSSTransitionGroup>
@@ -366,20 +363,29 @@ class Home extends Component {
                     !this.state.user &&
                     <Header title={"Home"} settings={this.errorSettings()}/>
                 }
+                <ReactCSSTransitionGroup
+                      transitionName="zoominout"
+                      transitionAppear={true}
+                      transitionAppearTimeout={1000}
+                      transitionEnter={true}
+                      transitionEnterTimeout={1000}
+                      transitionLeave={true}
+                      transitionLeaveTimeout={1000}>
                 {
                     this.state.error &&
-                    <div>
+                    <div key={1}>
                         <ErrorMessage message={this.state.error} />
                     </div>
                 }
                 {
                     !this.state.developerModalHidden &&
-                    <DeveloperModal toggleFunction={this.toggleDeveloperModal.bind(this)}/>
+                    <DeveloperModal key={2} toggleFunction={this.toggleDeveloperModal.bind(this)}/>
                 }
                 {
                     !this.state.hidden &&
-                    <NewChatroomModal toggleFunction={this.toggleNewChatroomModal.bind(this)} action={this.createChatroom.bind(this)}/>
+                    <NewChatroomModal key={3} toggleFunction={this.toggleNewChatroomModal.bind(this)} action={this.createChatroom.bind(this)}/>
                 }
+                </ReactCSSTransitionGroup>
                 <div className="homeView">
                     {this.renderChatrooms()}
                 </div>

@@ -53,15 +53,17 @@ constructor(){
                 <button key={1} onClick={this.toggleSettings.bind(this)} type="button" className="btn btn-default btn-md">
                       <div style={{fontWeight:'bold'}}>settings</div>
                 </button>
-                </ReactCSSTransitionGroup>
                 {
                     !this.state.hidden &&
                     <MyModal
+                    key={2}
                     title={"Settings"}
                     contentView={this.settingsView()}
                     toggleFunction={this.toggleSettings.bind(this)}
                 />
                 }
+
+              </ReactCSSTransitionGroup>
             </div>
     );
   }

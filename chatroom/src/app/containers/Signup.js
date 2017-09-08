@@ -125,12 +125,21 @@ class Signup extends Component {
         return (
             <div className="largeView">
                     <Header title={""} />
+                <ReactCSSTransitionGroup
+                      transitionName="zoominout"
+                      transitionAppear={true}
+                      transitionAppearTimeout={1000}
+                      transitionEnter={true}
+                      transitionEnterTimeout={1000}
+                      transitionLeave={true}
+                      transitionLeaveTimeout={1000}>
                     {
-                    this.state.error &&
-                    <div>
-                        <ErrorMessage message={this.state.error} />
-                    </div>
-                }
+                        this.state.error &&
+                        <div key={1}>
+                            <ErrorMessage message={this.state.error} />
+                        </div>
+                    }
+                </ReactCSSTransitionGroup>
                     <div className="signupView " >
                     <ReactCSSTransitionGroup
                       transitionName="zoominout"
@@ -197,23 +206,32 @@ class Signup extends Component {
         }else{
             return (
                 <div className="smallView">
+                <ReactCSSTransitionGroup
+                      transitionName="zoominout"
+                      transitionAppear={true}
+                      transitionAppearTimeout={1000}
+                      transitionEnter={true}
+                      transitionEnterTimeout={1000}
+                      transitionLeave={true}
+                      transitionLeaveTimeout={1000}>
                 {
                     this.state.error &&
-                    <div>
+                    <div key={1}>
                         <ErrorMessage message={this.state.error} />
                     </div>
                 }
+                </ReactCSSTransitionGroup>
                     <div className="signupView" >
                         <form className="formContainer" onSubmit={this.signupClick.bind(this)}>
                             <div className="title">
                                 Signup
                             </div>
-                            <ReactCSSTransitionGroup
+                    <ReactCSSTransitionGroup
                       transitionName="zoominout"
                       transitionAppear={true}
                       transitionAppearTimeout={1000}
-                      transitionEnterTimeout={1000}
-                      transitionLeaveTimeout={1000}>
+                      transitionEnter={false}
+                      transitionLeave={false}>
                           <div key={1} className="form-group">
                             <input autoFocus type="text" ref="first_name" className="form-control" placeholder="First Name" />
                           </div>
