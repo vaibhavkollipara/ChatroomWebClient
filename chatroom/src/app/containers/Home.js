@@ -34,7 +34,8 @@ class Home extends Component {
             developerModalHidden : true,
             activeChatroomSlug: null,
             activeCharoomName: null,
-            refresh : true
+            refresh : true,
+            width : 0
         }
         this.refreshHandler = null;
     }
@@ -51,6 +52,8 @@ class Home extends Component {
     }
 
     componentDidMount(){
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions.bind(this));
         let chatrooms = sessionStorage.getItem("chatrooms")
         if(chatrooms!==null){
             chatrooms = JSON.parse(chatrooms);
@@ -69,12 +72,6 @@ class Home extends Component {
 
     }
 
-    resetRefreshFlag(){
-        this.setState({
-            refresh : true
-        })
-    }
-
     componentWillUnmount() {
         clearInterval(this.refreshHandler);
         clearInterval(this.refreshFlag);
@@ -82,6 +79,7 @@ class Home extends Component {
             error : null
         });
         sessionStorage.setItem("chatrooms",JSON.stringify(this.state.chatrooms))
+        window.removeEventListener('resize', this.updateWindowDimensions.bind(this));
     }
 
 
@@ -95,6 +93,16 @@ class Home extends Component {
                 chatrooms : nextProps.home.chatrooms
             });
         }
+    }
+
+    updateWindowDimensions() {
+      this.setState({ width: window.innerWidth});
+    }
+
+    resetRefreshFlag(){
+        this.setState({
+            refresh : true
+        })
     }
 
 
@@ -397,8 +405,12 @@ class Home extends Component {
     return (
         <div className="baseContainer">
             <div className="mainContent">
-                {this.smallScreenView()}
-                {this.largeScreenView()}
+                {this.state.width <1001 &&
+                    this.smallScreenView()
+                }
+                {this.state.width >1000 &&
+                    this.largeScreenView()
+                }
             </div>
       </div>
     );

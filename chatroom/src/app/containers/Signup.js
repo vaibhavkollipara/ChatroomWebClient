@@ -22,8 +22,22 @@ class Signup extends Component {
         status : false,
         error : null,
         loading : false,
+        width: 0
     }
   }
+
+  componentDidMount(){
+      this.updateWindowDimensions();
+      window.addEventListener('resize', this.updateWindowDimensions.bind(this));
+    }
+
+    componentWillUnmount() {
+      window.removeEventListener('resize', this.updateWindowDimensions.bind(this));
+    }
+
+    updateWindowDimensions() {
+      this.setState({ width: window.innerWidth});
+    }
 
     componentWillReceiveProps(nextProps) {
           if (nextProps.signup !== this.props.signup) {
@@ -55,34 +69,6 @@ class Signup extends Component {
         }
 
         e.preventDefault();
-    }
-    signupClickLarge(e){
-        if(this.isFormIncompleteLarge()){
-            this.setState({
-                error:{error:"All fields Required"}
-            });
-        }else if(!this.didPasswordsMatchLarge()){
-            this.setState({
-                error:{error:"Passwords did not match"}
-            });
-        }else{
-            this.props.register({
-                first_name : this.refs.first_name_large.value,
-                last_name : this.refs.last_name_large.value,
-                email : this.refs.email_large.value,
-                username : this.refs.username_large.value,
-                password : this.refs.password_large.value
-            });
-        }
-
-        e.preventDefault();
-    }
-    didPasswordsMatchLarge(){
-        return this.refs.password_large.value === this.refs.confirm_password_large.value;
-    }
-
-    isFormIncompleteLarge(){
-        return this.refs.first_name_large.value==="" || this.refs.last_name_large.value===null || this.refs.username_large.value===null ||this.refs.email_large.value==="" || this.refs.password_large.value==="" || this.refs.confirm_password_large.value==="";
     }
 
     didPasswordsMatch(){
@@ -147,27 +133,27 @@ class Signup extends Component {
                       transitionAppearTimeout={1000}
                       transitionEnterTimeout={1000}
                       transitionLeaveTimeout={1000}>
-                        <form key={1} className="formContainer" onSubmit={this.signupClickLarge.bind(this)}>
+                        <form key={1} className="formContainer" onSubmit={this.signupClick.bind(this)}>
                             <div className="title">
                                 Signup
                             </div>
                           <div key={2} className="form-group">
-                            <input autoFocus type="text" ref="first_name_large" className="form-control" placeholder="First Name" />
+                            <input autoFocus type="text" ref="first_name" className="form-control" placeholder="First Name" />
                           </div>
                           <div className="form-group">
-                            <input type="text" ref="last_name_large" className="form-control" placeholder="Last Name" />
+                            <input type="text" ref="last_name" className="form-control" placeholder="Last Name" />
                           </div>
                           <div className="form-group">
-                            <input type="text" ref="email_large" className="form-control" placeholder="email" />
+                            <input type="text" ref="email" className="form-control" placeholder="email" />
                           </div>
                           <div className="form-group">
-                            <input type="text" ref="username_large" className="form-control" placeholder="username" />
+                            <input type="text" ref="username" className="form-control" placeholder="username" />
                           </div>
                           <div className="form-group">
-                            <input type="password" ref="password_large" className="form-control" placeholder="password" />
+                            <input type="password" ref="password" className="form-control" placeholder="password" />
                           </div>
                           <div className="form-group">
-                            <input type="password" ref="confirm_password_large" className="form-control" placeholder="confirm password" />
+                            <input type="password" ref="confirm_password" className="form-control" placeholder="confirm password" />
                           </div>
                           <button type="submit" className="btn btn-default">Submit</button>
                           <div className="footer"><Link style={{color:'black'}} to='/'>Login</Link></div>
@@ -266,8 +252,12 @@ class Signup extends Component {
             <div className="baseContainer">
                 <Header title={"Chatroom"} />
                 <div className="mainContent">
-                {this.smallScreenView()}
-                {this.largeScreenView()}
+                {this.state.width <=1000 &&
+                    this.smallScreenView()
+                }
+                {this.state.width >1000 &&
+                  this.largeScreenView()
+                }
                 </div>
             </div>
         );

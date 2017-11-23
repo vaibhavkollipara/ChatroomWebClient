@@ -6,7 +6,6 @@ import { connect }  from 'react-redux';
 import * as chatroomActions from '../actions/ChatroomActions';
 
 import ErrorMessage from '../components/ErrorMessage';
-import MyActivityIndicator from '../components/MyActivityIndicator';
 
 import Header from '../components/Header';
 import SendMessage from '../components/SendMessage';
@@ -37,7 +36,8 @@ class Chatroom extends Component {
             userSuggestions : [],
             addMemberError : null,
             developerModalHidden : true,
-            fullname : null
+            fullname : null,
+            width: 0
         }
         this.refreshHandler = null;
     }
@@ -58,8 +58,9 @@ class Chatroom extends Component {
     }
 
     componentDidMount(){
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions.bind(this));
         this.refreshHandler = setInterval(this.getMessages.bind(this),5000);
-
     }
 
     componentWillUnmount() {
@@ -71,6 +72,7 @@ class Chatroom extends Component {
             members: [],
             userSuggestions: []
         });
+        window.removeEventListener('resize', this.updateWindowDimensions.bind(this));
     }
 
 
@@ -84,6 +86,10 @@ class Chatroom extends Component {
                 addMemberError : nextProps.chatroom.addMemberError
             });
         }
+    }
+
+    updateWindowDimensions() {
+      this.setState({ width: window.innerWidth});
     }
 
 
@@ -299,15 +305,7 @@ class Chatroom extends Component {
             developerModalHidden : !this.state.developerModalHidden
         });
     }
-    //...................................
 
-    largeScreenView(){
-        return (
-            <div className="largeView">
-                <MyActivityIndicator message={"Go back to home for large screen view"}/>
-            </div>
-          );
-    }
     smallScreenView(){
         return(
             <div className="smallView">
@@ -363,8 +361,12 @@ class Chatroom extends Component {
                     <Header title={this.state.chatroomName} backFunction={this.props.history.goBack.bind(this)} settings={this.settings()}/>
                 }
                 <div className="mainContent">
-                    {this.smallScreenView()}
-                    {this.largeScreenView()}
+                  {this.state.width <1001 &&
+                    this.smallScreenView()
+                  }
+                  {this.state.width >1000 &&
+                    this.navigateToHomeScreen()
+                  }
                 </div>
           </div>
         );

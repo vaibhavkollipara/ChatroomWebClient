@@ -19,7 +19,8 @@ class Login extends Component {
         this.state = {
             token  : null,
             error : null,
-            loading : false
+            loading : false,
+            width : 0
         };
     }
 
@@ -27,11 +28,20 @@ class Login extends Component {
         this.props.history.push('/');
     }
 
+    componentDidMount(){
+      this.updateWindowDimensions();
+      window.addEventListener('resize', this.updateWindowDimensions.bind(this));
+    }
+
     componentWillMount(){
         let token = sessionStorage.getItem("token");
         if(token!==null && token!==""){
             this.navigateToHome();
         }
+    }
+
+    componentWillUnmount() {
+      window.removeEventListener('resize', this.updateWindowDimensions.bind(this));
     }
 
     componentWillReceiveProps(nextProps) {
@@ -48,6 +58,10 @@ class Login extends Component {
         }
     }
 
+    updateWindowDimensions() {
+      this.setState({ width: window.innerWidth});
+    }
+
     loginClick(e){
         if(this.refs.username.value==="" || this.refs.password.value===""){
             this.setState({
@@ -57,19 +71,6 @@ class Login extends Component {
             this.props.authenticate({
                 username:this.refs.username.value,
                 password: this.refs.password.value
-            });
-        }
-        e.preventDefault();
-    }
-    loginClickLarge(e){
-        if(this.refs.username_large.value==="" || this.refs.password_large.value===""){
-            this.setState({
-                error : {error : "All fields required"}
-            });
-        }else{
-            this.props.authenticate({
-                username:this.refs.username_large.value,
-                password: this.refs.password_large.value
             });
         }
         e.preventDefault();
@@ -110,15 +111,15 @@ class Login extends Component {
                       transitionEnter={false}
                       transitionLeave={false}>
                         <center key={2}><b><h2>Create Chatrooms..., Add Friends...., Chat.....</h2></b></center>
-                        <form key={1} className="formContainer" onSubmit={this.loginClickLarge.bind(this)}>
+                        <form key={1} className="formContainer" onSubmit={this.loginClick.bind(this)}>
                             <div className="title">
                                 Login
                             </div>
                            <div className="form-group">
-                            <input autoFocus type="text" ref="username_large" className="form-control" placeholder="username" />
+                            <input autoFocus type="text" ref="username" className="form-control" placeholder="username" />
                           </div>
                           <div className="form-group">
-                            <input type="password" ref="password_large" className="form-control" placeholder="password" />
+                            <input type="password" ref="password" className="form-control" placeholder="password" />
                           </div>
                           <button type="submit" className="btn btn-default">Submit</button>
                           <div className="footer"><Link style={{color:'black'}} to='/signup'>Signup</Link></div>
@@ -210,8 +211,12 @@ class Login extends Component {
         return (
             <div className="baseContainer">
                 <div className="mainContent">
-                    {this.smallScreenView()}
-                    {this.largeScreenView()}
+                  {this.state.width <1001 &&
+                    this.smallScreenView()
+                  }
+                  {this.state.width >1000 &&
+                    this.largeScreenView()
+                  }
                 </div>
           </div>
         );
