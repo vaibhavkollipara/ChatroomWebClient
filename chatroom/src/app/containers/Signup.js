@@ -8,9 +8,10 @@ import * as signupActions from '../actions/SignupActions';
 import ErrorMessage from '../components/ErrorMessage';
 import MyActivityIndicator from '../components/MyActivityIndicator';
 import Header from '../components/Header';
-import {Link} from 'react-router-dom';
-
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Footer from '../components/Footer';
+import Transition from '../components/Transition';
+import SignupForm from '../components/SignupForm';
+import SignupSuccess from '../components/SignupSuccess';
 
 
 class Signup extends Component {
@@ -22,6 +23,12 @@ class Signup extends Component {
         status : false,
         error : null,
         loading : false,
+        first_name: "",
+        last_name: "",
+        email: "",
+        username: "",
+        password: "",
+        confirm_password: "",
         width: 0
     }
   }
@@ -49,7 +56,46 @@ class Signup extends Component {
           }
     }
 
-    signupClick(e){
+    firstNameUpdateHandler(e){
+      this.setState({
+        first_name: e.target.value
+      });
+    }
+
+    lastNameUpdateHandler(e){
+      this.setState({
+        last_name: e.target.value
+      });
+    }
+
+    emailUpdateHandler(e){
+      this.setState({
+        email: e.target.value
+      });
+    }
+
+    usernameUpdateHandler(e){
+      this.setState({
+        username: e.target.value
+      });
+    }
+
+    passwordUpdateHandler(e){
+      this.setState({
+        password: e.target.value
+      });
+    }
+
+    confirmPasswordUpdateHandler(e){
+      this.setState({
+        confirm_password: e.target.value
+      });
+    }
+
+
+    signup(e){
+        e.preventDefault();
+
         if(this.isFormIncomplete()){
             this.setState({
                 error:{error:"All fields Required"}
@@ -60,206 +106,63 @@ class Signup extends Component {
             });
         }else{
             this.props.register({
-                first_name : this.refs.first_name.value,
-                last_name : this.refs.last_name.value,
-                email : this.refs.email.value,
-                username : this.refs.username.value,
-                password : this.refs.password.value
+                first_name : this.state.first_name,
+                last_name : this.state.last_name,
+                email : this.state.email,
+                username : this.state.username,
+                password : this.state.password
             });
         }
-
-        e.preventDefault();
     }
 
     didPasswordsMatch(){
-        return this.refs.password.value === this.refs.confirm_password.value;
+        return this.state.password === this.state.confirm_password;
     }
 
     isFormIncomplete(){
-        return this.refs.first_name.value==="" || this.refs.last_name.value===null || this.refs.username.value===null ||this.refs.email.value==="" || this.refs.password.value==="" || this.refs.confirm_password.value==="";
-    }
-
-    largeScreenView(){
-        if(this.state.loading){
-            return (
-                <div className="largeView">
-                    <Header title={""} />
-                    <MyActivityIndicator message="Creating Account" />
-                </div>
-            );
-        }else if(this.state.status){
-            return(
-                    <div className="largeView">
-                    <Header title={""} />
-                    <div className="signupView" >
-                        <div className="successView ">
-                                <div>
-                                    <h1>Chatroom</h1>
-                                </div>
-                                <div>
-                                    <h3>Signup Successful</h3>
-                                </div>
-                                <div>
-                                    <Link style={{color:'black',fontWeight:'bold',textDecoration:'underline'}} to='/'><div>Login</div></Link>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-            );
-
-        }
-        return (
-            <div className="largeView">
-                    <Header title={""} />
-                <ReactCSSTransitionGroup
-                      transitionName="zoominout"
-                      transitionAppear={true}
-                      transitionAppearTimeout={1000}
-                      transitionEnter={true}
-                      transitionEnterTimeout={1000}
-                      transitionLeave={true}
-                      transitionLeaveTimeout={1000}>
-                    {
-                        this.state.error &&
-                        <div key={1}>
-                            <ErrorMessage message={this.state.error} />
-                        </div>
-                    }
-                </ReactCSSTransitionGroup>
-                    <div className="signupView " >
-                    <ReactCSSTransitionGroup
-                      transitionName="zoominout"
-                      transitionAppear={true}
-                      transitionAppearTimeout={1000}
-                      transitionEnterTimeout={1000}
-                      transitionLeaveTimeout={1000}>
-                        <form key={1} className="formContainer" onSubmit={this.signupClick.bind(this)}>
-                            <div className="title">
-                                Signup
-                            </div>
-                          <div key={2} className="form-group">
-                            <input autoFocus type="text" ref="first_name" className="form-control" placeholder="First Name" />
-                          </div>
-                          <div className="form-group">
-                            <input type="text" ref="last_name" className="form-control" placeholder="Last Name" />
-                          </div>
-                          <div className="form-group">
-                            <input type="text" ref="email" className="form-control" placeholder="email" />
-                          </div>
-                          <div className="form-group">
-                            <input type="text" ref="username" className="form-control" placeholder="username" />
-                          </div>
-                          <div className="form-group">
-                            <input type="password" ref="password" className="form-control" placeholder="password" />
-                          </div>
-                          <div className="form-group">
-                            <input type="password" ref="confirm_password" className="form-control" placeholder="confirm password" />
-                          </div>
-                          <button type="submit" className="btn btn-default">Submit</button>
-                          <div className="footer"><Link style={{color:'black'}} to='/'>Login</Link></div>
-                        </form>
-                        </ReactCSSTransitionGroup>
-                    </div>
-            </div>
-        );
-    }
-
-    smallScreenView(){
-        if(this.state.loading){
-            return (
-                <div className="smallView">
-                    <MyActivityIndicator message="Creating Account" />
-                </div>
-            );
-        }else if(this.state.status){
-                return (
-                <div className="smallView">
-                    <div className="signupView" >
-                        <div className="successView">
-                                <div>
-                                    <h1>Chatroom</h1>
-                                </div>
-                                <div>
-                                    <h3>Signup Successful</h3>
-                                </div>
-                                <div>
-                                    <Link style={{color:'black',fontWeight:'bold',textDecoration:'underline'}} to='/'><div>Login</div></Link>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        }else{
-            return (
-                <div className="smallView">
-                <ReactCSSTransitionGroup
-                      transitionName="zoominout"
-                      transitionAppear={true}
-                      transitionAppearTimeout={1000}
-                      transitionEnter={true}
-                      transitionEnterTimeout={1000}
-                      transitionLeave={true}
-                      transitionLeaveTimeout={1000}>
-                {
-                    this.state.error &&
-                    <div key={1}>
-                        <ErrorMessage message={this.state.error} />
-                    </div>
-                }
-                </ReactCSSTransitionGroup>
-                    <div className="signupView" >
-                        <form className="formContainer" onSubmit={this.signupClick.bind(this)}>
-                            <div className="title">
-                                Signup
-                            </div>
-                    <ReactCSSTransitionGroup
-                      transitionName="zoominout"
-                      transitionAppear={true}
-                      transitionAppearTimeout={1000}
-                      transitionEnter={false}
-                      transitionLeave={false}>
-                          <div key={1} className="form-group">
-                            <input autoFocus type="text" ref="first_name" className="form-control" placeholder="First Name" />
-                          </div>
-                          <div key={2} className="form-group">
-                            <input type="text" ref="last_name" className="form-control" placeholder="Last Name" />
-                          </div>
-                          <div key={3} className="form-group">
-                            <input type="text" ref="email" className="form-control" placeholder="email" />
-                          </div>
-                          <div key={4} className="form-group">
-                            <input type="text" ref="username" className="form-control" placeholder="username" />
-                          </div>
-                          <div key={5} className="form-group">
-                            <input type="password" ref="password" className="form-control" placeholder="password" />
-                          </div>
-                          <div  key={6} className="form-group">
-                            <input type="password" ref="confirm_password" className="form-control" placeholder="confirm password" />
-                          </div>
-                          <button key={7} type="submit" className="btn btn-default">Submit</button>
-                          </ReactCSSTransitionGroup>
-                          <div className="footer"><Link style={{color:'black'}} to='/'>Login</Link></div>
-                        </form>
-                    </div>
-                </div>
-            );
-        }
+        return this.state.first_name==="" || this.state.last_name==="" || this.state.username==="" ||this.state.email==="" || this.state.password==="" || this.state.confirm_password==="";
     }
 
     render() {
 
         return (
-            <div className="baseContainer">
-                <Header title={"Chatroom"} />
-                <div className="mainContent">
-                {this.state.width <=1000 &&
-                    this.smallScreenView()
-                }
-                {this.state.width >1000 &&
-                  this.largeScreenView()
-                }
+            <Transition classname="Signup">
+              <Header title={"Chatroom"}/>
+              {
+                this.state.loading &&
+                <div className="content">
+                  <MyActivityIndicator message="Verifying Credentials" />
                 </div>
-            </div>
+              }
+              {
+                this.state.status &&
+                <SignupSuccess />
+              }
+              {
+                !this.state.loading && !this.state.status &&
+                <Transition classname="content">
+                      {
+                          this.state.error &&
+                          <ErrorMessage key={0} message={this.state.error} />
+                      }
+                    <SignupForm key={1}
+                        firtNameValue={this.state.first_name}
+                        firstNameUpdateHandler={this.firstNameUpdateHandler.bind(this)}
+                        lastNameValue={this.state.last_name}
+                        lastNameUpdateHandler={this.lastNameUpdateHandler.bind(this)}
+                        emailValue={this.state.email}
+                        emailUpdateHandler={this.emailUpdateHandler.bind(this)}
+                        usernameValue={this.state.username}
+                        usernameUpdateHandler={this.usernameUpdateHandler.bind(this)}
+                        passwordValue={this.state.password}
+                        passwordUpdateHandler={this.passwordUpdateHandler.bind(this)}
+                        confirmPasswordValue={this.state.confirm_password}
+                        confirmPasswordUpdateHandler={this.confirmPasswordUpdateHandler.bind(this)}
+                        signupAction={this.signup.bind(this)} />
+                  </Transition>
+              }
+              <Footer/>
+            </Transition>
         );
     }
 }

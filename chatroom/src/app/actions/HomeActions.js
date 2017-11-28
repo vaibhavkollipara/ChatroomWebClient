@@ -1,6 +1,13 @@
 import {baseUrl} from './baseurl';
 
 
+export function selectChatroom(chatroomName,chatroomSlug){
+    return (dispatch,getState) => {
+
+        dispatch( {type:"SET_CHATROOM_DETAILS",payload:{chatroomName,chatroomSlug}} );
+    }
+}
+
 export function fetchUserDetails(token){
     return (dispatch,getState) => {
         dispatch( {type:"FETCH_USER_DETAILS",payload:{}} );
@@ -14,7 +21,8 @@ export function fetchUserDetails(token){
         }).then(response => {
             if(response.status===200){
                 response.json().then((response) => {
-                    dispatch( {type:"FETCH_USER_DETAILS_SUCCESS" , payload : response});
+                    dispatch({type: "SET_USER_DETAILS", payload: response});
+                    dispatch( {type:"FETCH_USER_DETAILS_SUCCESS" , payload : null});
                 });
             }else{
                 response.json().then((response) => {
@@ -67,12 +75,12 @@ export function createChatroom(token,chatroomName){
                 if(response.status!==201){
 
                     response.json().then((response) => {
-                        dispatch({type:"SET_ERROR",payload:response})
+                        dispatch({type:"SET_HOME_ERROR",payload:response})
                     });
                 }
 
             }).catch((error) =>{
-                dispatch({type:"SET_ERROR",payload:{error: "Problem with network"}})
+                dispatch({type:"SET_HOME_ERROR",payload:{error: "Problem with network"}})
             });
     }
 }

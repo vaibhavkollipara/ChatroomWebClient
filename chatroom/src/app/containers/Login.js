@@ -2,15 +2,22 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect }  from 'react-redux';
 
+
 import { Link } from 'react-router-dom'
+import { createPortal } from 'react-dom';
 
 import * as loginActions from '../actions/LoginActions';
+import * as userActions from '../actions/UserActions';
 
 import ErrorMessage from '../components/ErrorMessage';
 import MyActivityIndicator from '../components/MyActivityIndicator';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
+import Modal from '../components/Modal';
+import Transition from '../components/Transition';
+import LoginForm from '../components/LoginForm';
 
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+const portalContainer = document.getElementById('modal-root');
 
 class Login extends Component {
 
@@ -20,6 +27,8 @@ class Login extends Component {
             token  : null,
             error : null,
             loading : false,
+            username: "",
+            password: "",
             width : 0
         };
     }
@@ -53,7 +62,8 @@ class Login extends Component {
             });
           }
           if(nextProps.login.token!==null){
-            sessionStorage.setItem("token",nextProps.login.token);
+            this.props.saveToken(nextProps.login.token);
+            // sessionStorage.setItem("token",nextProps.login.token);
             this.navigateToHome();
         }
     }
@@ -62,163 +72,60 @@ class Login extends Component {
       this.setState({ width: window.innerWidth});
     }
 
-    loginClick(e){
-        if(this.refs.username.value==="" || this.refs.password.value===""){
+    usernameUpdateHandler(e){
+      this.setState({
+        username : e.target.value
+      });
+    }
+
+    passwordUpdateHandler(e){
+      this.setState({
+        password: e.target.value
+      });
+    }
+
+    login(e){
+
+        e.preventDefault();
+        if(this.state.username==="" || this.state.password===""){
             this.setState({
                 error : {error : "All fields required"}
             });
         }else{
             this.props.authenticate({
-                username:this.refs.username.value,
-                password: this.refs.password.value
+                username:this.state.username,
+                password: this.state.password
             });
-        }
-        e.preventDefault();
-    }
-
-    largeScreenView(){
-        if(this.state.loading){
-            return (
-                <div className="largeView">
-                    <Header title={""} />
-                    <MyActivityIndicator message="Verifying Credentials" />
-                </div>
-            );
-        }
-        return (
-            <div className="largeView">
-                <Header title={""} />
-                <ReactCSSTransitionGroup
-                      transitionName="zoominout"
-                      transitionAppear={true}
-                      transitionAppearTimeout={1000}
-                      transitionEnter={true}
-                      transitionEnterTimeout={1000}
-                      transitionLeave={true}
-                      transitionLeaveTimeout={1000}>
-                {
-                    this.state.error &&
-                    <div key={1}>
-                        <ErrorMessage message={this.state.error} />
-                    </div>
-                }
-                </ReactCSSTransitionGroup>
-                    <div className="loginView">
-                    <ReactCSSTransitionGroup
-                      transitionName="zoominout"
-                      transitionAppear={true}
-                      transitionAppearTimeout={1000}
-                      transitionEnter={false}
-                      transitionLeave={false}>
-                        <center key={2}><b><h2>Create Chatrooms..., Add Friends...., Chat.....</h2></b></center>
-                        <form key={1} className="formContainer" onSubmit={this.loginClick.bind(this)}>
-                            <div className="title">
-                                Login
-                            </div>
-                           <div className="form-group">
-                            <input autoFocus type="text" ref="username" className="form-control" placeholder="username" />
-                          </div>
-                          <div className="form-group">
-                            <input type="password" ref="password" className="form-control" placeholder="password" />
-                          </div>
-                          <button type="submit" className="btn btn-default">Submit</button>
-                          <div className="footer"><Link style={{color:'black'}} to='/signup'>Signup</Link></div>
-                        </form>
-                    </ReactCSSTransitionGroup>
-                    </div>
-                    <ReactCSSTransitionGroup
-                      transitionName="zoominout"
-                      transitionAppear={true}
-                      transitionAppearTimeout={1000}
-                      transitionEnter={true}
-                      transitionEnterTimeout={1000}
-                      transitionLeave={true}
-                      transitionLeaveTimeout={1000}>
-                    <div className="loginfooter">
-                        <div className="footerBox">
-                            DEVELOPER
-                            <b>Vaibhav Kollipara</b>
-                        </div>
-                        <div className="footerBox">
-                            CONTACT
-                            <b>vkollip1@binghamton.edu</b>
-                        </div>
-                        <div className="footerBox">
-                            API DOCUMENTATION
-                            <b><a target="_blank" rel="noopener noreferrer" href="https://chatroomserver.herokuapp.com">ChatroomApi</a></b>
-                        </div>
-                    </div>
-                    </ReactCSSTransitionGroup>
-            </div>
-        );
-    }
-
-    smallScreenView(){
-        if(this.state.loading){
-            return (
-                <div className="smallView">
-                    <Header title={"Chatroom"} />
-                    <MyActivityIndicator message="Verifying Credentials" />
-                </div>
-            );
-        }else{
-            return (
-                <div className="smallView">
-                <Header title={"Chatroom"} />
-                <ReactCSSTransitionGroup
-                      transitionName="zoominout"
-                      transitionAppear={true}
-                      transitionAppearTimeout={1000}
-                      transitionEnter={true}
-                      transitionEnterTimeout={1000}
-                      transitionLeave={true}
-                      transitionLeaveTimeout={1000}>
-                {
-                    this.state.error &&
-                    <div key={1}>
-                        <ErrorMessage message={this.state.error} />
-                    </div>
-                }
-                </ReactCSSTransitionGroup>
-                    <div className="loginView">
-                        <form className="formContainer" onSubmit={this.loginClick.bind(this)}>
-                            <div className="title">
-                                Login
-                            </div>
-                            <ReactCSSTransitionGroup
-                          transitionName="zoominout"
-                          transitionAppear={true}
-                          transitionAppearTimeout={1000}
-                          transitionEnter={false}
-                          transitionLeave={false}>
-                               <div key={1} className="form-group">
-                                <input autoFocus type="text" ref="username" className="form-control" placeholder="username" />
-                              </div>
-                              <div key={2} className="form-group">
-                                <input type="password" ref="password" className="form-control" placeholder="password" />
-                              </div>
-                              <button key={3} type="submit" className="btn btn-default">Submit</button>
-                          </ReactCSSTransitionGroup>
-                          <div className="footer"><Link style={{color:'black'}} to='/signup'>Signup</Link></div>
-                        </form>
-                    </div>
-                </div>
-            );
         }
     }
 
   render() {
         return (
-            <div className="baseContainer">
-                <div className="mainContent">
-                  {this.state.width <1001 &&
-                    this.smallScreenView()
-                  }
-                  {this.state.width >1000 &&
-                    this.largeScreenView()
-                  }
+           <Transition classname="Login">
+             <Header title={"Chatroom"} />
+              {
+                this.state.loading &&
+                <div className="content">
+                  <MyActivityIndicator message="Verifying Credentials" />
                 </div>
-          </div>
+              }
+              {
+                !this.state.loading &&
+                <Transition classname="content">
+                      {
+                          this.state.error &&
+                          <ErrorMessage key={0} message={this.state.error} />
+                      }
+                    <LoginForm key={1}
+                        usernameValue={this.state.username}
+                        usernameUpdateHandler={this.usernameUpdateHandler.bind(this)}
+                        passwordValue={this.state.password}
+                        passwordUpdateHandler={this.passwordUpdateHandler.bind(this)}
+                        loginAction={this.login.bind(this)}/>
+                </Transition>
+              }
+              <Footer/>
+           </Transition>
         );
   }
 }
@@ -232,7 +139,8 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
-                authenticate : loginActions.authenticate
+                authenticate : loginActions.authenticate,
+                saveToken : userActions.saveToken
             },dispatch);
 }
 

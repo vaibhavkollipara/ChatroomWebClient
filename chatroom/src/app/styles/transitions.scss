@@ -1,0 +1,12 @@
+.backbutton,
+.mybutton,
+.OptionButton,
+.sendbutton,
+.chatroomItem,.activeChatroomItem,
+button,
+.userSuggestionItem,
+.settingItem,
+.close_button
+{
+    @include hoverTransition();
+}

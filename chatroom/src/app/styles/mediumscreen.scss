@@ -1,0 +1,117 @@
+@media only screen and (min-width: 621px) and (max-width: 1000px){
+
+    .App{
+
+        .Header{
+            .HeaderButton{
+                .mybutton{
+                    padding: 1vw;
+                }
+            }
+        }
+
+        .MyActivityIndicator{
+            img{
+                width:5vw;
+            }
+        }
+
+        .Chatroom{
+
+            .ChatroomOptions{
+                grid-area: header;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                align-items: center;
+                justify-items: center;
+                .OptionButton{
+                    font-size: 1.75em;
+                    padding: 1vw;
+                    color: $primary_color;
+                    border: 2px solid $primary_color;
+                    text-align: center;
+                    @include myborderradius(10px);
+
+                    &:hover{
+                        cursor:pointer;
+                        @include textborder;
+                        border: 2px solid black;
+                    }
+                }
+            }
+
+            .Messages{
+                overflow: auto;
+            }
+        }
+
+        .Home{
+            display: grid;
+            height: 100vh;
+            grid-template-columns: 1fr 2fr;
+            grid-template-rows: 1fr minmax(0px,auto) 10fr;
+            grid-template-areas:
+                "header header"
+                "errorbox chatroom"
+                "content chatroom";
+            .chatroomsContainer{
+                .chatroomItem,.activeChatroomItem{
+                    width: 80%;
+                }
+            }
+            .Chatroom{
+                grid-area: chatroom;
+                // border-left: 1px solid black;
+                box-shadow: -7px 0px 9px -2px rgba(128,128,128,1);
+            }
+        }
+
+        .Login,.Signup{
+            grid-template-rows: 1fr 9fr 1fr;
+
+            .content{
+
+                .box{
+                    width: 50%;
+                }
+            }
+            .Footer{
+                img{
+                    width:3vw;
+                }
+            }
+        }
+    }
+
+    .Modal{
+          grid-template-rows: 8fr 3fr;
+
+          .content{
+            width: 50vw;
+            margin-top: 10vh;
+            height:60vh;
+            display: grid;
+
+            .NewMember{
+                max-height: none;
+                display: grid;
+
+                .UserSuggestions{
+                    max-height: 30vh;
+
+                    .userSuggestionItem{
+                        width: 30vw;
+                        margin: 3vw;
+                        padding: 1vw;
+                    }
+                }
+            }
+
+            .settingsContainer{
+                .settingItem{
+                    width: 80%;
+                }
+            }
+          }
+        }
+}

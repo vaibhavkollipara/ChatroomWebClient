@@ -2,22 +2,22 @@ import React, { Component } from 'react';
 
 import {Provider} from 'react-redux';
 
-import store from '../store';
+import store from './store';
 
-import Login from './Login';
-import Signup from './Signup';
-import Home from './Home';
-import Chatroom from './Chatroom';
-import '../styles/Mystyles.css';
+import Login from './containers/Login';
+import Signup from './containers/Signup';
+import Home from './containers/Home';
+import Chatroom from './containers/Chatroom';
+import './styles/mystyles.scss';
 
 import { BrowserRouter, Route } from 'react-router-dom'
 
 const AppNav = () =>{
       return(
         <BrowserRouter>
-            <div>
+            <div className="App">
                 <Route exact path="/" component={Home}/>
-                <Route exact path="/:fullname/:chatroomName/:chatroomSlug" component={Chatroom}/>
+                <Route exact path="/chatroom" component={Chatroom}/>
                 <Route exact path="/signup" component={Signup}/>
                 <Route exact path="/login" component={Login} />
             </div>

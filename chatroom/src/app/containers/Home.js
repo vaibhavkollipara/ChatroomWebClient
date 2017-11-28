@@ -2,20 +2,26 @@ import React, { Component } from 'react';
 
 import { bindActionCreators } from 'redux';
 import { connect }  from 'react-redux';
+import { createPortal } from 'react-dom';
 
 import {Link} from 'react-router-dom';
 import * as homeActions from '../actions/HomeActions';
+import * as userActions from '../actions/UserActions';
 
 import ErrorMessage from '../components/ErrorMessage';
 import MyActivityIndicator from '../components/MyActivityIndicator';
 
 import Header from '../components/Header';
-import NewChatroomModal from '../components/NewChatroomModal';
-import DeveloperModal from '../components/DeveloperModal';
+import DeveloperDetails from '../components/DeveloperDetails';
+import Modal from '../components/Modal';
+import CreateChatroomSuggestion from '../components/CreateChatroomSuggestion';
+import ChatroomsList from '../components/ChatroomsList';
+import NewChatroom from '../components/NewChatroom';
+import Transition from '../components/Transition';
 
-import ChatroomLarge from './ChatroomLarge';
+import Chatroom from './Chatroom';
 
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+const portalContainer = document.getElementById('modal-root');
 
 class Home extends Component {
 
@@ -23,16 +29,14 @@ class Home extends Component {
     constructor(){
         super();
         this.state = {
-            token : null,
             loading: false,
-            user: null,
             chatrooms : [],
-            error : null,
+            error : "",
             hidden : true,
             newChatroomName : "",
             chatroomsLoading:true,
             developerModalHidden : true,
-            activeChatroomSlug: null,
+            activeChatroomSlug: "",
             activeCharoomName: null,
             refresh : true,
             width : 0
@@ -41,14 +45,19 @@ class Home extends Component {
     }
 
     componentWillMount(){
-        let token = sessionStorage.getItem("token");
+        // let token = sessionStorage.getItem("token");
 
-            if(token===null || token === ""){
-                this.navigateToLoginScreen()
-            }else{
-                this.props.setToken(token);
-                this.props.fetchUserDetails(token);
-            }
+        //     if(token===null || token === ""){
+        //         this.navigateToLoginScreen()
+        //     }else{
+        //         this.props.setToken(token);
+        //         this.props.fetchUserDetails(token);
+        //     }
+        if(this.props.user.token===null){
+            this.navigateToLoginScreen();
+        }else{
+            this.props.fetchUserDetails(this.props.user.token);
+        }
     }
 
     componentDidMount(){
@@ -78,7 +87,7 @@ class Home extends Component {
         this.setState({
             error : null
         });
-        sessionStorage.setItem("chatrooms",JSON.stringify(this.state.chatrooms))
+        // sessionStorage.setItem("chatrooms",JSON.stringify(this.state.chatrooms))
         window.removeEventListener('resize', this.updateWindowDimensions.bind(this));
     }
 
@@ -86,9 +95,9 @@ class Home extends Component {
     componentWillReceiveProps(nextProps) {
         if(nextProps.home !== this.props.home){
             this.setState({
-                token : nextProps.home.token,
+                token : nextProps.user.token,
                 loading : nextProps.home.loading,
-                user : nextProps.home.user,
+                user : nextProps.user.user,
                 error : nextProps.home.error,
                 chatrooms : nextProps.home.chatrooms
             });
@@ -121,7 +130,7 @@ class Home extends Component {
             name : 'Logout',
             action : this.logout.bind(this)
         }
-      ]
+      ];
     }
 
       errorSettings(){
@@ -136,18 +145,19 @@ class Home extends Component {
     }
 
     logout(){
-        sessionStorage.removeItem("token");
+        // sessionStorage.removeItem("token");
         sessionStorage.removeItem("chatrooms");
         this.props.logout();
         this.setState({
             chatrooms : []
         });
+        this.selectChatroom("","");
         this.navigateToLoginScreen();
     }
 
     getChatrooms(){
         if(this.state && this.state.token!==null && this.state.refresh){
-                this.props.refreshChatroomsList(this.state.token);
+                this.props.refreshChatroomsList(this.props.user.token);
                 this.setState({
                     refresh : false
                 });
@@ -167,22 +177,32 @@ class Home extends Component {
         });
     }
 
-    createChatroom(newChatroomName){
-        if(newChatroomName){
-            this.props.createChatroom(this.state.token,newChatroomName);
+    createChatroom(e){
+        if(this.state.newChatroomName){
+            this.props.createChatroom(this.props.user.token,this.state.newChatroomName);
             this.setState({
-                refresh : true
+                refresh : true,
+                newChatroomName: ""
             });
         }
+        this.toggleNewChatroomModal();
+        e.preventDefault();
+    }
+
+    newChatroomNameChangeHandler(e){
+        this.setState({
+            newChatroomName: e.target.value
+        });
+
     }
 
     //..............................
 
     selectChatroom(chatroomName,chatroomSlug){
         this.setState({
-            activeChatroomSlug : chatroomSlug,
-            activeCharoomName : chatroomName
+            activeChatroomSlug : chatroomSlug
         });
+        this.props.selectChatroom(chatroomName,chatroomSlug);
     }
 
     isActiveChatroom(chatroomSlug){
@@ -191,73 +211,10 @@ class Home extends Component {
         return "chatroomItem";
     }
 
-    renderChatroomItems(){
-        return this.state.chatrooms.map((chatroom) =>{
-                    return(     <div key={chatroom.slug}>
-                                <Link key={chatroom.slug} style={{color:'black'}} to={`/${this.state.user.fullname}/${chatroom.name}/${chatroom.slug}`}>
-                                    <div className="chatroomItem">{chatroom.name}</div>
-                                </Link>
-                                </div>
-                        );
-            });
-    }
-    renderChatroomItemsLarge(){
-        return this.state.chatrooms.map((chatroom) =>{
-                    return(
-                                <div key={chatroom.slug} onClick={()=>{this.selectChatroom(chatroom.name,chatroom.slug);}} className={`${this.isActiveChatroom(chatroom.slug)}`}>{chatroom.name}</div>
-
-                        );
-            });
-    }
-
-    renderChatroomsLarge(){
-        if(this.state.chatrooms.length===0){
-            return (
-                <div onClick={()=>{this.toggleNewChatroomModal();}} className="noChatroomsView">
-                    <span className="noChatroomButton glyphicon glyphicon-plus-sign"></span>
-                    <div className="noChatroomText">Create New Chatroom</div>
-                </div>
-            );
-        }
-        return (
-            <div className="chatroomsContainer">
-                <ReactCSSTransitionGroup
-                      transitionName="zoominout"
-                      transitionAppear={true}
-                      transitionAppearTimeout={1000}
-                      transitionEnter={true}
-                      transitionEnterTimeout={1000}
-                      transitionLeave={true}
-                      transitionLeaveTimeout={1000}>
-                {this.renderChatroomItemsLarge()}
-                </ReactCSSTransitionGroup>
-            </div>
-        );
-    }
-
-    renderChatrooms(){
-        if(this.state.chatrooms.length===0){
-            return (
-                <div onClick={()=>{this.toggleNewChatroomModal();}} className="noChatroomsView">
-                    <span className="noChatroomButton glyphicon glyphicon-plus-sign"></span>
-                    <div className="noChatroomText">Create New Chatroom</div>
-                </div>
-            );
-        }
-        return (
-            <div className="chatroomsContainer">
-                <ReactCSSTransitionGroup
-                          transitionName="zoominout"
-                          transitionAppear={true}
-                          transitionAppearTimeout={1000}
-                          transitionEnter={true}
-                          transitionEnterTimeout={1000}
-                          transitionLeave={true}
-                          transitionLeaveTimeout={1000}>
-                    {this.renderChatroomItems()}
-                </ReactCSSTransitionGroup>
-            </div>
-        );
+    displayErrorMessage(){
+        if(this.state.error){
+              return( <ErrorMessage message={this.state.error} /> );
+            };
     }
 
     toggleDeveloperModal(){
@@ -266,153 +223,58 @@ class Home extends Component {
         });
     }
 
-    settingsLarge(){
-        return [
-            {
-                name: "Developer Details",
-                action : this.toggleDeveloperModal.bind(this)
-            },
-            {
-                name : "Logout",
-                action : this.logout.bind(this)
-            }
-        ];
-    }
-
-    largeScreenView(){
-        if(this.state.loading || this.state.chatroomsLoading){
-            return(
-                <div className="largeView">
-                    {
-                        this.state.user &&
-                        <Header title={this.state.user.fullname} settings={this.settingsLarge()}/>
-                    }
-                    {
-                        !this.state.user &&
-                        <Header title={"Home"} settings={this.errorSettings()}/>
-                    }
-                    <MyActivityIndicator message={"Fetching Chatrooms..."} />
-                </div>
-                );
-        }
-        return (
-            <div className="largeView">
-                <div className="largeViewContainer">
-                    {
-                        this.state.user &&
-                        <Header title={this.state.user.fullname} settings={this.settingsLarge()}/>
-                    }
-                    {
-                        !this.state.user &&
-                        <Header title={"Home"} settings={this.errorSettings()}/>
-                    }
-                    <div className="homeView ">
-                    <ReactCSSTransitionGroup
-                      transitionName="zoominout"
-                      transitionAppear={true}
-                      transitionAppearTimeout={1000}
-                      transitionEnter={true}
-                      transitionEnterTimeout={1000}
-                      transitionLeave={true}
-                      transitionLeaveTimeout={1000}>
-                    {
-                        this.state.error &&
-                        <ErrorMessage key={0} message={this.state.error}/>
-                    }
-                    {
-                        !this.state.developerModalHidden &&
-                        <DeveloperModal key={1} toggleFunction={this.toggleDeveloperModal.bind(this)}/>
-                    }
-                    {
-                        !this.state.hidden &&
-                        <NewChatroomModal key={2} toggleFunction={this.toggleNewChatroomModal.bind(this)} action={this.createChatroom.bind(this)}/>
-                    }
-                    <div key={3} className="homeoptions">
-                        <span onClick={this.toggleNewChatroomModal.bind(this)} className="optionButton glyphicon glyphicon-plus-sign" ></span>
-                    </div>
-                    </ReactCSSTransitionGroup>
-                        {this.renderChatroomsLarge()}
-                    </div>
-                    <ChatroomLarge token={this.state.token}
-                                chatroomName={this.state.activeCharoomName}
-                                chatroomSlug={this.state.activeChatroomSlug}
-                                fullname={this.state.user.fullname}
-                                refreshFlagFunction={this.resetRefreshFlag.bind(this)}
-                                />
-                </div>
-
-            </div>
-          );
-    }
-
-    smallScreenView(){
-        if(this.state.loading || this.state.chatroomsLoading){
-            return(
-                <div className="smallView">
-                    {
-                        this.state.user &&
-                        <Header title={this.state.user.fullname} settings={this.settings()}/>
-                    }
-                    {
-                        !this.state.user &&
-                        <Header title={"Home"} settings={this.errorSettings()}/>
-                    }
-                    <MyActivityIndicator message={"Fetching Chatrooms..."} />
-                </div>
-                );
-        }
-        return (
-            <div className="smallView">
-                {
-                    this.state.user &&
-                    <Header title={this.state.user.fullname} settings={this.settings()}/>
-                }
-                {
-                    !this.state.user &&
-                    <Header title={"Home"} settings={this.errorSettings()}/>
-                }
-                <ReactCSSTransitionGroup
-                      transitionName="zoominout"
-                      transitionAppear={true}
-                      transitionAppearTimeout={1000}
-                      transitionEnter={true}
-                      transitionEnterTimeout={1000}
-                      transitionLeave={true}
-                      transitionLeaveTimeout={1000}>
-                {
-                    this.state.error &&
-                    <div key={1}>
-                        <ErrorMessage message={this.state.error} />
-                    </div>
-                }
-                {
-                    !this.state.developerModalHidden &&
-                    <DeveloperModal key={2} toggleFunction={this.toggleDeveloperModal.bind(this)}/>
-                }
-                {
-                    !this.state.hidden &&
-                    <NewChatroomModal key={3} toggleFunction={this.toggleNewChatroomModal.bind(this)} action={this.createChatroom.bind(this)}/>
-                }
-                </ReactCSSTransitionGroup>
-                <div className="homeView">
-                    {this.renderChatrooms()}
-                </div>
-            </div>
-          );
-    }
-
   render() {
     return (
-        <div className="baseContainer">
-            <div className="mainContent">
-                {this.state.width <1001 &&
-                    this.smallScreenView()
+        [
+            <Transition classname="Home">
+                {
+                    this.props.user.user &&
+                    <Header key={0} title={this.props.user.user.fullname} settings={this.settings()}/>
                 }
-                {this.state.width >1000 &&
-                    this.largeScreenView()
+                {
+                    !this.props.user.user &&
+                    <Header key={1} title={"Home"} settings={this.errorSettings()}/>
                 }
-            </div>
-      </div>
+                {
+                    this.state.loading &&
+                    <MyActivityIndicator key={2} message={"Fetching Chatrooms"} />
+                }
+                {
+                    this.state.error &&
+                    <ErrorMessage key={3} message={this.state.error} />
+                }
+                {
+                    !this.state.loading && !this.state.chatroomsLoading && this.state.chatrooms.length ===0 &&
+                    <CreateChatroomSuggestion key={4}
+                        createAction={this.toggleNewChatroomModal.bind(this)}/>
+                }
+                {
+                    this.state.width > 620 && this.props.user.user &&
+                    <Chatroom key={5} />
+                }
+                {
+                    this.state.user && !this.state.loading && !this.state.chatroomsLoading && this.state.chatrooms.length > 0 &&
+                    <ChatroomsList key={6}
+                        chatrooms={this.state.chatrooms}
+                        activeChatroomSlug={this.state.activeChatroomSlug}
+                        selectChatroom={this.selectChatroom.bind(this)}
+                        screenWidth={this.state.width}/>
+                }
+          </Transition>,
+
+        !this.state.hidden &&
+        createPortal(<Modal title={"NEW CHATROOM"} toggleFunction={this.toggleNewChatroomModal.bind(this)}>
+              <NewChatroom
+                    textHandler={this.newChatroomNameChangeHandler.bind(this)}
+                    nameValue={this.state.newChatroomName}
+                    createAction={this.createChatroom.bind(this)}/>
+            </Modal>, portalContainer),
+
+        !this.state.developerModalHidden &&
+        createPortal(<Modal title={"DEVELOPER DETAILS"} toggleFunction={this.toggleDeveloperModal.bind(this)}>
+              <DeveloperDetails />
+            </Modal>, portalContainer)
+      ]
     );
   }
 }
@@ -420,7 +282,8 @@ class Home extends Component {
 
 function mapStateToProps(state){
   return {
-    home : state.home
+    home : state.home,
+    user: state.user
   };
 }
 
@@ -431,7 +294,8 @@ function mapDispatchToProps(dispatch){
                 setToken : homeActions.setToken,
                 refreshChatroomsList : homeActions.refreshChatroomsList,
                 createChatroom: homeActions.createChatroom,
-                logout : homeActions.logout
+                selectChatroom: homeActions.selectChatroom,
+                logout : userActions.logout
             },dispatch);
 }
 

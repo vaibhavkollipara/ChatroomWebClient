@@ -1,15 +1,26 @@
 import React, { Component } from 'react';
 
 import HeaderButton from './HeaderButton';
+import PropTypes from 'prop-types';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Transition from './Transition';
 
 export default class Header extends Component {
+
+  static propTypes = {
+    title : PropTypes.string.isRequired,
+    settings : PropTypes.arrayOf(PropTypes.shape({
+                  name: PropTypes.string,
+                  action: PropTypes.func
+                })),
+    backFunction : PropTypes.func
+  };
 
   static defaultProps = {
     title : "",
     settings : null,
     backFunction : null
-  }
+  };
 
   displayTitle(){
     if(this.props.title.length<=15){
@@ -34,20 +45,13 @@ export default class Header extends Component {
 
   largeScreenView(){
     return(
-        <div className="largeView">
+        <Transition className="largeView">
                 <div className="header">
                               <div className="headerBackButton">
                                 CHATROOM
                               </div>
-                            <div className="headerTitle" style={this.titleSize()}>
-                                <ReactCSSTransitionGroup
-                                transitionName="zoominout"
-                                transitionAppear={true}
-                                transitionAppearTimeout={1000}
-                                transitionEnterTimeout={1000}
-                                transitionLeaveTimeout={1000}>
-                                  <div key={0}>{this.displayTitle()}</div>
-                                </ReactCSSTransitionGroup>
+                            <div className="headerTitle">
+                                  {this.displayTitle()}
                             </div>
                             {this.props.settings &&
                                 <div className="headerSettings">
@@ -55,7 +59,7 @@ export default class Header extends Component {
                                 </div>
                             }
                         </div>
-                </div>
+          </Transition>
         );
   }
 
@@ -100,9 +104,18 @@ export default class Header extends Component {
 
   render() {
         return(
-            <div>
-                {this.smallScreenView()}
-                {this.largeScreenView()}
+            <div className="Header">
+                    {
+                      this.props.backFunction &&
+                      <span key={0} onClick={this.props.backFunction.bind(this)} className="glyphicon glyphicon-arrow-left backbutton"></span>
+                    }
+                    <div key={1} className="title">
+                      {this.displayTitle()}
+                    </div>
+                    {
+                      this.props.settings &&
+                      <HeaderButton key={2} settings={this.props.settings}/>
+                    }
             </div>
         );
   }

@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 
 import spinner from '../assets/images/spinner-icon.png';
 
-export default class MyActivityIndicator extends Component {
-  render() {
-    return (
-            <div className="activityIndicator">
-                <img src={spinner} alt="Loading..." className="spinner"/>
+const MyActivityIndicator = ({message}) => {
+    return(
+        <div className="MyActivityIndicator">
+                <img src={`/${spinner}`} alt="Loading..." className="spinner"/>
                 <div>
-                    {this.props.message}
+                    {message}
                 </div>
 
             </div>
-        );
-  }
+    );
 }
+
+export default MyActivityIndicator;

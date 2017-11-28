@@ -1,0 +1,177 @@
+@media only screen and (min-width: 1001px){
+
+    body{
+        background-color: white;
+    }
+
+    .App{
+
+        width: 80vw;
+        margin-left: 10vw;
+        box-shadow: 0 0 5px rgba(194,186,194,1);
+        background-color: #f9fafc;
+        .Header{
+            .HeaderButton{
+                .mybutton{
+                    padding: 1vh;
+                }
+            }
+        }
+
+        .MyActivityIndicator{
+            img{
+                width:3vw;
+            }
+        }
+
+        .Chatroom{
+            .ChatroomOptions{
+                grid-area: header;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                align-items: center;
+                justify-items: center;
+                .OptionButton{
+                    font-size: 1.75em;
+                    padding: 1.5vh;
+                    padding-left: 2vw;
+                    padding-right: 2vw;
+                    color: $primary_color;
+                    border: 2px solid $primary_color;
+                    text-align: center;
+                    @include myborderradius(10px);
+
+                    &:hover{
+                        cursor:pointer;
+                        @include textborder;
+                        border: 2px solid black;
+                    }
+                }
+            }
+
+            .Messages{
+                .messageItem,.myMessageItem{
+                    padding: 2vh;
+                    margin: 2vh;
+                }
+            }
+
+            .TypeMessage{
+                grid-template-columns: 9fr 1fr;
+                input{
+                    padding: 1vh;
+                    margin-left: 2vh;
+                }
+                .sendbutton{
+                    padding: 1vh;
+                    padding-left: 1vw;
+                    padding-right: 1vw;
+                }
+            }
+        }
+
+        .Home{
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            grid-template-rows: 1fr minmax(0px,auto) 10fr;
+            grid-template-areas:
+                "header header"
+                "errorbox chatroom"
+                "content chatroom";
+            .chatroomsContainer{
+                .chatroomItem,.activeChatroomItem{
+                    width: 70%;
+                    padding: 2vh;
+                    margin: 2vh;
+                }
+            }
+            .Chatroom{
+                grid-area: chatroom;
+                // border-left: 1px solid black;
+                box-shadow: -7px 0px 9px -2px rgba(128,128,128,1);
+            }
+        }
+
+        .Login,.Signup{
+            height: 100vh;
+            grid-template-rows: 1fr 9fr 1fr;
+
+            .content{
+
+                .box{
+                    width: 50%;
+                }
+            }
+            .Footer{
+                img{
+                    width:2vw;
+                }
+            }
+        }
+
+        .Login{
+            .content{
+                .box{
+                    padding: 5vh;
+                }
+            }
+        }
+    }
+
+    .Modal{
+          grid-template-rows: 8fr 3fr;
+
+          .content{
+            width: 40vw;
+            margin-top: 10vh;
+            height:60vh;
+            display: grid;
+
+            .Members{
+                .memberItem{
+                    padding: 2vh;
+                    margin: 1vh;
+                    width: 70%;
+                }
+            }
+
+            .NewMember{
+                max-height: none;
+                display: grid;
+
+                .UserSuggestions{
+                    max-height: 40vh;
+                    .userSuggestionItem{
+                        width: 30vw;
+                        margin: 2vh;
+                        padding: 2vh;
+                    }
+                }
+            }
+
+            .DeveloperDetails,.ExitChatroom{
+                margin-left: 5vh;
+                margin-right: 5vh;
+                margin-bottom: 3vh;
+                font-size: 1.25em;
+            }
+
+            .settingsContainer{
+                .settingItem{
+                    width: 70%;
+                    padding: 2vh;
+                }
+            }
+          }
+
+          .close_button{
+            padding:1vw;
+            @include titletext(1.5em);
+            color: $primary_color;
+            &:hover{
+                color: white;
+            }
+          }
+        }
+}

@@ -2,18 +2,24 @@ import React, { Component } from 'react';
 
 import { bindActionCreators } from 'redux';
 import { connect }  from 'react-redux';
+import { createPortal } from 'react-dom';
 
 import * as chatroomActions from '../actions/ChatroomActions';
-
-import ErrorMessage from '../components/ErrorMessage';
-
+import * as userActions from '../actions/UserActions';
 import Header from '../components/Header';
-import SendMessage from '../components/SendMessage';
+import TypeMessage from '../components/TypeMessage';
 
-import MyModal from '../components/MyModal';
-import ConfirmationModal from '../components/ConfirmationModal';
-import DeveloperModal from '../components/DeveloperModal';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Modal from '../components/Modal';
+import DeveloperDetails from '../components/DeveloperDetails';
+import ExitChatroom from '../components/ExitChatroom';
+import NewMember from '../components/NewMember';
+import Members from '../components/Members';
+import Messages from '../components/Messages';
+import Transition from '../components/Transition';
+import MyActivityIndicator from '../components/MyActivityIndicator';
+import ChatroomOptions from '../components/ChatroomOptions';
+
+const portalContainer = document.getElementById('modal-root');
 
 class Chatroom extends Component {
 
@@ -21,12 +27,9 @@ class Chatroom extends Component {
     constructor(props){
         super(props);
         this.state = {
-            token : null,
             messages : [],
             error : null,
-            chatroomSlug : null,
-            chatroomName : null,
-            message : "",
+            newMessage : "",
             members :[],
             membersModalHidden : true,
             loading:true,
@@ -36,23 +39,16 @@ class Chatroom extends Component {
             userSuggestions : [],
             addMemberError : null,
             developerModalHidden : true,
-            fullname : null,
             width: 0
         }
         this.refreshHandler = null;
     }
 
     componentWillMount(){
-        let token = sessionStorage.getItem("token");
-        if(token===null || token === ""){
-            this.navigateToLoginScreen()
+
+        if(this.props.user.token===null){
+            this.navigateToLoginScreen();
         }else{
-            this.setState({
-                token,
-                chatroomName : this.props.match.params.chatroomName,
-                chatroomSlug : this.props.match.params.chatroomSlug,
-                fullname : this.props.match.params.fullname
-            });
             this.getMessages();
         }
     }
@@ -85,6 +81,12 @@ class Chatroom extends Component {
                 userSuggestions : nextProps.chatroom.userSuggestions,
                 addMemberError : nextProps.chatroom.addMemberError
             });
+            if(this.props.chatroom.chatroomSlug!==nextProps.chatroom.chatroomSlug){
+                this.setState({
+                    loading : true,
+                    messages: []
+                });
+            }
         }
     }
 
@@ -120,10 +122,10 @@ class Chatroom extends Component {
     }
 
       errorSettings(){
-        return    [{
-                name : 'Re Login',
-                action : this.logout.bind(this)
-            }]
+        return [{
+                    name : 'Re Login',
+                    action : this.logout.bind(this)
+                }]
       }
 
     navigateToLoginScreen(){
@@ -135,16 +137,18 @@ class Chatroom extends Component {
     }
 
     logout(){
-        sessionStorage.removeItem("token");
-            this.setState({
-                token:null
-            });
-            this.navigateToLoginScreen();
+        // sessionStorage.removeItem("token");
+        //     this.setState({
+        //         token:null
+        //     });
+        //     this.navigateToLoginScreen();
+        this.props.logout();
+        this.navigateToLoginScreen();
     }
 
     getMessages(){
-        if(this.state && this.state.token!==null && this.state.chatroomSlug!==null){
-                this.props.loadMessages(this.state.token,this.state.chatroomSlug);
+        if(this.props.user.token && this.props.chatroom.chatroomSlug){
+                this.props.loadMessages(this.props.user.token,this.props.chatroom.chatroomSlug);
                 if(this.state.loading){
                     this.setState({
                         loading:false
@@ -153,47 +157,31 @@ class Chatroom extends Component {
             }
     }
 
-    getMessageAlignment(sender){
-        if(this.state.fullname===sender){
-            return {alignSelf:'flex-end'}
-        }else{
-            return {alignSelf:'flex-start'}
-        }
-    }
-
-    renderMessageItems(){
-        let i=1;
-        return this.state.messages.map(message => {
-                return(
-                    <div key={i++} style={this.getMessageAlignment(message.sender)}
-                            className="messageItem">
-                            <div><b>{message.sender}</b></div>
-                            <div className="messageText">{message.message}</div>
-                    </div>
-                );
+    handleNewMessageChange(e){
+        this.setState({
+            newMessage : e.target.value
         });
     }
-    renderMessages(){
-        return (
-            <div className="messagesContainer">
-                    {this.renderMessageItems()}
-            </div>
-        );
-    }
 
-    sendMessage(message){
-        this.props.sendMessage(this.state.token,this.state.chatroomSlug,message);
+    sendMessage(e){
+        if(this.state.newMessage!==""){
+            this.props.sendMessage(this.props.user.token,this.props.chatroom.chatroomSlug,this.state.newMessage);
+            this.setState({
+                newMessage: ""
+            });
+        }
+        e.preventDefault();
     }
 
     //New Member............
 
-    onNewMemberNameChange(e){
-        let value = this.refs.newMemberName.value
+    newMemberSearchTextHandler(e){
+        let value = e.target.value
         this.setState({
             newMemberName : value
         });
         if(value.length >4){
-            this.props.getUserSuggestions(this.state.token,value);
+            this.props.getUserSuggestions(this.props.user.token,value);
         }
     }
 
@@ -203,80 +191,23 @@ class Chatroom extends Component {
         });
     }
     addMember(username){
-        this.props.addMember(this.state.token,this.state.chatroomSlug,username);
+        this.props.addMember(this.props.user.token,this.props.chatroom.chatroomSlug,username);
         this.setState({
             newMemberName : ""
         });
-        this.refs.newMemberName.value="";
-    }
-
-    renderUserSuggestionItems(){
-        return this.state.userSuggestions.map(user => {
-            return (
-                    <div onClick={() => {this.addMember(user.username);}} className="userSuggestionItem">
-                            <div>{user.fullname}</div>
-                            <div>{user.email}</div>
-                    </div>
-            );
-        });
-    }
-
-    renderUserSuggestions(){
-        return (
-            <div className="userSuggesionsContainer">
-                {this.renderUserSuggestionItems()}
-            </div>
-        );
-    }
-
-    newMemberView(){
-        return (
-                    <div className="newMemberView">
-                        {
-                            this.state.addMemberError &&
-                            <ErrorMessage message={this.state.addMemberError}/>
-                        }
-                        <form className="newMemberForm" onSubmit={()=>{}}>
-                               <div className="form-group">
-                                <input type="text" onChange={this.onNewMemberNameChange.bind(this)} ref="newMemberName" className="form-control" placeholder="search by name or email" />
-                              </div>
-                        </form>
-                        {this.renderUserSuggestions()}
-                    </div>
-        );
     }
 
     //...................
 
     //View Members Functionality....................
 
-    renderMemberItems(){
-            let i = 1
-            return this.state.members.map(member => {
-                    return(
-                            <div key={i++} className="memberItem">
-                                <div>{member.name}</div>
-                                <div>{member.email}</div>
-                            </div>
-                    );
-            });
-    }
-
-    membersView(){
-        return (
-                <div className="membersView">
-                    {this.renderMemberItems()}
-                </div>
-            );
-    }
-
     membersModalToggle(){
         this.setState({
             membersModalHidden : !this.state.membersModalHidden
         },() => {
             if(!this.state.membersModalHidden){
-                if(this.state && this.state.token && this.state.chatroomSlug){
-                    this.props.fetchMembers(this.state.token,this.state.chatroomSlug);
+                if(this.props.user.token && this.props.chatroom.chatroomSlug){
+                    this.props.fetchMembers(this.props.user.token,this.props.chatroom.chatroomSlug);
                 }
             }
         });
@@ -292,7 +223,7 @@ class Chatroom extends Component {
     }
 
     exitChatroom(){
-        this.props.exitChatroom(this.state.token,this.state.chatroomSlug);
+        this.props.exitChatroom(this.props.user.token,this.props.chatroom.chatroomSlug);
         this.navigateToHomeScreen();
     }
 
@@ -306,69 +237,74 @@ class Chatroom extends Component {
         });
     }
 
-    smallScreenView(){
-        return(
-            <div className="smallView">
-
-                {
-                    !this.state.chatroomName &&  this.props.history &&
-                    <Header title={"Home"} backFunction={this.props.history.goBack.bind(this)} settings={this.errorSettings()}/>
-                }
-                <ReactCSSTransitionGroup
-                      transitionName="zoominout"
-                      transitionEnter={true}
-                      transitionEnterTimeout={1000}
-                      transitionLeave={true}
-                      transitionLeaveTimeout={1000}>
-                {
-                    !this.state.developerModalHidden &&
-                    <DeveloperModal toggleFunction={this.toggleDeveloperModal.bind(this)}/>
-                }
-                {
-                    !this.state.exitConfirmationModalHidden &&
-                    <ConfirmationModal message="Are you sure? You will not be able to view/send messages until a member add you." title="Exit Chatroom" confirmAction={this.exitChatroom.bind(this)} toggleFunction={this.exitConfirmationModalToggle.bind(this)} />
-                }
-                {
-                    !this.state.membersModalHidden &&
-                    <MyModal
-                        title="Members"
-                        contentView={this.membersView()}
-                        toggleFunction={this.membersModalToggle.bind(this)}
-                    />
-                }
-                {
-                    !this.state.newMemberModalHidden &&
-                    <MyModal
-                        title="Add Member"
-                        contentView={this.newMemberView()}
-                        toggleFunction={this.toggleNewMemberModal.bind(this)}
-                     />
-                }
-                </ReactCSSTransitionGroup>
-                <div className="chatroomView">
-                        {this.renderMessages()}
-                        <SendMessage sendMessage={this.sendMessage.bind(this)}/>
-                </div>
-            </div>
-        );
-    }
-
   render() {
+        if(this.state.width > 620 && this.props.location && this.props.location.pathname==="/chatroom"){
+            this.props.history.goBack();
+        }
         return(
-            <div className="baseContainer">
-                {
-                    this.state.chatroomName && this.props.history &&
-                    <Header title={this.state.chatroomName} backFunction={this.props.history.goBack.bind(this)} settings={this.settings()}/>
-                }
-                <div className="mainContent">
-                  {this.state.width <1001 &&
-                    this.smallScreenView()
-                  }
-                  {this.state.width >1000 &&
-                    this.navigateToHomeScreen()
-                  }
-                </div>
-          </div>
+            [
+                <Transition classname="Chatroom">
+                    {
+                        this.props.chatroom.chatroomName && this.props.history && this.state.width < 621 &&
+                        <Header key={0}
+                            title={this.props.chatroom.chatroomName}
+                            backFunction={this.props.history.goBack.bind(this)}
+                            settings={this.settings()}/>
+                    }
+                    {
+                        this.state.width > 620 && this.props.chatroom.chatroomSlug!=="" &&
+                        <ChatroomOptions key={1}
+                            viewMembers={this.membersModalToggle.bind(this)}
+                            addMember={this.toggleNewMemberModal.bind(this)}
+                            exitChatroom={this.exitConfirmationModalToggle.bind(this)}/>
+                    }
+                    {
+                        this.props.chatroom.chatroomSlug==="" &&
+                        <MyActivityIndicator key={2} message={"Waiting for chatroom selection."}/>
+                    }
+                    {
+                        this.state.loading && this.props.chatroom.chatroomSlug !== "" &&
+                        <MyActivityIndicator key={3} message={"Fetching Messages"}/>
+                    }
+                    {
+                        <Messages key={4}
+                            messages={this.state.messages}
+                            error={this.state.error}
+                            userfullname={this.props.user.user.fullname}/>
+                    }{
+                        this.props.chatroom.chatroomSlug !== "" &&
+                        <TypeMessage key={5}
+                            message={this.state.newMessage}
+                            handleMessageText={this.handleNewMessageChange.bind(this)}
+                            sendmessagefunc={this.sendMessage.bind(this)}/>
+                    }
+                </Transition>,
+
+            !this.state.developerModalHidden &&
+                    createPortal(<Modal title={"DEVELOPER DETAILS"} toggleFunction={this.toggleDeveloperModal.bind(this)}>
+                          <DeveloperDetails />
+                        </Modal>, portalContainer),
+
+            !this.state.exitConfirmationModalHidden &&
+                    createPortal(<Modal title={"Exit Chatroom"} toggleFunction={this.exitConfirmationModalToggle.bind(this)}>
+                          <ExitChatroom confirmAction={this.exitChatroom.bind(this)}/>
+                        </Modal>, portalContainer),
+
+            !this.state.newMemberModalHidden &&
+                    createPortal(<Modal title={"Add New Member"} toggleFunction={this.toggleNewMemberModal.bind(this)}>
+                          <NewMember
+                            userSuggestions={this.state.userSuggestions}
+                            addAction={this.addMember.bind(this)}
+                            error={this.state.addMemberError}
+                            nameChangeHandler={this.newMemberSearchTextHandler.bind(this)}/>
+                        </Modal>, portalContainer),
+
+            !this.state.membersModalHidden &&
+                    createPortal(<Modal title={"Members"} toggleFunction={this.membersModalToggle.bind(this)}>
+                          <Members members={this.state.members}/>
+                        </Modal>, portalContainer)
+
+            ]
         );
   }
 }
@@ -376,7 +312,8 @@ class Chatroom extends Component {
 
 function mapStateToProps(state){
   return {
-    chatroom : state.chatroom
+    chatroom : state.chatroom,
+    user: state.user
   };
 }
 
@@ -388,7 +325,8 @@ function mapDispatchToProps(dispatch){
                 fetchMembers : chatroomActions.fetchMembers,
                 exitChatroom : chatroomActions.exitChatroom,
                 getUserSuggestions : chatroomActions.getUserSuggestions,
-                addMember : chatroomActions.addMember
+                addMember : chatroomActions.addMember,
+                logout : userActions.logout
             },dispatch);
 }
 

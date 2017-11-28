@@ -1,17 +1,19 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
-@import "largescreen.css";
-@import "mediumscreen.css";
-@import "smallscreen.css";
-
-
 body{
     font-family: 'Roboto', sans-serif;
     background-color: #f9fafc;
 }
 
-input{
+input[type=text], input[type=password]{
     text-align: center;
+    margin:5px;
+}
+
+
+button{
+    text-align: center;
+    margin:5px;
 }
 
 .spinner{
@@ -24,3 +26,9 @@ input{
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+@import "imports.scss";
+@import "smallscreen.scss";
+@import "mediumscreen.scss";
+@import "largescreen.scss";
+@import "transitions.scss"

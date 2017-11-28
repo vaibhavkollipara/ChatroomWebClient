@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-export default class ErrorMessage extends Component {
+const ErrorMessage = ({message}) => {
 
-    getErrorContent(errors){
+    const getErrorContent = (errors) => {
         if(Array.isArray(errors)){
             let i=1;
             return errors.map((error)=>
@@ -15,37 +16,22 @@ export default class ErrorMessage extends Component {
                     </div>
                 );
         }
-    }
+    };
 
-    getErrorMessages(){
+    const getErrorMessages = () => {
         let i=1;
-        return Object.entries(this.props.message).map(([key, value]) =>
-                                                <div key={i++} style={styles.errorbox}>
-                                                    <strong>{this.getErrorContent(value)}</strong>
+        return Object.entries(message).map(([key, value]) =>
+                                                <div key={i++}>
+                                                    <strong>{getErrorContent(value)}</strong>
                                                 </div>
                                 );
-    }
+    };
 
-  render() {
-
-    return (
-            <div style={styles.container}>
-                    {this.getErrorMessages()}
+  return (
+            <div className="ErrorMessage">
+                {getErrorMessages()}
             </div>
     );
-  }
 }
 
-
-const styles={
-    errorbox:{
-        backgroundColor: '#f9fafc',
-        color:'red',
-        textAlign:'center',
-        borderRadius:10,
-        padding:1
-    },
-    container:{
-        marginTop:2
-    }
-}
+export default ErrorMessage;

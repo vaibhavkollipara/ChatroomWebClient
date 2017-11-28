@@ -16,11 +16,11 @@ export function loadMessages(token,chatroomSlug){
                 });
             }else{
                 response.json().then((response) => {
-                    dispatch({type : "SET_ERROR", payload : response})
+                    dispatch({type : "SET_CHATROOM_ERROR", payload : response})
                 });
             }
         }).catch((error) => {
-            dispatch( {type: "SET_ERROR", payload : {error : "Problem with network"}})
+            dispatch( {type: "SET_CHATROOM_ERROR", payload : {error : "Problem with network"}})
         })
     }
 }
@@ -41,12 +41,12 @@ export function fetchMembers(token,chatroomSlug){
                         });
                     }else{
                         response.json().then((response) => {
-                            dispatch({type: "SET_ERROR",payload:response});
+                            dispatch({type: "SET_CHATROOM_ERROR",payload:response});
                         });
                     }
 
                 }).catch((error) =>{
-                    dispatch({type: "SET_ERROR",payload:{error : "Problem with network"}});
+                    dispatch({type: "SET_CHATROOM_ERROR",payload:{error : "Problem with network"}});
                 });
         }
     }
@@ -87,11 +87,11 @@ export function exitChatroom(token,chatroomSlug){
             }).then((response) => {
                 if(response.status!==204){
                     response.json().then((response) => {
-                        dispatch({type:"SET_ERROR",payload:response })
+                        dispatch({type:"SET_CHATROOM_ERROR",payload:response })
                     })
                 }
             }).catch((response) => {
-                dispatch({type:"SET_ERROR",payload: {error: "Problem with network"}})
+                dispatch({type:"SET_CHATROOM_ERROR",payload: {error: "Problem with network"}})
             });
     }
 }
@@ -138,7 +138,7 @@ export function getUserSuggestions(token,searchString){
                     })
                 }
             }).catch((response) => {
-                dispatch({type:"SET_ERROR",payload: {error: "Problem with network"}})
+                dispatch({type:"SET_CHATROOM_ERROR",payload: {error: "Problem with network"}})
             });
     }
 }

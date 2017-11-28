@@ -1,4 +1,6 @@
 const defaultState = {
+    chatroomName: "",
+    chatroomSlug: "",
     messages : [],
     error : null,
     members : [],
@@ -21,8 +23,10 @@ export default (state=defaultState,action) => {
                 return {...state, addMemberError : action.payload}
             case "ADD_MEMBER_SUCCESS":
                 return {...state, addMemberError : null,userSuggestions:[]}
-            case "SET_ERROR" :
+            case "SET_CHATROOM_ERROR" :
                 return {...state, error:action.payload}
+            case "SET_CHATROOM_DETAILS":
+                return {...state, chatroomName: action.payload.chatroomName,chatroomSlug: action.payload.chatroomSlug}
             default:
                 return state;
         }

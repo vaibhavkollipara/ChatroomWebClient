@@ -1,0 +1,517 @@
+
+
+    ::-webkit-scrollbar {
+        width: 0px;  /* remove scrollbar space */
+        background: transparent;  /* optional: just make scrollbar invisible */
+    }
+    .App{
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        a{
+            color: black;
+            text-decoration: none;
+        }
+        .Header{
+            background-color: $primary_color;
+            @include boxshadow();
+
+            .backbutton{
+                    font-size: 1.5em;
+                    padding: 1vw;
+                    color: white;
+                    &:hover{
+                        @include textborder();
+                        cursor: pointer;
+                    }
+                }
+
+            .title{
+                    @include titletext();
+                    justify-self: start;
+                    align-self: center;
+                }
+
+            .HeaderButton{
+                    grid-area: header_button;
+                    align-self: center;
+                    justify-self: end;
+
+                    .mybutton{
+                        margin-right: 2vw;
+                        border:2px solid white;
+                        @include myborderradius(10px);
+                        padding: 2vw;
+                        font-size: 1.75em;
+                        color:white;
+                        &:hover{
+                            cursor: pointer;
+                            @include textborder();
+                            border:2px solid black;
+                        }
+                    }
+                }
+        }
+
+        .ErrorMessage{
+            background-color: white;
+            color: red;
+            padding:10px;
+            @include myborderradius(5px);
+            @include boxshadow();
+            text-align: center;
+        }
+
+        .MyActivityIndicator{
+            display: grid;
+            align-self: center;
+            justify-self: center;
+            align-items: center;
+            justify-items: center;
+            img{
+                width:15vw;
+                height: auto;
+            }
+        }
+
+        .Chatroom{
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 8fr 1fr;
+            grid-template-areas:
+                "header"
+                "content"
+                "send";
+
+            .Header{
+                grid-area: header;
+                display: grid;
+                grid-template-columns: 1fr 7fr 2fr;
+                grid-template-areas: "backbutton title header_button";
+                align-items: center;
+                justify-items: center;
+
+                .backbutton{
+                    grid-area: backbutton;
+                }
+                .title{
+                    grid-area: title;
+                }
+                .HeaderButton{
+                    grid-area: header_button;
+                }
+
+            }
+            .MyActivityIndicator{
+                grid-area: content;
+            }
+            .Messages{
+                grid-area: content;
+                display: flex;
+                flex-direction: column-reverse;
+                margin-top: 2vh;
+                overflow: auto;
+
+                .ErrorMessage{
+                    justify-self: center;
+                    align-self: center;
+                    margin-bottom:2vh;
+                }
+
+                .messageItem,.myMessageItem{
+                    max-width: 80%;
+                    @include myborderradius(5px);
+                    padding:2vw;
+                    margin:2vw;
+                    word-wrap: break-word;
+                    .sender{
+                      font-weight: bold;
+                    }
+                }
+                .messageItem{
+                    align-self: flex-start;
+                    background-color: white;
+                    border:2px solid $primary_color;
+                }
+                .myMessageItem{
+                    align-self: flex-end;
+                    background-color: $primary_color;
+                    border:2px solid white;
+                }
+            }
+            .TypeMessage{
+                grid-area: send;
+                display: grid;
+                grid-template-columns: 8fr 2fr;
+                align-items:center;
+                justify-items: center;
+                input{
+                    justify-self: stretch;
+                    padding: 2vw;
+                    margin-left:2vw;
+                }
+                .sendbutton{
+                    padding: 2vw;
+                    border:2px solid white;
+                    text-align: center;
+                    background-color: $primary_color;
+                    @include myborderradius(5px);
+                    &:hover{
+                        background-color: white;
+                        border:2px solid black;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+        .Home{
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr minmax(0px,auto) 8fr;
+            grid-template-areas:
+                "header"
+                "errorbox"
+                "content";
+
+            .Header{
+                grid-area : header;
+                display: grid;
+                grid-template-columns: 1fr 7fr 2fr;
+                grid-template-rows: 1fr;
+                grid-template-areas: ". title header_button";
+
+                .title{
+                    grid-area: title;
+                }
+
+                .HeaderButton{
+                    grid-area: header_button;
+                }
+            }
+
+            .MyActivityIndicator{
+                grid-area: content;
+            }
+
+            .ErrorMessage{
+                grid-area: errorbox;
+                justify-self: center;
+                align-self: center;
+                margin-top: 1vh;
+            }
+
+            .chatroomsContainer{
+                margin-top: 5vh;
+                grid-area: content;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                overflow: auto;
+                .chatroomItem,.activeChatroomItem{
+                    width: 80vw;
+                    padding: 2vw;
+                    border: 2px solid $primary_color;
+                    @include myborderradius(10px);
+                    margin:2vw;
+                    text-align: center;
+                    background-color: #ffffff;
+                    &:hover{
+                        background-color: $primary_color;
+                        border: 2px solid black;
+                        font-weight: bold;
+                        cursor: pointer;
+                    }
+                }
+                .activeChatroomItem{
+                    background-color: $primary_color;
+                    border: 2px solid black;
+                }
+            }
+        }
+
+        .Login,.Signup{
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 8fr 1fr;
+            grid-template-areas:
+                "header"
+                "content"
+                "footer";
+            .Header{
+                grid-area : header;
+                display: grid;
+                align-items:center;
+                justify-items: center;
+                .title{
+                    align-self: center;
+                    justify-self: center;
+                }
+            }
+            .content{
+                grid-area : content;
+                display: grid;
+                align-items:center;
+                justify-items: center;
+                .box{
+                    background-color: $primary_color;
+                    width: 80%;
+                    height: auto;
+                    padding:5vw;
+                    display: grid;
+                    align-content: start;
+                    @include myborderradius();
+                    @include boxshadow();
+
+                    .boxtitle{
+                        justify-items: stretch;
+                        @include titletext();
+                        @include myborderradius(5px);
+                        @include textborder();
+                        border:2px solid white;
+                        padding:15px;
+                        text-align: center;
+                    }
+                    button{
+                        justify-self: center;
+                    }
+                    .link{
+                        justify-self: center;
+                        padding-top:50px;
+                        text-decoration: underline;
+                    }
+                }
+            }
+            .Footer{
+                grid-area: footer;
+                text-align: center;
+                font-weight: bold;
+                img{
+                    width:5vw;
+                    height:auto;
+                }
+            }
+        }
+
+        .Signup{
+            .content{
+                .box{
+                    padding-top: 1vw;
+                    padding-bottom: 1vw;
+                    .link{
+                        padding-top: 10px;
+                    }
+                }
+            }
+        }
+    }
+
+    .zoominout-appear {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    .zoominout-appear.zoominout-appear-active {
+        transform: scale(1);
+        opacity:1;
+        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    }
+
+    .zoominout-enter {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    .zoominout-enter.zoominout-enter-active {
+        transform: scale(1);
+        opacity:1;
+        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    }
+
+    .zoominout-leave {
+        opacity:1;
+        transform: scale(1);
+    }
+
+    .zoominout-leave.zoominout-leave-active {
+        opacity: 0;
+        transform: scale(0);
+        transition: opacity 0.5s ease-in, transform 0.5s ease-in-out;
+    }
+
+    .Modal{
+          background-color: rgba(0,0,0,0.5);
+          position: fixed;
+          height: 100%;
+          width: 100%;
+          top: 0;
+          left: 0;
+          display: grid;
+          grid-template-columns: 1fr;
+          grid-template-rows: 8fr 2fr;
+          grid-template-areas:
+                        "content"
+                        "close_button";
+          justify-items: center;
+          align-items: start;
+
+          .content{
+            grid-area: content;
+            background-color: $primary_color;
+            @include myborderradius(10px);
+            margin-top: 10vh;
+            width: 80vw;
+            height:70vh;
+            display: grid;
+            grid-template-rows: 2fr 8fr;
+            grid-template-areas:
+                "title"
+                "main";
+            .title{
+                grid-area: title;
+                align-self:center;
+                @include titletext();
+                @include textborder();
+                text-align: center;
+                padding-top: 2vh;
+            }
+
+            .Members{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                overflow: auto;
+                .memberItem{
+                    font-weight: bold;
+                    border: 2px solid white;
+                    text-align: center;
+                    padding: 2vw;
+                    margin: 2vw;
+                    @include myborderradius(5px);
+                }
+            }
+
+            .NewMember{
+                margin-left: 5vw;
+                margin-right: 5vw;
+                margin-bottom: 5vh;
+                max-height: 60vh;
+                display: grid;
+                grid-template-rows: 1fr mimmax(0px,auto) 8fr;
+                grid-template-areas:
+                                    "ErrorMessage"
+                                    "newMemberForm"
+                                    "UserSuggestions";
+                .ErrorMessage{
+                    background-color: white;
+                    color: red;
+                    padding:10px;
+                    @include myborderradius(5px);
+                    @include boxshadow();
+                    text-align: center;
+                }
+
+                .newMemberForm{
+                    grid-area: newMemberForm;
+                    align-items: center;
+                    justify-self: center;
+                }
+
+                .UserSuggestions{
+                    grid-area: UserSuggestions;
+                    align-content: stretch;
+                    display: flex;
+                    flex-direction: column;
+                    justify-items: flex-start;
+                    align-items: center;
+                    overflow: auto;
+
+                    .userSuggestionItem{
+                        padding: 2vw;
+                        margin: 2vw;
+                        border: 2px solid white;
+                        @include myborderradius(5px);
+                        text-align: center;
+                        font-weight: bold;
+                        &:hover{
+                            border: 2px solid black;
+                            background-color: white;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+
+            .DeveloperDetails,.ExitChatroom{
+                background-color: white;
+                margin-left: 5vw;
+                margin-right: 5vw;
+                margin-bottom: 5vh;
+                display: grid;
+                @include myborderradius(5px);
+                align-content: center;
+                justify-content: center;
+                align-items: start;
+                justify-items: center;
+                text-align: center;
+                .name{
+                    @include titletext()
+                    @include textborder()
+                }
+                .email{
+                    font-weight: bold;
+                }
+            }
+
+            .newChatroomView{
+                display: grid;
+                align-content:start;
+                justify-items: center;
+                padding: 5vw;
+            }
+
+            .settingsContainer{
+                grid-area: main;
+                display: flex;
+                flex-direction: column;
+                justify-items: center;
+                align-items: flex-start;
+                overflow: auto;
+                .settingItem{
+                    align-self:center;
+                    width: 50vw;
+                    border: 2px solid #ffffff;
+                    padding:2vw;
+                    @include myborderradius(5px);
+                    text-align: center;
+                    margin-bottom: 1vh;
+                    color: black;
+                    font-weight: bold;
+
+                    &:hover{
+                        background-color: white;
+                        cursor: pointer;
+                    }
+                }
+            }
+          }
+          .close_button{
+            grid-area: close_button;
+            background-color: white;
+            @include myborderradius(5vw);
+            margin-top: 1vh;
+            padding: 2vw;
+            text-align: center;
+            @include titletext(2em);
+            color: $primary_color;
+            border: 5px solid $primary_color;
+            justify-self:center;
+            &:hover{
+                border: 5px solid white;
+                background-color: $primary_color;
+                color: white;
+                cursor: pointer;
+            }
+          }
+        }
+

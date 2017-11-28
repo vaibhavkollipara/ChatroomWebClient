@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
 
-import MyModal from './MyModal';
+import Modal from './Modal';
+import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
+const portalContainer = document.getElementById('modal-root');
+
 export default class HeaderButton extends Component {
 
-constructor(){
+  static propTypes={
+    settings : PropTypes.arrayOf(PropTypes.shape({
+                  name: PropTypes.string,
+                  action: PropTypes.func
+                })).isRequired
+  };
+
+  constructor(){
         super();
         this.state = {
             hidden : true
@@ -44,26 +56,13 @@ constructor(){
   render() {
     return (
             <div className="HeaderButton">
-                <ReactCSSTransitionGroup
-                      transitionName="zoominout"
-                      transitionAppear={true}
-                      transitionAppearTimeout={1000}
-                      transitionEnterTimeout={1000}
-                      transitionLeaveTimeout={1000}>
-                <button key={1} onClick={this.toggleSettings.bind(this)} type="button" className="btn btn-default btn-md">
-                      <div style={{fontWeight:'bold'}}>settings</div>
-                </button>
-                {
-                    !this.state.hidden &&
-                    <MyModal
-                    key={2}
-                    title={"Settings"}
-                    contentView={this.settingsView()}
-                    toggleFunction={this.toggleSettings.bind(this)}
-                />
+                <span onClick={this.toggleSettings.bind(this)} className="glyphicon glyphicon-cog mybutton"></span>
+              {
+                !this.state.hidden &&
+                  createPortal(<Modal title={"Settings"} toggleFunction={this.toggleSettings.bind(this)}>
+                      {this.settingsView()}
+                    </Modal>, portalContainer)
                 }
-
-              </ReactCSSTransitionGroup>
             </div>
     );
   }
