@@ -211,12 +211,6 @@ class Home extends Component {
         return "chatroomItem";
     }
 
-    displayErrorMessage(){
-        if(this.state.error){
-              return( <ErrorMessage message={this.state.error} /> );
-            };
-    }
-
     toggleDeveloperModal(){
         this.setState({
             developerModalHidden : !this.state.developerModalHidden
