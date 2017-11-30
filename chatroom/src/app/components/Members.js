@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Transition from './Transition';
 
 const Members = ({members}) => {
@@ -21,5 +22,12 @@ const Members = ({members}) => {
     );
 
 }
+
+Members.propTypes = {
+    members : PropTypes.arrayOf(PropTypes.shape(
+            "name" : PropTypes.string,
+            "email" : PropTypes.string
+        ))
+};
 
 export default Members;
